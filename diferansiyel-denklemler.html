@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Diferansiyel Denklemler · Vize Haftası</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+<link rel="stylesheet" href="assets/site.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header class="topbar"><div class="in">
+  <a class="brand" href="./"><i></i>Vize Haftası</a>
+  <nav aria-label="Dersler">
+    <a href="yazilim-muhendisligi.html">Yazılım Müh.</a>
+    <a href="veri-yapilari.html">Veri Yapıları</a>
+    <a href="diferansiyel-denklemler.html" class="on">Diferansiyel</a>
+  </nav>
+</div></header>
+
+<main class="page dif">
+
+<section class="view" data-view="home">
+  <div class="hero">
+    <div class="hero-row"><span class="badge lg c-dif">DD</span>
+      <div><h1>Diferansiyel Denklemler</h1><p class="muted">Vize: Perşembe, 5 Kasım · 12:30 · A305, A201, A203, A311, Lab1</p></div></div>
+    <p class="sub">Dr. Ahmet Mollaoğulları'nın ara sınav ders notları, Bölüm 1–8. Her bölümde konu anlatımı, formüller, notlardaki bütün soruların (boş bırakılan alıştırmalar dahil) adım adım çözümü ve soru taktikleri var. Cevapların hepsini bilgisayarda yerine koyarak kontrol ettim.</p>
+  </div>
+
+  <div class="section">
+    <a class="card wide-card" href="#yontem"><span class="label">Önce buradan</span><h3>Hangi yöntemi kullanacağım?</h3><p class="desc">Sınavda en çok zaman kaybettiren şey denklemin tipini tanımak. Sırayla sorulacak 9 soruluk karar listesi: ayrılabilir mi, homojen mi, tam mı, lineer mi, Bernoulli mi, Riccati mi?</p><span class="go">Aç →</span></a>
+  </div>
+
+  <div id="dif-chapters"></div>
+
+  <div class="section">
+    <div class="section-title"><h2>Sınav için</h2></div>
+    <div class="grid">
+      <a class="card" href="#test"><span class="label">25 denklem</span><h3>Yöntem tanıma testi</h3><p class="desc">Denklemi gör, yöntemi seç. Çözmeden sadece tipini tanıma alıştırması; yanlışta neden yanlış olduğu yazıyor.</p><span class="go">Başla →</span></a>
+      <a class="card" href="#karisik"><span class="label">Rastgele</span><h3>Karışık pratik</h3><p class="desc">Bölüm adı söylenmeden rastgele bir soru gelir; sınavdaki gibi önce yöntemi sen bul.</p><span class="go">Başla →</span></a>
+      <a class="card" href="#formul"><h3>Formül kâğıdı</h3><p class="desc">Sekiz bölümün bütün formülleri tek sayfada. Yazdırılabilir.</p><span class="go">Aç →</span></a>
+      <a class="card" href="#hata"><h3>Taktikler ve sık hatalar</h3><p class="desc">Her bölümün soru çözme taktikleri ve en çok puan kaybettiren hatalar.</p><span class="go">Aç →</span></a>
+      <a class="card" href="#dikkat"><span class="label">10 yer</span><h3>Notlardaki hatalar</h3><p class="desc">Notta yazım hatası olan ya da yazıldığı gibi çözülemeyen sorular ve doğru halleri.</p><span class="go">Aç →</span></a>
+      <a class="card" href="#son"><h3>Son 10 dakika</h3><p class="desc">Sınav kapısında bakılacak 12 satır: her yöntemin tek formülü.</p><span class="go">Aç →</span></a>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><h2>Orijinal kaynak</h2><p>Hocanın ders notu</p></div>
+    <div class="grid wide">
+      <div class="card"><span class="label">PDF</span><h3>Ders notları (ara sınav konuları)</h3><div class="files"><a href="kaynaklar/diferansiyel/ders-notlari-arasinav.pdf" target="_blank" rel="noopener"><span class="ic pdf">PDF</span><span>Diferansiyel Denklemler · Bölüm 1–8 · 2026-2027 Güz</span><span class="sz">61 sayfa · 218 KB</span></a></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="view" data-view="yontem" hidden>
+  <a class="back" href="#">← Tüm bölümler</a>
+  <div class="view-head"><span class="label">Sınav için</span><h1>Hangi yöntemi kullanacağım?</h1><p class="muted lead">Birinci mertebe bir denklem gelince bu soruları sırayla sor; ilk "evet" dediğin yöntemle çöz. Bir denklem birden çok tipe uyabilir (ör. hem ayrılabilir hem lineer); o zaman hangisi kısa sürüyorsa onu seç.</p></div>
+  <div class="read"><div id="karar"></div>
+    <div class="pager"><a class="btn" href="#">← Tüm bölümler</a><a class="btn primary" href="#test">Yöntem tanıma testi →</a></div></div>
+</section>
+
+<section class="view" data-view="test" hidden>
+  <a class="back" href="#">← Tüm bölümler</a>
+  <div class="view-head"><span class="label">Sınav için</span><h1>Yöntem tanıma testi</h1><p class="muted lead">Her denklem için hangi yöntemle çözüleceğini seç. Birden çok doğru varsa hepsi yeşil yanar. Çözmen gerekmiyor, sadece tanı.</p></div>
+  <div class="read">
+    <div class="toolbar ex-bar"><button class="btn" type="button" id="test-again">Karıştır, baştan başla</button><span class="score" id="test-score"></span></div>
+    <div class="quiz" id="test-list"></div>
+  </div>
+</section>
+
+<section class="view" data-view="karisik" hidden>
+  <a class="back" href="#">← Tüm bölümler</a>
+  <div class="view-head"><span class="label">Sınav için</span><h1>Karışık pratik</h1><p class="muted lead">Notlardaki sorulardan rastgele biri. Hangi bölümden geldiğini görmeden çöz; takılırsan önce "Hangi bölümden?" kısmını aç.</p></div>
+  <div class="read">
+    <div class="toolbar ex-bar"><button class="btn primary" type="button" id="kar-next">Başka soru</button><label class="ex-ok"><input type="checkbox" id="kar-all"> 1–4. bölümleri de kat</label></div>
+    <div id="kar-q"></div>
+  </div>
+</section>
+
+<section class="view" data-view="formul" hidden>
+  <a class="back" href="#">← Tüm bölümler</a>
+  <div class="view-head"><span class="label">Sınav için</span><h1>Formül kâğıdı</h1><p class="muted lead">Bölüm bölüm bütün formüller.</p></div>
+  <div class="read">
+    <div class="toolbar ex-bar"><button class="btn" type="button" id="print-f">Yazdır</button></div>
+    <div id="formul-all"></div>
+  </div>
+</section>
+
+<section class="view" data-view="hata" hidden>
+  <a class="back" href="#">← Tüm bölümler</a>
+  <div class="view-head"><span class="label">Sınav için</span><h1>Taktikler ve sık hatalar</h1></div>
+  <div class="read"><div class="prose" id="hata-all"></div></div>
+</section>
+
+<section class="view" data-view="dikkat" hidden>
+  <a class="back" href="#">← Tüm bölümler</a>
+  <div class="view-head"><span class="label">Sınav için</span><h1>Notlardaki hatalar</h1><p class="muted lead">Notlarda yazım hatası olan ya da yazıldığı gibi çözülemeyen yerler. Hepsini bilgisayarda denedim; sitedeki çözümler doğru hallerle yapıldı. Sınavda benzeri gelirse soruyu dikkatle oku.</p></div>
+  <div class="read"><div class="prose" id="dikkat-all"></div></div>
+</section>
+
+<section class="view" data-view="son" hidden>
+  <a class="back" href="#">← Tüm bölümler</a>
+  <div class="view-head"><span class="label">Sınav için</span><h1>Son 10 dakika</h1><p class="muted lead">Her yöntemin tek satırlık özeti.</p></div>
+  <div class="read"><div id="son-all"></div>
+    <div class="pager"><a class="btn" href="#formul">Formül kâğıdının tamamı →</a></div></div>
+</section>
+
+</main>
+
+<footer class="site">Kaynak: Dr. Ahmet Mollaoğulları, Diferansiyel Denklemler ders notları (ara sınav konuları), 2026-2027 Güz. Kişisel çalışma notudur.</footer>
+
+<script defer src="assets/dif-data-1.js"></script>
+<script defer src="assets/dif-data-2.js"></script>
+<script defer src="assets/dif.js"></script>
+</body>
+</html>

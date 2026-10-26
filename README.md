@@ -9,7 +9,8 @@ Canlı adres: https://hsankc.github.io/ders/
 | `index.html` | Ders kartları: sınav tarihi, saati, salonu ve durumu |
 | `yazilim-muhendisligi.html` | Sommerville, *Software Engineering* 8. baskı, Bölüm 1–7: özet, mutlaka bil, İngilizce/Türkçe sınav soruları, testler, sözlük, sayılı listeler |
 | `veri-yapilari.html` | Hafta 1–6 (heap'e kadar): konu özetleri, 2020–2024 çıkmış vize soruları çözümlü, heapify ve BST araçları |
-| `kaynaklar/` | Orijinal kaynaklar: hocanın slaytları (PDF), Türkçe vize notları, Veri Yapıları ders kodları |
+| `diferansiyel-denklemler.html` | Hocanın ara sınav notları, Bölüm 1–8: konu anlatımı, formüller, bütün soruların adım adım çözümü, yöntem tanıma testi, formül kâğıdı. Formüller KaTeX ile basılır |
+| `kaynaklar/` | Orijinal kaynaklar: hocanın slaytları ve ders notları (PDF), Türkçe vize notları, Veri Yapıları ders kodları |
 
 Sayfalar statik HTML'dir, derleme adımı yoktur. Test sonuçları ve "bitti" işaretleri ziyaretçinin kendi tarayıcısında saklanır. Ders kitabının kendisi telif hakkı nedeniyle repoda yoktur.
 
