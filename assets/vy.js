@@ -172,6 +172,44 @@
     });
     return sec;
   }
+  // içinde ayrı başlıklı bölümler (çoğu yorum satırında) olan fonksiyon: önce genel kart, sonra her bölüm ayrı kart
+  function partedFn(f, c, i, ex, pp, src, rng, toc){
+    var L = src.split('\n'), e = ex ? ex.e : [], h = '';
+    toc.push('<button type="button" data-goto="' + i + '">' + esc(c.name) + '</button>');
+    h += '<article class="fn-card" data-i="' + i + '"><div class="fn-head"><h3><code>' + esc(c.name) + '</code></h3><span class="muted">' + rng + '</span></div>';
+    if(e[0]) h += '<p class="fn-what">' + esc(e[0]) + '</p>';
+    h += '<p>Bu fonksiyonun içinde ' + pp.length + ' ayrı bölüm var; her videonun denemesi kendi başlığıyla duruyor. Her biri aşağıda ayrı kartta, satır satır açıklamalı:</p>' +
+      '<ol class="fn-steps">' + pp.map(function(p, k){ return '<li><button type="button" class="linklike" data-goto="' + i + 'p' + k + '">' + esc(p.title) + '</button>' + (p.commented ? ' <span class="muted">(yorum satırında)</span>' : ' <span class="muted">(çalışan kısım)</span>') + '</li>'; }).join('') + '</ol>';
+    if(e[2]) h += '<p class="fn-note"><b>Dikkat:</b> ' + esc(e[2]) + '</p>';
+    if(e[4]) h += '<div class="fix"><div class="lbl-sm">Düzeltilmiş hâli</div><pre class="code hl">' + hl(e[4]) + '</pre></div>';
+    h += '<details class="fn-misc"><summary>' + esc(c.name) + '\'in tamamını göster</summary><pre class="code hl">' + hl(c.raw, c.from + 1) + '</pre></details></article>';
+    pp.forEach(function(p, k){
+      var id = i + 'p' + k;
+      toc.push('<button type="button" data-goto="' + id + '">' + (k + 1) + '. ' + esc(p.title) + '</button>');
+      var code = L.slice(p.from - 1, p.to).map(function(l){ return p.commented ? l.replace('/*', '  ').replace('*/', '  ') : l; }).join('\n');
+      var vids = (p.videos || []).map(videoOf).filter(Boolean);
+      h += '<article class="fn-card part" data-i="' + id + '"><div class="fn-head"><h3><span class="part-no">' + (k + 1) + '.</span> ' + esc(p.title) + '</h3><span class="muted">satır ' + p.from + '–' + p.to + '</span></div>';
+      h += '<div class="chips">' + (p.commented ? '<span class="tag wait">Dosyada yorum satırında (/* */)</span>' : '<span class="tag ok">Çalışan kısım</span>') +
+        vids.map(function(v){ return '<a class="chip yt" href="' + v.url + '" target="_blank" rel="noopener">▶ ' + esc(v.no + ' ' + v.t) + '</a>'; }).join('') + '</div>';
+      if(p.what) h += '<p class="fn-what">' + esc(p.what) + '</p>';
+      if(p.commented) h += '<p class="muted" style="font-size:.9rem">Aşağıda yorum işaretleri kaldırılmış hâli var; satır numaraları dosyadakiyle aynı. Denemek için dosyada bu bölümün /* ve */ işaretlerini sil.</p>';
+      h += '<pre class="code hl">' + hl(code, p.from) + '</pre>';
+      if(p.lines && p.lines.length){
+        h += '<div class="tblw"><table class="lines"><thead><tr><th>Satır</th><th>Kod</th><th>Ne yapıyor</th></tr></thead><tbody>' + p.lines.map(function(r){
+          var a = String(r[0]).split('-').map(Number), b = a[1] || a[0];
+          var txt = L.slice(a[0] - 1, b).map(function(l){ return l.replace('/*', '').replace('*/', '').trim(); }).filter(Boolean).map(esc).join('<br>');
+          return '<tr><td class="n">' + esc(r[0]) + '</td><td><code class="ln-code">' + txt + '</code></td><td>' + esc(r[1]) + '</td></tr>';
+        }).join('') + '</tbody></table></div>';
+      }
+      if(p.out) h += '<div class="out-box"><div class="lbl-sm">Çıktı: derleyip çalıştırdım' + (p.input ? ' (girdi: ' + esc(p.input) + ')' : '') + '</div><pre class="code">' + esc(p.out) + '</pre></div>';
+      if(p.note) h += '<p class="fn-note"><b>Dikkat:</b> ' + esc(p.note) + '</p>';
+      if(p.fix) h += '<div class="fix"><div class="lbl-sm">Düzeltilmiş hâli</div><pre class="code hl">' + hl(p.fix) + '</pre></div>';
+      var an = (p.anim || []).map(function(x){ return animById[x]; }).filter(Boolean);
+      if(an.length) h += '<div class="chips">' + an.map(function(a){ return '<a class="chip anim" href="#' + a.id + '">▶ Animasyonu izle: ' + esc(a.title) + '</a>'; }).join('') + '</div>';
+      h += chipsHtml(detect({name:'_bolum', head:'', body:code.replace(/\/\/.*$/mg, '')})) + '</article>';
+    });
+    return h;
+  }
   function renderKod(f, sec, src){
     var parts = chunks(src), toc = [], html = '';
     parts.forEach(function(c, i){
@@ -185,6 +223,8 @@
       }
       var ex = explain(f, c.name), an = animsFor(f, c.name);
       if(ex && ex.e[3]) ex.e[3].forEach(function(id){ if(animById[id] && an.indexOf(animById[id]) < 0) an.push(animById[id]); });
+      var pp = f.parts && f.parts[c.name];
+      if(pp){ html += partedFn(f, c, i, ex, pp, src, rng, toc); return; }
       toc.push('<button type="button" data-goto="' + i + '">' + esc(c.name) + '</button>');
       html += '<article class="fn-card" data-i="' + i + '"><div class="fn-head"><h3><code>' + esc(c.name) + '</code></h3><span class="muted">' + rng + '</span></div>';
       if(ex){

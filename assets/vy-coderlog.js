@@ -25,8 +25,69 @@ window.VY_CL = {
 
 (function(){
   var B = 'kaynaklar/veri-yapilari/coderlog/';
+  // main'in içindeki bölümler: başlık, satır aralığı, satır satır açıklama, gerçek çıktı (derleyip çalıştırarak alındı)
+  // lines: [[satır ya da 'a-b', açıklama]]; commented: dosyada /* */ içinde
+  var PARTS1 = [
+   {title:'Pointer nedir? & Pointer\'a pointer nedir?', from:6, to:39, commented:1, videos:['1.1','1.2'], anim:['a-cl-pointer'],
+    what:'a adında bir int, onu gösteren ptr, ptr\'yi gösteren ptr2 ve ptr2\'yi gösteren ptr3 tanımlanıyor. Her printf bir değeri ya da bir adresi basıyor. Kural: her * bir ok takip etmek demek.',
+    lines:[[9, 'a adında int değişken, değeri 10. Bellekte 4 byte.'], [11, 'int* ptr: bir int\'in adresini tutabilen değişken (pointer). Şu an içinde çöp değer var.'], [12, 'int** ptr2: bir int*\'ın, yani bir pointer\'ın adresini tutar.'], [13, 'int*** ptr3: bir int**\'ın adresini tutar.'],
+      [15, '&a, a\'nın adresi. ptr artık a\'yı gösteriyor.'], [17, '%d ile a\'nın değeri: 10.'], [18, '%p adres basar: a\'nın adresi.'], [19, 'ptr\'nin içindeki değer: yine a\'nın adresi (18. satırla aynı).'], [20, '*ptr: ptr\'nin gösterdiği yere git, oradaki değeri al: 10.'], [21, '&ptr: pointer\'ın kendi adresi. Pointer da bellekte duran bir değişken.'],
+      [25, 'ptr2\'ye ptr\'nin adresi yazılıyor: pointer\'a pointer.'], [27, 'ptr2\'nin değeri = ptr\'nin adresi (21. satırla aynı).'], [28, '&ptr2: ptr2\'nin kendi adresi.'], [29, '**ptr2: iki ok git, a\'ya ulaş: 10.'],
+      [31, 'ptr3\'e ptr2\'nin adresi yazılıyor.'], [35, 'ptr3 = ptr2\'nin adresi (28. satırla aynı).'], [36, '*ptr3: bir ok git = ptr2\'nin değeri = ptr\'nin adresi.'], [37, '**ptr3: iki ok git = ptr\'nin değeri = a\'nın adresi.'], [38, '***ptr3: üç ok git = a\'nın kendisi: 10.']],
+    out:'10\n000000000061FE14\n000000000061FE14\n10\n000000000061FE08\n-----------------------------\n000000000061FE08\n000000000061FE00\n10\n-----------------------------\n000000000061FE00\n000000000061FE08\n000000000061FE14\n10',
+    note:'Adresler bilgisayardan bilgisayara ve çalıştırmadan çalıştırmaya değişebilir; aralarındaki ilişki değişmez. a\'nın adresi 61FE14, ptr\'nin 61FE08, ptr2\'nin 61FE00: pointer\'lar 8 byte.'},
+   {title:'Pointerların gerçek kullanımı', from:41, to:56, commented:1, videos:['1.3','1.4'], anim:['a-cl-kati'],
+    what:'Bir fonksiyona değişkenin kendisini (değerini) göndermekle adresini göndermek arasındaki fark. Kullanılan iki fonksiyon dosyanın en altında: sayinin_iki_kati ve sayinin_uc_kati.',
+    lines:[[44, 'x = 20.'], [45, 'int* ptr tanımı.'], [47, 'ptr, x\'i gösteriyor.'], [50, 'Ekrana 20.'], [52, 'x\'in değeri (20) kopyalanıp gönderiliyor. Fonksiyon kopyayı 40 yapar ama main\'deki x değişmez.'], [53, 'Bu sefer x\'in adresi gönderiliyor. Fonksiyon *ptr ile main\'deki x\'in kendisini 3 katına, 60\'a çıkarır.'], [55, 'Ekrana 60: sadece adresle gönderilen fonksiyon x\'i değiştirebildi.']],
+    out:'20\n60',
+    note:'Bu bölüm iki fonksiyonu kullanıyor ve onların prototipi üstte yok; denerken fonksiyonları main\'in üstüne al ya da prototip yaz. Liste başını değiştiren fonksiyonlara ** gönderilmesinin sebebi de bu bölümdeki fikir.'},
+   {title:'Dizi ve pointerların benzerliği', from:59, to:86, commented:1, videos:['2.1'],
+    what:'Dizinin ismi ilk elemanın adresidir; bu yüzden dizi bir pointer gibi kullanılabilir. *dizi, dizi[0] ile; *(dizi+1), dizi[1] ile aynı şey.',
+    lines:[['61-64', 'Önceki bölümden kalan x ve onu gösteren ptr.'], [67, '3 elemanlı int dizisi.'], [69, 'dizi[0] = 1.'], [71, '&dizi: dizinin tamamının adresi.'], [72, '&dizi[0]: ilk elemanın adresi; 71. satırla aynı adres (tipleri farklı).'], [73, '&dizi[1]: 4 byte sonrası (int 4 byte).'], [74, '&dizi[2]: 8 byte sonrası.'],
+      [78, 'dizi (sadece ismi): yine ilk elemanın adresi. Dizi ile pointer\'ın en büyük ortak özelliği bu.'], [79, 'ptr: x\'in adresi.'], [83, '*ptr = x = 20.'], [84, '*dizi = dizi[0] = 1.'], [85, '*(dizi+1) = dizi[1] = 2. dizi+1, bir sonraki int\'in adresi.']],
+    out:'1\n000000000061FE08\n000000000061FE08\n000000000061FE0C\n000000000061FE10\n-------------------------\n000000000061FE08\n000000000061FE14\n-------------------------\n20\n1\n2',
+    note:'Adresler 4\'er byte artıyor (…08, …0C, …10). Hocanın Hafta 1 kodundaki adres yazdırma denemesi de aynı şeyi gösteriyor.'},
+   {title:'Statik ve dinamik dizi nedir?', from:88, to:99, commented:1, videos:['2.2'],
+    what:'Statik dizi: boyu kodda sabit, derlerken belli (int dizi[] = {1,2,3}), stack\'te durur. Dinamik dizi: boyu program çalışırken belli olur ve malloc ile heap\'ten alınır (bir sonraki bölüm).',
+    lines:[[93, 'Statik dizi: 3 eleman.'], [98, '"Dynamic Array" başlığı altında bir pointer\'a dizinin adresi veriliyor.']],
+    note:'98. satır dinamik dizi oluşturmaz; sadece var olan statik diziyi gösterir. Ayrıca &dizi\'nin tipi int (*)[3] olduğu için derleyici uyarı veriyor (derledim: incompatible pointer type). Doğrusu int* ptr = dizi; gerçek dinamik dizi bir sonraki bölümde.',
+    fix:'int dizi[] = {1,2,3};                      // statik: boyu sabit\nint* ptr = dizi;                           // dizi zaten ilk elemanın adresi\n\nint* d = (int*)malloc(3 * sizeof(int));    // dinamik: heap\'ten'},
+   {title:'Bir boyutlu dinamik dizi oluşturalım', from:102, to:122, commented:1, videos:['2.3'], anim:['a-malloc1'],
+    what:'Eleman sayısı kullanıcıdan okunuyor, o kadar int için malloc ile yer açılıp 0–99 arası sayılarla dolduruluyor.',
+    lines:[[105, 'Dizinin başlangıç adresini tutacak pointer.'], [107, 'Eleman sayısı ve döngü sayacı.'], ['109-110', 'Eleman sayısı klavyeden okunuyor (scanf\'e değişkenin adresi verilir: &sutun_sayisi).'],
+      [114, 'malloc heap\'ten sizeof(int) · sutun_sayisi byte ayırır ve başlangıç adresini döndürür; (int*) ile int adresine çevrilip ptr\'ye yazılır.'], [119, '*(ptr+i), ptr[i] ile aynı. rand()%100: 0–99 arası sayı.'], [120, 'Elemanı yazdır.']],
+    input:'5', out:'Sutun sayisini giriniz.41 67 34 0 69',
+    note:'srand çağrılmadığı için rand her çalıştırmada aynı sayıları verir (41 67 34 …). İşin bitince free(ptr) yazmak gerekir; burada yok.'},
+   {title:'İki boyutlu dinamik dizi oluşturalım', from:126, to:148, commented:1, videos:['2.4'], anim:['a-malloc2'],
+    what:'Önce satır sayısı kadar satır adresi (int*) için, sonra her satıra sütun sayısı kadar int için malloc yapılıyor. Hocanın dinamik_matris_olustur1 fonksiyonunun main içinde yazılmış hâli.',
+    lines:[[128, 'int** ptr: satır adreslerini tutan dizinin adresi.'], [129, 'Sayaçlar ve boyutlar.'], ['131-135', 'Satır ve sütun sayısı okunuyor.'], [137, 'Satır sayısı kadar int* için yer: her eleman bir satırın adresi olacak.'], [141, 'Her satır için sütun sayısı kadar int; adresi (ptr+i)\'nin gösterdiği yere yazılıyor.'], [145, '*(*(ptr+i)+j), ptr[i][j] ile aynı: önce i. satırın adresi, sonra o satırın j. elemanı.'], [146, 'Elemanı yazdır.']],
+    input:'3 ve 4', out:'Satir sayisini giriniz: Sutun sayisini giriniz: 41 67 34 0 69 24 78 58 62 64 5 45',
+    note:'Satır sonunda alt satıra geçilmediği için 12 sayı tek satırda çıkıyor; sonraki bölümdeki matris_yaz bunu düzeltiyor. Heap\'te ayrılan yer: satir·8 + satir·sutun·4 byte (vize sorusu: 10×15 için 680 byte, main\'deki 8 byte\'lık pointer ile 688).'},
+   {title:'Çalışan kısım: fonksiyonlarla matris', from:152, to:165, videos:['2.4'], anim:['a-malloc2'],
+    what:'Bir önceki bölümün işi iki fonksiyona taşınmış: iki_boyutlu_matris_olustur matrisi açıp dolduruyor, matris_yaz satır satır yazıyor. Dosya çalıştırılınca sadece bu kısım çalışır.',
+    lines:[[152, 'Matrisin kendisi: int**.'], [153, 'Boyutlar.'], ['155-159', 'Satır ve sütun sayısı okunuyor.'], [161, '&matris gönderiliyor (int***): fonksiyon main\'deki matris değişkenine heap\'teki matrisin adresini yazacak.'], [162, 'Yazdırma. Burada da &matris gönderilmiş (int** yeterdi); parametre sırası sutun, satir.'], [165, 'Program başarıyla bitti.']],
+    input:'3 ve 4', out:'Satir sayisini giriniz: Sutun sayisini giriniz: 41 67 34 0\n69 24 78 58\n62 64 5 45',
+    note:'Fonksiyonların prototipi olmadığı için yeni gcc sürümleri hata verir; düzeltmesi main açıklamasının altında.'}
+  ];
+  var PARTS3 = [
+   {title:'İlk deneme: struct değişkeni, struct gönderme, ok (->)', from:16, to:42, commented:1, videos:['3.1'],
+    what:'Videonun ilk yarısı. O sırada Student yapısında p bir işaretçi değil düz bir struct Person, okul numarasının adı da sNo imiş. Bu yüzden blok şimdiki yapılarla derlenmez; çıktıyı o eski yapıyla derleyip aldım.',
+    lines:[[16, 'struct Person türünde p1 değişkeni (typedef\'ten önceki uzun yazım).'], ['18-19', 'Nokta ile alanlara değer: p1 bir değişken, işaretçi değil.'], ['21-22', '%s bir yazıyı (char*) basar, %d bir sayıyı.'], [26, 'Struct fonksiyona değerle gider: fonksiyon kopyasını alır.'],
+      [30, 'student s1: typedef\'li kısa ad.'], ['31-33', 'Struct içinde struct: s1.p.age, s1.p.name (o zamanki yapıda p düz bir struct).'], [35, 'Öğrenciyi yazdır.'], [39, 'person* ptr = &p1: struct\'ı gösteren pointer.'], ['41-42', 'Pointer ile alana ok (->) ile erişilir: ptr->name, (*ptr).name ile aynı.']],
+    out:'Person\'s name: Ahmet\nPerson\'s age: 20\n-------------------------------------\nPerson\'s name: Ahmet\nPerson\'s age: 20\n-------------------------------------\nStudent\'s school number: 2000\nStudent\'s name: Ali\nStudent\'s age: 18\n-------------------------------------\nPerson\'s name: Ahmet\nPerson\'s age: 20'},
+   {title:'Struct\'ın ve alanlarının adresleri', from:44, to:52, videos:['3.1'],
+    what:'Bir struct bellekte alanlarının arka arkaya dizildiği tek bir bloktur. İlk alanın adresi struct\'ın adresidir.',
+    lines:[['44-46', 'person p ve nokta ile alanlara değer.'], [48, '&p: struct\'ın adresi.'], [49, '&(p.name): ilk alanın adresi, struct\'ın adresiyle aynı.'], [50, '&(p.age): ikinci alan, 8 byte sonra (char* 8 byte).']],
+    out:'Struct\'in adresi: 000000000061FE00\nName\'in adresi: 000000000061FE00\nAge\'in adresi: 000000000061FE08\n---------------------------------'},
+   {title:'malloc ile struct ve ok (->)', from:55, to:70, videos:['3.1'],
+    what:'Öğrenci heap\'te malloc ile açılıyor; pointer üzerinden alanlara ok ile erişiliyor. Burada bir bellek hatası var.',
+    lines:[[55, 'student* std: öğrenciyi gösterecek pointer (stack\'te).'], [57, 'malloc ile heap\'te bir student kadar yer: school_number + p işaretçisi.'], [59, 'std->school_number = 2005: std bir pointer olduğu için ok.'], ['60-61', 'HATA: std->p hiçbir yeri göstermiyor (malloc içini doldurmaz), çöp bir adrese yazılıyor.'], ['63-68', 'Adresler: std\'nin kendisi stack\'te, student heap\'te; school_number struct\'ın başında, p 8 byte sonra.']],
+    out:'std pointerin adresi: 000000000061FDF8\nstudent\'in adresi: 0000000000AA7D40\nstudent\'in school_number\'in adresi: 0000000000AA7D40\nstudent\'in person\'in adresi: 0000000000AA7D48\nstudent\'in person\'in name\'in adresi: 0000000000AA7D60\nstudent\'in person\'in age\'in adresi: 0000000000AA7D68',
+    note:'Bu çıktı eksik satır (std->p için malloc) eklenmiş hâlinden. Orijinali çöp adrese yazdığı için çökebilir.',
+    fix:'student* std;\nstd = (student*)malloc(sizeof(student));\nstd->school_number = 2005;\nstd->p = (person*)malloc(sizeof(person));   // eksik olan satır\nstd->p->name = "Selin";\nstd->p->age = 24;'}
+  ];
   var FILES = [
- {id:'cl-1', week:1, title:'Pointer ve dinamik dizi', path:'1-pointer-ve-dinamik-dizi.c', videos:['1.1','1.2','1.3','1.4','2.1','2.2','2.3','2.4'], anim:['a-cl-pointer','a-cl-kati','a-malloc1','a-malloc2'],
+ {id:'cl-1', week:1, title:'Pointer ve dinamik dizi', path:'1-pointer-ve-dinamik-dizi.c', parts:{main:PARTS1}, videos:['1.1','1.2','1.3','1.4','2.1','2.2','2.3','2.4'], anim:['a-cl-pointer','a-cl-kati','a-malloc1','a-malloc2'],
   intro:'1.1–2.4 videolarında yazılan kod. Her videoda bir önceki deneme yorum satırına (/* */) alınıp altına yenisi yazılmış. Bu yüzden main\'in içinde sırayla altı küçük deneme duruyor; sadece en sondaki, fonksiyonla iki boyutlu matris oluşturma kısmı çalışıyor. Konular hocanın Hafta 1–2 kodlarıyla aynı: pointer, pointer\'a pointer, dizi ve pointer ilişkisi, malloc ile bir ve iki boyutlu dinamik dizi.',
   fns:{
    'main':['Videolardaki denemeleri sırayla içeriyor. Sadece en alttaki matris kısmı çalışıyor, diğerleri /* */ içinde.', [
@@ -80,7 +141,7 @@ window.VY_CL = {
       '2×3 ve 3×2 girersen toplama tutmaz ve program çöker (matris_topla\'daki not).'],
      'free hiç çağrılmıyor. Bu küçük programda sorun değil ama hocanın kodunda matrisi geri veren fonksiyon var ve vizede bellek soruları çıkıyor.', [], '']
   }},
- {id:'cl-3', week:3, title:'Struct', path:'3-struct.c', videos:['3.1'], anim:[],
+ {id:'cl-3', week:3, title:'Struct', path:'3-struct.c', parts:{main:PARTS3}, videos:['3.1'], anim:[],
   intro:'3.1 videosunun kodu: struct, typedef, nokta (.) ve ok (->) ile alanlara erişim, struct\'ın ve alanlarının bellekteki adresleri. Bağlı listeye geçmeden önceki hazırlık. Dikkat: dosya olduğu gibi derlenmiyor (displayStudent\'a bak) ve main\'de bir bellek hatası var.',
   fns:{
    'struct Person':['Bir kişi: name ve age.', [

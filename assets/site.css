@@ -291,12 +291,22 @@ pre.code [title]{cursor:help;text-decoration:underline dotted rgba(31,36,48,.3);
 /* --- kod anlatımı ve C sözlüğü --- */
 .chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .chips .lbl-sm{margin:0 4px 0 0}
-.chip{font:inherit;font-size:.82rem;font-family:var(--f-mono);border:1px solid var(--line);background:var(--soft);color:var(--ink-2);border-radius:999px;padding:3px 11px;cursor:pointer;text-decoration:none;white-space:nowrap}
+.chip{font:inherit;font-size:.82rem;font-family:var(--f-mono);font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0;border:1px solid var(--line);background:var(--soft);color:var(--ink-2);border-radius:999px;padding:3px 11px;cursor:pointer;text-decoration:none;white-space:nowrap}
 .chip:hover,.chip[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
 a.chip.anim{font-family:var(--f-body);font-weight:600;color:var(--vy);background:var(--vy-soft);border-color:transparent}
 a.chip.anim:hover{border-color:var(--vy)}
 a.chip.yt{font-family:var(--f-body);font-weight:600;color:#B42318;background:#FDECEA;border-color:transparent}
 a.chip.yt:hover{border-color:#B42318}
+.fn-card.part{border-left:4px solid var(--accent)}
+.part-no{color:var(--accent);margin-right:4px}
+table.lines td{vertical-align:top}
+table.lines td.n{white-space:nowrap}
+.ln-code{white-space:pre-wrap;word-break:break-word;font-size:.82rem;background:none;border:0;padding:0}
+.out-box{display:grid;gap:6px}
+.out-box .lbl-sm{margin:0}
+.out-box pre.code{background:#F1F4F9;border-color:#DCE2EC;max-height:320px}
+button.linklike{font:inherit;border:0;background:none;padding:0;color:var(--accent);cursor:pointer;text-align:left}
+button.linklike:hover{text-decoration:underline}
 .fix{display:grid;gap:6px;background:var(--ok-soft);border-radius:12px;padding:12px 14px}
 .fix .lbl-sm{color:var(--ok);margin:0}
 .fix pre.code{background:#fff}
