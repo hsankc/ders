@@ -1,0 +1,1388 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Veri Yapıları Vize Kılavuzu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,750&family=Caveat:wght@600&family=JetBrains+Mono:wght@400;600&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+/* Düzen: tek okuma kolonu (≤ 900px), yapışkan hafta sekmeleri; sınav kâğıdı: tükenmez mavi + öğretmen kırmızı kalemi + fosforlu kalem */
+:root{
+  --paper:#F3F5F8; --sheet:#FFFFFF; --ink:#17202A; --muted:#566370; --rule:#D6DDE5;
+  --pen:#2346A0; --pen-soft:#E4EAF8; --red:#B3312A; --red-soft:#FBE9E7; --hl:#FFEF9C; --code:#F7F9FB;
+  --f-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --f-body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  --f-hand:"Caveat","Segoe Print","Comic Sans MS",cursive;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#10151B; --sheet:#171F28; --ink:#E3E8EE; --muted:#9BA8B5; --rule:#2A3440;
+  --pen:#97B3FF; --pen-soft:#1D2942; --red:#FF8E84; --red-soft:#3A201F; --hl:#4D4416; --code:#131A22; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#10151B; --sheet:#171F28; --ink:#E3E8EE; --muted:#9BA8B5; --rule:#2A3440;
+  --pen:#97B3FF; --pen-soft:#1D2942; --red:#FF8E84; --red-soft:#3A201F; --hl:#4D4416; --code:#131A22; color-scheme:dark}
+
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:1.0625rem;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+.wrap{max-width:900px;margin:0 auto}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.15;margin:0}
+h1{font-size:clamp(2rem,6vw,3.1rem);font-weight:750;letter-spacing:-.02em}
+h2{font-size:clamp(1.45rem,3.6vw,1.9rem);font-weight:750;letter-spacing:-.01em}
+h3{font-size:1.15rem;font-weight:600}
+p{margin:0}
+a{color:var(--pen)}
+code,pre,.mono{font-family:var(--f-mono);font-size:.86em}
+:not(pre)>code{background:var(--pen-soft);padding:.05em .35em;border-radius:4px;white-space:nowrap}
+mark{background:var(--hl);color:var(--ink);padding:0 .2em;border-radius:3px}
+.muted{color:var(--muted)}
+.eyebrow{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+
+/* başlık */
+.top{padding-block:40px 28px;display:grid;gap:14px}
+.lede{max-width:65ch;color:var(--muted);font-size:1.08rem}
+.scope{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:.85rem;border:1px solid var(--rule);border-radius:999px;padding:3px 10px;background:var(--sheet);color:var(--muted)}
+.chip b{color:var(--ink);font-weight:600}
+
+/* sekmeler */
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);border-bottom:1px solid var(--rule);margin-bottom:8px}
+.tabs .row{display:flex;gap:6px;overflow-x:auto;padding-block:10px;scrollbar-width:thin;max-width:900px;margin:0 auto}
+.tabs a{flex:0 0 auto;text-decoration:none;color:var(--ink);font-size:.9rem;padding:5px 12px;border-radius:999px;border:1px solid var(--rule);background:var(--sheet);white-space:nowrap}
+.tabs a:hover,.tabs a:focus-visible{border-color:var(--pen);color:var(--pen);outline:none}
+.tabs a b{font-family:var(--f-mono);font-size:.78rem;color:var(--muted);margin-right:4px;font-weight:400}
+
+/* bölümler */
+section{padding-block:34px 10px;display:grid;gap:18px;scroll-margin-top:64px}
+section+section{border-top:1px solid var(--rule)}
+.sec-head{display:grid;gap:6px}
+.sec-head .eyebrow{color:var(--pen)}
+.stack{display:grid;gap:14px;min-width:0}
+ul.facts{margin:0;padding-left:1.15em;display:grid;gap:6px}
+ul.facts li{max-width:72ch}
+ul.facts li::marker{color:var(--pen)}
+
+pre{background:var(--code);border:1px solid var(--rule);border-radius:8px;padding:12px 14px;overflow-x:auto;margin:0;line-height:1.5;tab-size:4}
+pre .c{color:var(--muted);font-style:italic}
+.tblw{overflow-x:auto;border:1px solid var(--rule);border-radius:8px;background:var(--sheet)}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+tr:last-child td{border-bottom:0}
+th{font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--code)}
+td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+
+.formula{background:var(--sheet);border:1px solid var(--rule);border-radius:10px;padding:14px 16px;display:grid;gap:8px}
+.formula .f{font-family:var(--f-mono);font-size:.92rem;overflow-x:auto}
+
+/* kırmızı kalem uyarısı */
+.pit{background:var(--red-soft);border-radius:10px;padding:12px 16px;display:grid;gap:6px}
+.pit .tag{font-family:var(--f-hand);font-size:1.45rem;color:var(--red);line-height:1}
+.pit ul{margin:0;padding-left:1.1em;display:grid;gap:4px}
+
+/* çıkmış soru kartı */
+.q{background:var(--sheet);border:1px solid var(--rule);border-radius:12px;padding:16px;display:grid;gap:10px;min-width:0}
+.q-top{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;justify-content:space-between}
+.q-tag{font-size:.75rem;letter-spacing:.07em;text-transform:uppercase;font-weight:700;color:var(--red)}
+.q-pts{font-family:var(--f-mono);font-size:.8rem;color:var(--muted)}
+.q-text{font-weight:600}
+details{border-top:1px dashed var(--rule);padding-top:8px}
+summary{cursor:pointer;color:var(--pen);font-weight:600;list-style:none;display:inline-flex;gap:6px;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▸";transition:transform .15s}
+details[open]>summary::before{transform:rotate(90deg)}
+summary:focus-visible{outline:2px solid var(--pen);outline-offset:3px;border-radius:4px}
+details>.stack{margin-top:10px}
+
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.tree{overflow-x:auto;padding-block:4px}
+.tree svg{display:block;margin:0 auto}
+.fig{display:grid;gap:4px;min-width:0}
+.fig .cap{font-size:.85rem;color:var(--muted);text-align:center}
+.te{stroke:var(--muted);stroke-width:1.4}
+.tn circle{fill:var(--sheet);stroke:var(--pen);stroke-width:1.8}
+.tn.leaf circle{fill:var(--hl)}
+.tn text{fill:var(--ink);font-family:var(--f-mono);font-size:12px;text-anchor:middle;font-weight:600}
+.tn text.ti{fill:var(--muted);font-size:9.5px;font-weight:400}
+
+.btn{font:inherit;font-size:.9rem;font-weight:600;border:1px solid var(--pen);color:var(--pen);background:var(--sheet);border-radius:8px;padding:6px 12px;cursor:pointer}
+.btn:hover{background:var(--pen-soft)}
+.btn:focus-visible,input:focus-visible{outline:2px solid var(--pen);outline-offset:2px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+label{font-size:.85rem;color:var(--muted);font-weight:600}
+input[type=text]{font-family:var(--f-mono);font-size:.9rem;padding:7px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--code);color:var(--ink);width:100%;min-width:0}
+.field{display:grid;gap:4px;flex:1 1 260px;min-width:0}
+.out{font-family:var(--f-mono);font-size:.86rem;display:grid;gap:3px;overflow-x:auto}
+.out b{color:var(--pen)}
+.steps{font-family:var(--f-mono);font-size:.8rem;color:var(--muted);display:grid;gap:2px;overflow-x:auto}
+
+.map{display:grid;gap:10px}
+.map-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;padding:10px 14px;background:var(--sheet);border:1px solid var(--rule);border-radius:10px}
+.map-row .w{font-size:.78rem;color:var(--muted);font-family:var(--f-mono)}
+.yrs{display:flex;gap:4px;align-items:center;grid-row:span 2;align-self:center}
+.yr{font-family:var(--f-mono);font-size:.72rem;padding:1px 6px;border-radius:5px;color:var(--muted);opacity:.45;border:1px dashed var(--rule)}
+.yr.on{opacity:1;color:var(--red);background:var(--red-soft);border:1px solid transparent;font-weight:600}
+@media (max-width:520px){.map-row{grid-template-columns:1fr}.yrs{grid-row:auto}}
+
+footer{padding-block:30px 48px;color:var(--muted);font-size:.9rem;border-top:1px solid var(--rule);margin-top:20px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
+html{scroll-behavior:smooth}
+</style>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+.back{display:inline-flex;gap:6px;align-items:center;font-size:.9rem;text-decoration:none;color:var(--muted);padding-top:18px}
+.back:hover{color:var(--pen)}
+</style>
+</head>
+<body>
+<div class="wrap"><a class="back" href="./">← Vize Haftası ana sayfası</a></div>
+
+
+<header class="wrap top">
+  <p class="eyebrow">Bilgisayar Mühendisliği · 2. sınıf · Hafta 1–6</p>
+  <h1>Veri Yapıları Vize Kılavuzu</h1>
+  <p class="lede">Klasöründeki HAFTA1–6 kodlarından ve slaytlarından, 2020–2024 çıkmış vize sorularıyla ve "notlar falan" klasöründeki defter/final sorularıyla birlikte hazırlandı. Kod çıktıları ve heapify cevapları, dersteki C kodunun birebir simülasyonuyla doğrulandı.</p>
+  <div class="scope">
+    <span class="chip"><b>H1</b> Diziler, işaretçiler</span>
+    <span class="chip"><b>H2</b> Matris çarpımı</span>
+    <span class="chip"><b>H3</b> Bağlı listeler</span>
+    <span class="chip"><b>H4</b> Yığın</span>
+    <span class="chip"><b>H5</b> İkili arama ağacı</span>
+    <span class="chip"><b>H6</b> Heap</span>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Bölümler">
+  <div class="row">
+    <a href="#harita">Sınav haritası</a>
+    <a href="#h1"><b>H1</b>Diziler</a>
+    <a href="#h2"><b>H2</b>Matris</a>
+    <a href="#h3"><b>H3</b>Liste</a>
+    <a href="#h4"><b>H4</b>Yığın</a>
+    <a href="#h5"><b>H5</b>BST</a>
+    <a href="#h6"><b>H6</b>Heap</a>
+    <a href="#arac">Araçlar</a>
+    <a href="#test">Kendini test et</a>
+    <a href="#son">Son 10 dakika</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- ============ HARİTA ============ -->
+<section id="harita">
+  <div class="sec-head">
+    <p class="eyebrow">Önce bunu oku</p>
+    <h2>Sınav haritası</h2>
+    <p class="muted" style="max-width:65ch">Vize 90 dakika, 4 soru civarı. Her yıl aynı kalıplar dönüyor: bir liste fonksiyonu yaz, bir ağaç fonksiyonu yaz, heapify sonucu çiz, kısa cevaplı karmaşıklık/tanım soruları. Kırmızı yıllar, o kalıbın hangi yılın vizesinde çıktığını gösteriyor.</p>
+  </div>
+  <div class="map">
+    <div class="map-row"><div><b>Liste fonksiyonu yaz</b> <span class="muted">(son düğümü sil, ilk ve son düğümü sil, ilk ve sonu yer değiştir, çift/tek ayır)</span></div><div class="yrs"><span class="yr on">2020</span><span class="yr on">2022</span><span class="yr on">2023</span><span class="yr on">2024</span></div><div class="w">H3 · 20–25 puan</div></div>
+    <div class="map-row"><div><b>BST fonksiyonu yaz</b> <span class="muted">(dengeli mi, dede, en büyüğü sil, kardeş mi, şekilce aynı mı)</span></div><div class="yrs"><span class="yr on">2020</span><span class="yr on">2022</span><span class="yr on">2023</span><span class="yr on">2024</span></div><div class="w">H5 · 20–25 puan</div></div>
+    <div class="map-row"><div><b>heapify uygula, sonucu ağaç olarak çiz</b> <span class="muted">+ heapify / heapSort karmaşıklığı</span></div><div class="yrs"><span class="yr on">2020</span><span class="yr">2022</span><span class="yr on">2023</span><span class="yr on">2024</span></div><div class="w">H6 · 10–15 puan</div></div>
+    <div class="map-row"><div><b>Kısa cevaplar</b> <span class="muted">(dengeli ağaç nedir, inorder/preorder'dan ağaç çizilir mi, BST ekleme O(?), heap BST midir)</span></div><div class="yrs"><span class="yr">2020</span><span class="yr on">2022</span><span class="yr on">2023</span><span class="yr on">2024</span></div><div class="w">H5–H6 · 5'er puan</div></div>
+    <div class="map-row"><div><b>Dizi / işaretçi kısa soruları</b> <span class="muted">(<code>&amp;dizi</code>, <code>*(dizi+3)+2</code>, dizi ismi, <code>dizi=dizi+1</code>)</span></div><div class="yrs"><span class="yr">2020</span><span class="yr">2022</span><span class="yr on">2023</span><span class="yr on">2024</span></div><div class="w">H1 · 5'er puan</div></div>
+    <div class="map-row"><div><b>Dinamik 2B dizi: bellek hesabı + free fonksiyonu</b> <span class="muted">(heap mi stack mi, kaç byte)</span></div><div class="yrs"><span class="yr on">2020</span><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2024</span></div><div class="w">H1 · 35 puan</div></div>
+    <div class="map-row"><div><b>Max heap'te en küçük eleman</b> <span class="muted">(kaç pozisyonda olabilir + en az karşılaştırmayla bulan fonksiyon)</span></div><div class="yrs"><span class="yr">2020</span><span class="yr on">2022</span><span class="yr">2023</span><span class="yr">2024</span></div><div class="w">H6 · 25 puan</div></div>
+    <div class="map-row"><div><b>Finallerde de çıkan BST soruları</b> <span class="muted">(ağacı aynala/dönüştür, en uzun yolu listeye ekle, dede)</span></div><div class="yrs"><span class="yr on">F23</span><span class="yr on">F24</span></div><div class="w">H5 · 20–25 puan</div></div>
+    <div class="map-row"><div><b>Matris fonksiyonu</b> <span class="muted">(kare matrisi birim matrise dönüştür)</span></div><div class="yrs"><span class="yr">2020</span><span class="yr">2022</span><span class="yr on">2023</span><span class="yr">2024</span></div><div class="w">H2 · 20 puan</div></div>
+  </div>
+  <div class="pit">
+    <p class="tag">Dikkat!</p>
+    <p>Klasördeki el yazısı/arkadaş çözümlerinin bazıları <b>yanlış</b>. Ezberlemeden önce buradaki doğru hallerine bak:</p>
+    <ul>
+      <li><code>matris_geri_ver</code>: parametre <code>int ***</code> olduğu için <code>free(matris[i])</code> değil <code>free((*matris)[i])</code> olmalı.</li>
+      <li>2020 heapify çizimi ve "diziyi dengeli ağaç şeklinde göster" cevabı yanlış: dizi <b>sıralanmaz</b>, indeks sırasıyla çizilir (H6'ya bak).</li>
+      <li>"İlk ve son düğümü yer değiştir" çözümü ilk düğümü sona taşımıyor; "dengeli mi" çözümü 0/1 yerine yükseklik döndürüyor.</li>
+      <li>Max heap min bul çözümünde döngü <code>i</code> yerine sabit <code>index</code>'e bakıyor.</li>
+      <li>Defterdeki <b>"ikili arama ağacı mı"</b> kontrolü sadece düğümün kendi çocuklarına bakıyor; derindeki hatayı kaçırır (H5'te karşı örnek var).</li>
+      <li>Defterdeki <b>"tek çocuklu düğüm sayısı"</b> tek çocuklu düğümü bulunca durup alt ağaca inmiyor; <b>"dizi_sil"</b> yine <code>free(dizi[i])</code> hatasını yapıyor.</li>
+      <li>"Dengeli BST'de iki yaprağın köke uzaklık farkı en fazla 1" sorusuna defterde <b>Evet</b> yazılmış; doğrusu <b>Hayır</b>. "Preorder'ı aynı iki ağaç aynı mı" sorusunun Evet cevabı da sadece <b>ikili arama ağacı</b> için doğru.</li>
+    </ul>
+  </div>
+  <div class="toolbar">
+    <button class="btn" id="toggleAll" type="button">Tüm çözümleri aç</button>
+    <span class="muted" style="font-size:.9rem">Çözümler kapalı başlar: önce kendin dene, sonra aç.</span>
+  </div>
+</section>
+
+<!-- ============ H1 ============ -->
+<section id="h1">
+  <div class="sec-head">
+    <p class="eyebrow">Hafta 1</p>
+    <h2>Diziler, işaretçiler ve dinamik bellek</h2>
+  </div>
+  <ul class="facts">
+    <li><b>Veri yapısı</b>, verinin belleğe nasıl yerleşeceğini ve üzerinde hangi işlemlerin yapılacağını belirler. Program = algoritma + veri yapısı.</li>
+    <li><b>Primitif</b>: int, float, char, pointer (dil doğrudan destekler). <b>Primitif olmayan</b>: dizi, liste, dosya; bunlar <i>doğrusal</i> (yığın, kuyruk, liste) ve <i>doğrusal olmayan</i> (ağaç, graf) diye ayrılır.</li>
+    <li><b>Bitişik (contiguous)</b>: parçalar bellekte yan yana, örnek <b>dizi</b>. <b>Bitişik olmayan</b>: parçalar dağınık, işaretçiyle bağlı, örnek <b>bağlı liste</b>.</li>
+    <li>Dizi: bellekte <b>statik</b> ayrılır, elemanlar <b>aynı tipte</b> ve <b>ardışık</b> adreslerde, <b>indeksle</b> erişilir. Dizinin ismi, <mark>ilk elemanını gösteren sabit işaretçidir</mark>.</li>
+    <li>C dizileri <b>satır öncelikli</b> (row-major) saklar: önce 0. satırın tamamı, sonra 1. satır… Fortran sütun öncelikli (column-major).</li>
+  </ul>
+
+  <div class="formula">
+    <p class="eyebrow">Adres hesabı (s = eleman boyutu, int için 4)</p>
+    <p class="f">&amp;A[i]       = taban + i·s</p>
+    <p class="f">&amp;A[i][j]    = taban + (i·SÜTUN + j)·s</p>
+    <p class="f">&amp;A[i][j][k] = taban + (i·M·N + j·N + k)·s      <span class="muted">// int A[L][M][N]</span></p>
+    <p class="muted" style="font-size:.92rem">Örnek: <code>int A[8]</code> taban 0x4208A0B0 ise <code>A[5]</code> = 0x4208A0B0 + 5·4 = <b>0x4208A0C4</b>. <code>int d[5][6][7]</code> taban 0x1000 ise <code>&amp;d[1][4][2]</code> = 0x1000 + (42 + 28 + 2)·4 = <b>0x1120</b>.</p>
+  </div>
+
+  <h3>İşaretçi tipleri: <code>int B[3][4]</code></h3>
+  <div class="tblw"><table>
+    <thead><tr><th>İfade</th><th>Tip</th><th>Anlamı</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">B</td><td class="mono">int (*)[4]</td><td>0. satıra işaretçi (B+1 bir satır = 16 byte ilerler)</td></tr>
+      <tr><td class="mono">&amp;B</td><td class="mono">int (*)[3][4]</td><td>tüm diziye işaretçi (&amp;B+1 = 48 byte ilerler)</td></tr>
+      <tr><td class="mono">B[i] ≡ *(B+i)</td><td class="mono">int *</td><td>i. satırın ilk elemanı</td></tr>
+      <tr><td class="mono">&amp;B[0][0]</td><td class="mono">int *</td><td>ilk eleman</td></tr>
+      <tr><td class="mono">*(*(B+i)+j)</td><td class="mono">int</td><td>B[i][j]</td></tr>
+    </tbody>
+  </table></div>
+  <p class="muted" style="max-width:68ch">B, &amp;B, B[0], &amp;B[0][0] <b>aynı sayısal adresi</b> basar ama tipleri farklı olduğu için +1 yapınca farklı miktarda ilerler. Kodda bu diziyi fonksiyona üç şekilde gönderdik:</p>
+<pre>void yaz1(int *d, int s1, int s2)  <span class="c">// çağrı: yaz1(&amp;B[0][0], 3, 4);  erişim: *(d + i*s2 + j)</span>
+void yaz2(int (*d)[4], int s1)     <span class="c">// çağrı: yaz2(B, 3);           erişim: *(*(d+i)+j)</span>
+void yaz3(int (*d)[3][4])          <span class="c">// çağrı: yaz3(&amp;B);             erişim: (*d)[i][j] = *(*(*d+i)+j)</span></pre>
+
+  <div class="q">
+    <div class="q-top"><span class="q-tag">Çıkmış soru · 2023</span><span class="q-pts">3 × 5 puan</span></div>
+    <p class="q-text"><code>int dizi[5][6][7];</code> için şu ifadelerin tipini yazınız: <code>&amp;dizi</code>, <code>*(dizi + 3) + 2</code>, <code>dizi[1][4]</code></p>
+    <details><summary>Çözümü göster</summary><div class="stack">
+      <div class="tblw"><table>
+        <thead><tr><th>İfade</th><th>Tip</th><th>Neden</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">&amp;dizi</td><td class="mono"><mark>int (*)[5][6][7]</mark></td><td>tüm 3B diziye işaretçi</td></tr>
+          <tr><td class="mono">dizi</td><td class="mono">int (*)[6][7]</td><td>ilk 6×7'lik "katmana" işaretçi</td></tr>
+          <tr><td class="mono">*(dizi+3)</td><td class="mono">int (*)[7]</td><td>3. katman (int[6][7]), ilk satırına işaretçiye dönüşür</td></tr>
+          <tr><td class="mono">*(dizi+3)+2</td><td class="mono"><mark>int (*)[7]</mark></td><td>o katmanın 2. satırına işaretçi</td></tr>
+          <tr><td class="mono">dizi[1][4]</td><td class="mono"><mark>int *</mark></td><td>int[7] satırı, ilk elemanına işaretçiye dönüşür</td></tr>
+          <tr><td class="mono">dizi[1][4][2]</td><td class="mono">int</td><td>tek eleman</td></tr>
+        </tbody>
+      </table></div>
+      <p class="muted">Kural: her <code>*</code> veya <code>[ ]</code> bir boyut "yer"; kalan boyutlar <code>(*)[...]</code> içinde kalır.</p>
+    </div></details>
+  </div>
+
+  <div class="q">
+    <div class="q-top"><span class="q-tag">Çıkmış soru · 2024</span><span class="q-pts">3 × 5 puan</span></div>
+    <p class="q-text">a) C'de dizinin ismi ne anlama gelir? b) <code>int dizi[]={1,2,3,4,5,6};</code> için <code>dizi = dizi + 1</code> doğru mu? c) Dizi elemanlarının tipi neden aynı olmalı?</p>
+    <details><summary>Çözümü göster</summary><div class="stack">
+      <p><b>a)</b> Dizinin ismi, dizinin <mark>ilk elemanının adresini tutan sabit işaretçidir</mark>.</p>
+      <p><b>b)</b> <mark>Hayır.</mark> Dizi ismi sabit (değiştirilemez) işaretçi olduğu için ona atama yapılamaz; derleme hatası verir. (<code>int *p = dizi; p = p + 1;</code> ise geçerlidir.)</p>
+      <p><b>c)</b> Elemanlar bellekte ardışık durur ve adres <code>taban + i·eleman_boyutu</code> ile hesaplanır; bu formülün çalışması için her elemanın <mark>aynı boyutta (aynı tipte)</mark> olması gerekir.</p>
+    </div></details>
+  </div>
+
+  <h3>Defterden işaretçi notları</h3>
+  <ul class="facts">
+    <li><b>İşaretçiye işaretçi</b>: <code>int a = 10; int *ptr = &amp;a; int **ptr2 = &amp;ptr;</code> → <code>*ptr2</code> a'nın adresi, <code>**ptr2</code> a'nın değeri (10). <code>int **</code> tipine <code>&amp;a</code> atamak tip uyuşmazlığıdır.</li>
+    <li>Tek elemanı fonksiyona değerle göndermek yeter, ama diziyi göndermek için <b>ilk elemanın adresi</b> gönderilir: <code>f(x)</code> ≡ <code>f(&amp;x[0])</code>, ve <code>*(x+2) ≡ x[2]</code>.</li>
+    <li><b>Bellek sızıntısı (memory leak)</b>: malloc ile ayrılan bloğun adresini kaybetmek; işin bitince <code>free()</code> ile geri ver.</li>
+    <li><b>Yerel değişkenin adresini döndürmek</b> anlamsal hatadır (<mark>Evet</mark> diye sorulmuştu): fonksiyon bitince yerel değişkenin stack'teki yeri geri verilir, dönen adres geçersizdir.</li>
+    <li><code>malloc</code> yer bulamazsa <code>NULL</code> döner; dönen <code>void *</code> tipe çevrilir: <code>(int*)malloc(n*sizeof(int))</code>.</li>
+  </ul>
+
+  <h3>Bellek haritası</h3>
+  <div class="tblw"><table>
+    <thead><tr><th>Bölge</th><th>Ne tutulur</th></tr></thead>
+    <tbody>
+      <tr><td><b>stack</b></td><td>yerel değişkenler, fonksiyon parametreleri (<code>int **A;</code> gibi işaretçinin kendisi)</td></tr>
+      <tr><td><b>heap</b></td><td><code>malloc</code> ile ayrılan her şey: dinamik dizi elemanları, liste/ağaç düğümleri. Stack ile heap birbirine doğru büyür.</td></tr>
+      <tr><td><b>data</b></td><td>global değişkenler</td></tr>
+      <tr><td><b>text</b></td><td>program komutları, sabitler</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Dinamik 2B dizi</h3>
+<pre>void dinamik_matris_olustur(int ***dizi, int satir, int sutun){
+    int i, j;
+    *dizi = (int**)malloc(satir*sizeof(int*));         <span class="c">// satır işaretçileri dizisi</span>
+    for(i = 0; i &lt; satir; i++){
+        (*dizi)[i] = (int*)malloc(sutun*sizeof(int));  <span class="c">// her satır ayrı blok</span>
+        for(j = 0; j &lt; sutun; j++)
+            (*dizi)[i][j] = rand()%100;
+    }
+}
+int **A;
+dinamik_matris_olustur(&amp;A, 10, 15);   <span class="c">// A değişecek → adresini (int***) gönder</span></pre>
+  <p style="max-width:68ch"><b>Neden <code>***</code>?</b> C'de parametreler kopyalanarak gider. main'deki <code>A</code>'yı (int**) fonksiyon içinden değiştirmek için adresini, yani <code>int***</code> göndeririz. Kural: <mark>değiştirmek istediğin değişkenin tipine bir <code>*</code> ekle</mark>. Aynı sebeple liste fonksiyonları <code>struct dugum **liste_basi</code> alır.</p>
+
+  <div class="q">
+    <div class="q-top"><span class="q-tag">Çıkmış soru · 2020</span><span class="q-pts">35 puan</span></div>
+    <p class="q-text">Yukarıdaki kodla <code>A</code> 10×15 oluşturuluyor. int 4 byte, işaretçi 8 byte. a) A'nın elemanları hangi bölgede? b) A matrisi için kaç byte ayrılır? c) main'deki A nerede, kaç byte? d) Matrisi yok eden <code>void matris_geri_ver(int ***matris, int satir)</code> fonksiyonunu yazınız.</p>
+    <details><summary>Çözümü göster</summary><div class="stack">
+      <p><b>a)</b> <mark>Heap</mark> (malloc ile ayrılan her şey heap'tedir).</p>
+      <p><b>b)</b> Slayttaki formül: işaretçi + satır·işaretçi + satır·sütun·int</p>
+      <pre>8 + 10·8 + 10·15·4 = 8 + 80 + 600 = <b>688 byte</b>
+<span class="c">// 680 byte heap'te (80 satır işaretçisi + 600 eleman), 8 byte stack'teki A</span></pre>
+      <p><b>c)</b> A yerel değişken: <mark>stack</mark>'te, işaretçi olduğu için <mark>8 byte</mark>.</p>
+      <p><b>d)</b> Önce her satırı, sonra satır işaretçileri dizisini serbest bırak:</p>
+<pre>void matris_geri_ver(int ***matris, int satir){
+    int i;
+    for(i = 0; i &lt; satir; i++)
+        free((*matris)[i]);      <span class="c">// her satır</span>
+    free(*matris);               <span class="c">// satır işaretçileri dizisi</span>
+    *matris = NULL;
+}
+<span class="c">// çağrı: matris_geri_ver(&amp;A, 10);</span></pre>
+      <p class="muted">Sıra önemli: önce <code>free(*matris)</code> yaparsan satırların adreslerini kaybedersin (bellek sızıntısı).</p>
+    </div></details>
+  </div>
+</section>
+
+<!-- ============ H2 ============ -->
+<section id="h2">
+  <div class="sec-head">
+    <p class="eyebrow">Hafta 2</p>
+    <h2>Matris çarpımı (statik ve dinamik)</h2>
+  </div>
+  <ul class="facts">
+    <li><b>A (m×n) · B (n×p) = C (m×p).</b> Şart: <code>A_sutun == B_satir</code>; ayrıca C'nin boyutu m×p olmalı. Kod ikisini de kontrol edip hata mesajı basıyor.</li>
+    <li><code>C[i][j] = Σ A[i][k]·B[k][j]</code> (k = 0..n−1). Üç iç içe döngü: <mark>O(m·n·p)</mark>, kare matriste O(n³).</li>
+    <li>Statik 2B diziyi her boyutta çalışan fonksiyona <code>int *</code> olarak verip <code>*(A + i*A_sutun + k)</code> ile eriştik (çağrı: <code>&amp;A[0][0]</code>).</li>
+    <li>Dinamik iki yol: <b>int**</b> (satır satır malloc, <code>A[i][j]</code> yazılabilir) veya <b>int*</b> tek blok (<code>malloc(satir*sutun*sizeof(int))</code>, erişim <code>A[i*sutun+j]</code>).</li>
+    <li><code>dot_carpim</code> aslında eleman eleman çarpım yapar: x={3,4,0,6,1}, y={2,−1,4,−2,3} → <b>z = 6 −4 0 −12 3</b>.</li>
+  </ul>
+<pre>void matris_carpimi(int *A, int A_satir, int A_sutun,
+                    int *B, int B_satir, int B_sutun,
+                    int *C, int C_satir, int C_sutun){
+    int i, j, k;
+    if(A_sutun != B_satir){ printf("boyutlar uyusmuyor"); return; }
+    if(A_satir != C_satir || B_sutun != C_sutun){ printf("C uymuyor"); return; }
+    for(i = 0; i &lt; A_satir; i++)
+        for(j = 0; j &lt; B_sutun; j++){
+            *(C + i*C_sutun + j) = 0;
+            for(k = 0; k &lt; A_sutun; k++)
+                *(C + i*C_sutun + j) += *(A + i*A_sutun + k) * *(B + k*B_sutun + j);
+        }
+}</pre>
+  <p class="muted">Koddaki örnek: A = {{1,0,2},{2,1,4},{5,1,0},{0,2,3}}, B = {{0,1},{2,4},{3,1}} → <b>C = {{6,3},{14,10},{2,9},{13,11}}</b> (ilk eleman: 1·0 + 0·2 + 2·3 = 6).</p>
+
+  <div class="q">
+    <div class="q-top"><span class="q-tag">Çıkmış soru · 2023</span><span class="q-pts">20 puan</span></div>
+    <p class="q-text"><code>birim_matrise_donustur(&amp;matris[0][0], 5);</code> şeklinde çağrılan, kare matrisi birim matrise dönüştüren <code>void birim_matrise_donustur(int *dizi, int satir_sayisi)</code> fonksiyonunu yazınız.</p>
+    <details><summary>Çözümü göster</summary><div class="stack">
+<pre>void birim_matrise_donustur(int *dizi, int satir_sayisi){
+    int i, j;
+    for(i = 0; i &lt; satir_sayisi; i++)
+        for(j = 0; j &lt; satir_sayisi; j++)
+            *(dizi + i*satir_sayisi + j) = (i == j) ? 1 : 0;   <span class="c">// köşegen 1, gerisi 0</span>
+}</pre>
+      <p class="muted">Kare matris olduğu için sütun sayısı = satır sayısı; satır öncelikli adres: <code>i*satir_sayisi + j</code>.</p>
+    </div></details>
+  </div>
+  <div class="pit">
+    <p class="tag">Kırmızı kalem</p>
+    <ul><li><code>dinamik_matris_olustur2</code> içinde <code>malloc(satir*sutun*sizeof(int*))</code> yazıyor; doğrusu <code>sizeof(int)</code>. 64-bit'te iki kat fazla yer ayırır ("hatayı bul" sorusu olabilir).</li></ul>
+  </div>
+</section>
+
+<!-- ============ H3 ============ -->
+<section id="h3">
+  <div class="sec-head">
+    <p class="eyebrow">Hafta 3</p>
+    <h2>Bağlı listeler (tek ve çift yönlü)</h2>
+  </div>
+  <ul class="facts">
+    <li>Liste düğümlerden oluşur; düğümler birbirine <b>işaretçiyle</b> bağlıdır. İlk düğümü gösteren işaretçiye <b>liste başı</b> denir, son düğümün <code>sonraki</code>'si <code>NULL</code>.</li>
+    <li>Düğümler <code>malloc</code> ile <b>heap</b>'te dinamik oluşturulur; <code>malloc</code> NULL dönerse "yer ayrılamadı" deyip çıkılır.</li>
+    <li><mark>Liste başını değiştirebilecek her fonksiyon</mark> (başa ekle, sil, sırala, ters çevir, yok et) <code>struct dugum **liste_basi</code> alır; sadece okuyan (yazdır) <code>struct dugum *</code> alır.</li>
+    <li><b>Çift yönlü liste</b>: düğümde <code>ileri</code> ve <code>geri</code>; ayrıca <code>bas</code> ve <code>son</code> tutulur. Avantaj: iki yönde dolaşma, sona ekleme O(1), silerken önceki düğümü aramaya gerek yok. Dezavantaj: düğüm başına fazladan işaretçi (daha çok bellek).</li>
+  </ul>
+  <div class="tblw"><table>
+    <thead><tr><th>İşlem</th><th>Karmaşıklık</th><th>Not</th></tr></thead>
+    <tbody>
+      <tr><td>Başa ekle</td><td class="n">O(1)</td><td>yeni→sonraki = baş; baş = yeni</td></tr>
+      <tr><td>Sona ekle</td><td class="n">O(n)</td><td>sona kadar yürü (çift yönlüde <code>son</code> varsa O(1))</td></tr>
+      <tr><td>Sıralı ekle / ara / sil</td><td class="n">O(n)</td><td>doğru yeri bulmak için yürümek gerekir</td></tr>
+      <tr><td>Sırala (<code>liste_sirala</code>)</td><td class="n">O(n²)</td><td>eklemeli sıralama: her düğümü sıralı kısma yerleştirir</td></tr>
+      <tr><td>Ters çevir</td><td class="n">O(n)</td><td>bağları tek geçişte çevirir</td></tr>
+    </tbody>
+  </table></div>
+<pre><span class="c">// başa ekle</span>
+void liste_basina_ekle(int anahtar, struct dugum **liste_basi){
+    struct dugum *a = dugum_olustur(anahtar);
+    a->sonraki = *liste_basi;
+    *liste_basi = a;
+}
+<span class="c">// sil: önceki düğümü takip et</span>
+void liste_eleman_sil(int anahtar, struct dugum **liste_basi){
+    struct dugum *temp = *liste_basi, *once;
+    while(temp != NULL &amp;&amp; temp->anahtar != anahtar){ once = temp; temp = temp->sonraki; }
+    if(temp == NULL) return;                              <span class="c">// yok</span>
+    if(temp == *liste_basi) *liste_basi = temp->sonraki;  <span class="c">// baştaki siliniyor</span>
+    else once->sonraki = temp->sonraki;
+    free(temp);
+}
+<span class="c">// sıralı ekle (aynı anahtar varsa ekleme)</span>
+void liste_sirali_ekle(int anahtar, struct dugum **liste_basi){
+    struct dugum *a, *b = *liste_basi, *eklenen;
+    while(b != NULL &amp;&amp; b->anahtar &lt;= anahtar){
+        if(b->anahtar == anahtar) return;
+        a = b; b = b->sonraki;
+    }
+    eklenen = dugum_olustur(anahtar);
+    if(b == *liste_basi){ eklenen->sonraki = *liste_basi; *liste_basi = eklenen; }
+    else { a->sonraki = eklenen; eklenen->sonraki = b; }
+}
+<span class="c">// ters çevir: a = çevrilmiş kısım, b = sıradaki düğüm</span>
+void liste_ters_cevir(struct dugum **liste_basi){
+    struct dugum *a = NULL, *b;
+    while(*liste_basi != NULL){
+        b = *liste_basi;
+        *liste_basi = (*liste_basi)->sonraki;
+        b->sonraki = a;
+        a = b;
+    }
+    *liste_basi = a;
+}</pre>
+  <div class="tblw"><table>
+    <thead><tr><th>Koddaki main (tek yönlü)</th><th>Çıktı</th></tr></thead>
+    <tbody>
+      <tr><td>başa ekle 20, 30, 200, 40, 80, 10</td><td class="mono">10 80 40 200 30 20</td></tr>
+      <tr><td><code>liste_sirala</code></td><td class="mono">10 20 30 40 80 200</td></tr>
+      <tr><td><code>liste_eleman_sil(10)</code></td><td class="mono">20 30 40 80 200</td></tr>
+      <tr><td><code>listeden_cikar(41)</code> (41'den küçükleri sil)</td><td class="mono">80 200</td></tr>
+      <tr><td>Çift yönlü: başa 40, sona 60, başa 90, sona 5, sona 15</td><td class="mono">90 40 60 5 15 · sondan: 15 5 60 40 90</td></tr>
+    </tbody>
+  </table></div>
+  <p class="muted">Rekürsif yazdırma: <code>printf</code> çağrıdan <b>önce</b> ise düz, <b>sonra</b> ise tersten yazar (<code>tersten_liste_yaz_recursive</code>).</p>
+  <div class="pit">
+    <p class="tag">Kırmızı kalem</p>
+    <ul>
+      <li>Koddaki tek yönlü <code>liste_yok_et</code> önce <code>free(*liste_basi)</code> yapıp sonra <code>(*liste_basi)-&gt;sonraki</code>'yi okuyor: <b>serbest bırakılmış belleğe erişim</b>. Doğrusu: önce geçici işaretçiye al, başı ilerlet, sonra free (yorum satırındaki hali).</li>
+      <li>Yazdırırken <code>liste-&gt;bas</code>'ı ilerletirsen listenin başını kaybedersin (<code>liste_yazdir_yanlis</code>). Yerel bir kopya ile dolaş.</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-top"><span class="q-tag">Çıkmış soru · 2023</span><span class="q-pts">20 puan</span></div>
+    <p class="q-text">Listenin en sonundaki düğümü silen <code>void en_sondaki_dugumu_sil(struct dugum **liste_basi)</code> fonksiyonunu yazınız.</p>
+    <details><summary>Çözümü göster</summary><div class="stack">
+<pre>void en_sondaki_dugumu_sil(struct dugum **liste_basi){
+    struct dugum *a, *once = NULL;
+    if(*liste_basi == NULL) return;              <span class="c">// boş liste</span>
+    a = *liste_basi;
+    while(a->sonraki != NULL){ once = a; a = a->sonraki; }
+    if(once == NULL) *liste_basi = NULL;         <span class="c">// tek düğüm vardı</span>
+    else once->sonraki = NULL;
+    free(a);
+}</pre>
+      <p class="muted">Üç durumu da düşün: boş liste, tek düğüm, çok düğüm. Puan buradan kırılıyor.</p>
+    </div></details>
+  </div>
+
+  <div class="q">
+    <div class="q-top"><span class="q-tag">Çıkmış soru · 2020</span><span class="q-pts">20 puan</span></div>
+    <p class="q-text">Listenin ilk ve son düğümlerini silen <code>void ilk_ve_son_dugumleri_sil(struct dugum **liste_basi)</code> fonksiyonunu yazınız.</p>
+    <details><summary>Çözümü göster</summary><div class="stack">
+<pre>void ilk_ve_son_dugumleri_sil(struct dugum **liste_basi){
+    struct dugum *a, *once;
+    if(*liste_basi == NULL) return;
+    a = *liste_basi;                     <span class="c">// 1) ilk düğümü sil</span>
+    *liste_basi = a->sonraki;
+    free(a);
+    if(*liste_basi == NULL) return;      <span class="c">// tek düğüm vardı, bitti</span>
+    once = NULL;                         <span class="c">// 2) son düğümü sil</span>
+    a = *liste_basi;
+    while(a->sonraki != NULL){ once = a; a = a->sonraki; }
+    if(once == NULL) *liste_basi = NULL; <span class="c">// iki düğüm vardı</span>
+    else once->sonraki = NULL;
+    free(a);
+}</pre>
+    </div></details>
+  </div>
+
+  <div class="q">
+    <div class="q-top"><span class="q-tag">Çıkmış soru · 2024</span><span class="q-pts">25 puan</span></div>
+    <p class="q-text">Listenin en baştaki düğümü ile en sondaki düğümünün yerini değiştiren fonksiyonu yazınız (baştaki sona, sondaki başa geçecek; değerler değil düğümler taşınacak).</p>
+    <details><summary>Çözümü göster</summary><div class="stack">
+<pre>void ilk_ve_son_yer_degistir(struct dugum **liste_basi){
+    struct dugum *ilk, *son, *once = NULL;
+    if(*liste_basi == NULL || (*liste_basi)->sonraki == NULL) return;  <span class="c">// 0 veya 1 düğüm</span>
+    ilk = *liste_basi;
+    son = ilk;
+    while(son->sonraki != NULL){ once = son; son = son->sonraki; }
+    if(once == ilk){                 <span class="c">// sadece 2 düğüm: ilk → son</span>
+        son->sonraki = ilk;
+    } else {
+        son->sonraki = ilk->sonraki; <span class="c">// son, ilk'in yerine geçer</span>
+        once->sonraki = ilk;         <span class="c">// ilk, sona geçer</span>
+    }
+    ilk->sonraki = NULL;
+    *liste_basi = son;
+}</pre>
+      <p class="muted">Örnek: 1→2→3→4 olur 4→2→3→1. İki düğümlü durumu ayrı ele almazsan döngü (son→ilk→son) oluşur.</p>
+    </div></details>
+  </div>
+
+  <div class="q">
+    <div class="q-top"><span class="q-tag">Çıkmış soru · 2022</span><span class="q-pts">25 puan</span></div>
+    <p class="q-text">İki liste çift işaretçi olarak veriliyor. liste1'deki düğümlerden çift anahtarlıları liste1'de, tekleri liste2'de bırakan fonksiyonu yazınız (yeni malloc yok).</p>
+    <details><summary>Çözümü göster</summary><div class="stack">
+<pre>void cift_tek_ayir(struct dugum **liste1, struct dugum **liste2){
+    struct dugum *d = *liste1, *a;
+    *liste1 = NULL;
+    *liste2 = NULL;
+    while(d != NULL){
+        a = d;
+        d = d->sonraki;                    <span class="c">// önce sıradakini kaydet</span>
+        if(a->anahtar % 2 == 0){ a->sonraki = *liste1; *liste1 = a; }
+        else                   { a->sonraki = *liste2; *liste2 = a; }
+    }
+}</pre>
+      <p class="muted">Düğümler başa eklendiği için sıra ters döner; soru sırayı istemiyorsa sorun değil. Klasördeki çözüm <code>a-&gt;next = list1</code> yazıyor; doğrusu <code>*liste1</code>.</p>
+    </div></details>
+  </div>
+
+  <div class="q">
+    <div class="q-top"><span class="q-tag">Benzer soru</span><span class="q-pts">alıştırma</span></div>
+    <p class="q-text">Liste başından itibaren ilk iki düğümü silen <code>void ilk_iki_dugumu_sil(struct dugum **liste_basi)</code> fonksiyonunu yazınız.</p>
+    <details><summary>Çözümü göster</summary><div class="stack">
+<pre>void ilk_iki_dugumu_sil(struct dugum **liste_basi){
+    struct dugum *a;
+    int i;
+    for(i = 0; i &lt; 2 &amp;&amp; *liste_basi != NULL; i++){
+        a = *liste_basi;
+        *liste_basi = a->sonraki;
+        free(a);
+    }
+}</pre>
+    </div></details>
+  </div>
+
+  <div class="q">
+    <div class="q-top"><span class="q-tag">Defterdeki soru</span><span class="q-pts">alıştırma</span></div>
+    <p class="q-text">a) Liste başındaki düğümü listenin sonuna taşıyan, b) listenin sonundaki düğümü başa taşıyan fonksiyonları yazınız.</p>
+    <details><summary>Çözümü göster</summary><div class="stack">
+<pre><span class="c">// a) 1→2→3→4  olur  2→3→4→1</span>
+void bastakini_sona_tasi(struct dugum **liste_basi){
+    struct dugum *ilk, *son;
+    if(*liste_basi == NULL || (*liste_basi)->sonraki == NULL) return;
+    ilk = *liste_basi;
+    son = ilk;
+    while(son->sonraki != NULL) son = son->sonraki;
+    *liste_basi = ilk->sonraki;
+    son->sonraki = ilk;
+    ilk->sonraki = NULL;
+}
+<span class="c">// b) 1→2→3→4  olur  4→1→2→3</span>
+void sondakini_basa_tasi(struct dugum **liste_basi){
+    struct dugum *once = NULL, *son;
+    if(*liste_basi == NULL || (*liste_basi)->sonraki == NULL) return;
+    son = *liste_basi;
+    while(son->sonraki != NULL){ once = son; son = son->sonraki; }
+    once->sonraki = NULL;          <span class="c">// sondan bir önceki yeni son</span>
+    son->sonraki = *liste_basi;
+    *liste_basi = son;
+}</pre>
+      <p class="muted">Klasördeki "ilk ve son yer değiştir" çözümü aslında (b)'yi yapıyor; soruda ikisinin <b>yer değiştirmesi</b> istendiği için o cevap eksik kalıyordu.</p>
+    </div></details>
+  </div>
+
+  <div class="q">
+    <div class="q-top"><span class="q-tag">Defterdeki soru</span><span class="q-pts">alıştırma</span></div>
+    <p class="q-text">Sıralı çift yönlü listeye, sıralamayı bozmadan eleman ekleyen fonksiyonu yazınız (dersteki <code>struct ciftYonluListe { bas, son }</code> yapısıyla).</p>
+    <details><summary>Çözümü göster</summary><div class="stack">
+<pre>void sirali_ekle(int anahtar, struct ciftYonluListe *liste){
+    struct dugum *yeni = dugumOlustur(anahtar), *t = liste->bas;
+    while(t != NULL &amp;&amp; t->anahtar &lt; anahtar) t = t->ileri;   <span class="c">// ilk büyük/eşit düğüm</span>
+    if(t == NULL){                          <span class="c">// en sona (liste boşsa da buraya düşer)</span>
+        yeni->geri = liste->son;
+        if(liste->son != NULL) liste->son->ileri = yeni;
+        else liste->bas = yeni;
+        liste->son = yeni;
+    } else {                                <span class="c">// t'nin önüne</span>
+        yeni->ileri = t;
+        yeni->geri = t->geri;
+        if(t->geri != NULL) t->geri->ileri = yeni;
+        else liste->bas = yeni;             <span class="c">// başa eklendi</span>
+        t->geri = yeni;
+    }
+}</pre>
+      <p class="muted">Çift yönlüde her eklemede <b>dört bağ</b> düşün: yeni→ileri, yeni→geri, öncekinin ileri'si, sonrakinin geri'si. Başa/sona eklemede <code>bas</code>/<code>son</code> da güncellenir.</p>
+    </div></details>
+  </div>
+</section>
+
+<!-- ============ H4 ============ -->
+<section id="h4">
+  <div class="sec-head">
+    <p class="eyebrow">Hafta 4</p>
+    <h2>Yığın (stack)</h2>
+  </div>
+  <ul class="facts">
+    <li><b>LIFO</b>: son giren ilk çıkar. Ekleme (push) ve çıkarma (pop) <mark>O(1)</mark>.</li>
+    <li><b>Statik (dizi ile)</b>: <code>struct yigin { int *dizi; int ust; int kapasite; }</code>. Boş: <code>ust == -1</code>. Dolu: <code>ust == kapasite - 1</code>. Ekle: <code>dizi[++ust] = x</code>. Çıkar: <code>return dizi[ust--]</code>; boşsa <code>SENTINEL</code> döner.</li>
+    <li>Dolunca kapasite artırılır: yeni büyük yığın açıp kopyalamak (<code>kapasiteyi_artir</code>) veya <code>realloc</code> (<code>kapasiteyi_artir_yeni</code>).</li>
+    <li><b>Dinamik (bağlı liste ile)</b>: ekle = <b>başa ekle</b>, çıkar = <b>baştan sil</b>. Dolma derdi yok; boş: <code>yigin == NULL</code>.</li>
+    <li>Kullanım yeri: ağacın iteratif (özyinelemesiz) dolaşımı (H5).</li>
+  </ul>
+<pre>void yigin_ekle(int eleman, struct yigin **y){
+    if(yigin_dolumu(*y)) kapasiteyi_artir_yeni(y, 2);
+    (*y)->dizi[++(*y)->ust] = eleman;
+}
+int yigin_eleman_sil(struct yigin *y){
+    if(yigin_bosmu(y)) return SENTINEL;
+    return y->dizi[y->ust--];
+}
+<span class="c">// dinamik: çıkar = baştan sil</span>
+int sil(struct dugum **yigin){
+    struct dugum *d; int anahtar;
+    if(*yigin == NULL) return SENTINEL;
+    d = *yigin; *yigin = d->sonraki;
+    anahtar = d->anahtar; free(d);
+    return anahtar;
+}</pre>
+  <div class="tblw"><table>
+    <thead><tr><th>Koddaki main (kapasite 3)</th><th>Kapasite</th><th>Eleman</th><th>Yazdır (üstten)</th></tr></thead>
+    <tbody>
+      <tr><td>10, 40, 5</td><td class="n">3</td><td class="n">3</td><td class="mono">5 40 10</td></tr>
+      <tr><td>−10, −40, 25</td><td class="n">6</td><td class="n">6</td><td class="mono">25 −40 −10 5 40 10</td></tr>
+      <tr><td>89, 189</td><td class="n">12</td><td class="n">8</td><td class="mono">189 89 25 −40 −10 5 40 10</td></tr>
+      <tr><td>1 eleman sil</td><td class="n">12</td><td class="n">7</td><td class="mono">89 25 −40 −10 5 40 10</td></tr>
+    </tbody>
+  </table></div>
+  <div class="pit">
+    <p class="tag">Kırmızı kalem</p>
+    <ul><li><code>kapasiteyi_artir_yeni</code> belleği <code>kackat</code> ile büyütüyor ama kapasiteyi sabit <code>2</code> ile çarpıyor. <code>kackat ≠ 2</code> olursa kapasite yanlış olur; doğrusu <code>kapasite = kackat * kapasite</code>.</li></ul>
+  </div>
+</section>
+
+<!-- ============ H5 ============ -->
+<section id="h5">
+  <div class="sec-head">
+    <p class="eyebrow">Hafta 5 · en çok puan buradan</p>
+    <h2>Ağaçlar ve ikili arama ağacı (BST)</h2>
+  </div>
+  <ul class="facts">
+    <li><b>Kök</b>: ebeveyni olmayan düğüm. <b>Yaprak</b>: çocuğu olmayan. <b>İç düğüm</b>: yaprak olmayan (kök dahil). Kök hariç her düğümün bir ebeveyni vardır.</li>
+    <li><b>İkili ağaç</b>: her düğümün 0, 1 veya 2 çocuğu. <b>İkili arama ağacı</b>: her düğümün anahtarı <mark>sol alt ağaçtaki tüm anahtarlardan büyük, sağ alt ağaçtakilerden küçük</mark>.</li>
+    <li><b>Yükseklik (derinlik)</b>: kökten en uzak yaprağa giden yoldaki <mark>düğüm sayısı</mark> (bu derste kenar değil düğüm sayılıyor: tek düğümlü ağaç = 1, boş ağaç = 0).</li>
+    <li><b>Dengeli ikili ağaç</b>: <mark>her düğüm için sol ve sağ alt ağaçların yükseklik farkı en fazla 1</mark>. Dengeliyse ekleme/silme/arama <b>O(log n)</b>; en kötü durumda (doğrusal ağaç) <b>O(n)</b>.</li>
+    <li><b>Ekleme</b>: kökten başla; küçükse sola, büyükse sağa git; yeni düğüm <b>her zaman yaprak</b> olarak eklenir. Aynı anahtar varsa eklenmez. Karmaşıklık <b>O(h)</b>: dengeli O(log n), en kötü O(n).</li>
+  </ul>
+<pre>void ekle(struct agac_dugum **kok, int anahtar){
+    struct agac_dugum *d = *kok, *geri, *dugum;
+    while(d != NULL){
+        geri = d;
+        if(anahtar &lt; d->anahtar) d = d->sol;
+        else if(anahtar > d->anahtar) d = d->sag;
+        else return;                                 <span class="c">// zaten var</span>
+    }
+    dugum = dugum_olustur(anahtar);
+    if(*kok == NULL){ *kok = dugum; return; }        <span class="c">// ağaç boştu</span>
+    if(anahtar &lt; geri->anahtar) geri->sol = dugum;
+    else geri->sag = dugum;
+}</pre>
+
+  <h3>Silme: üç durum</h3>
+  <ul class="facts">
+    <li><b>Yaprak</b> veya <b>tek çocuklu</b>: doğrudan sil, varsa çocuğu ebeveyne bağla.</li>
+    <li><b>İki çocuklu</b>: ya <mark>sol alt ağacın en sağındaki</mark> (en büyük) düğüm ya da sağ alt ağacın en solundaki (en küçük) düğüm silinenin yerine geçer. Dersin kodu <b>sol alt ağacın en sağını</b> kullanıyor.</li>
+  </ul>
+  <div class="grid2">
+    <div class="fig"><div class="tree" data-bst="100,50,200,25,75,20,35,98,500,400,99,150,600,450"></div><p class="cap">Slayttaki ağaç</p></div>
+    <div class="fig"><div class="tree" data-bst="100,35,25,20,75,98,99,200,150,500,400,450,600"></div><p class="cap">sil(50): solun en sağı 35 yerine geçti</p></div>
+  </div>
+
+  <h3>Dolaşımlar</h3>
+  <div class="tblw"><table>
+    <thead><tr><th>Dolaşım</th><th>Sıra</th><th>Özellik</th></tr></thead>
+    <tbody>
+      <tr><td><b>preorder</b></td><td>kök → sol → sağ</td><td>ilk eleman her zaman kök</td></tr>
+      <tr><td><b>inorder</b></td><td>sol → kök → sağ</td><td>BST'de <mark>küçükten büyüğe sıralı</mark> çıktı</td></tr>
+      <tr><td><b>postorder</b></td><td>sol → sağ → kök</td><td>son eleman her zaman kök; ağacı yok ederken kullanılır</td></tr>
+    </tbody>
+  </table></div>
+  <p class="muted" style="max-width:68ch">Slayttaki in-order tanımı yanlış yazılmış ("önce düğümün kendisi…") ve örnek çıktıda 86 yerine "6" var. Doğrusu yukarıdaki tablo.</p>
+
+  <div class="grid2">
+    <div class="fig"><div class="tree" data-bst="50,25,100,80,30,130,39,35"></div><p class="cap">HAFTA5 main: 50, 25, 100, 80, 30, 130, 39, 35 eklenir</p></div>
+    <div class="out" style="align-content:center">
+      <span><b>inorder  </b> 25 30 35 39 50 80 100 130</span>
+      <span><b>preorder </b> 50 25 30 39 35 100 80 130</span>
+      <span><b>postorder</b> 35 39 30 25 80 130 100 50</span>
+      <span><b>iç düğüm </b> 5 · <b>yaprak</b> 3 · <b>yükseklik</b> 5</span>
+      <span><b>en kısa yol</b> 3 · <b>BST mi</b> 1 · <b>dengeli mi</b> 0</span>
+    </div>
+  </div>
+
+  <div class="q">
+    <div class="q-top"><span class="q-tag">Çıkmış soru · 2022–2024</span><span class="q-pts">5 + 5 + 10 puan</span></div>
+    <p class="q-text">a) Dengeli ikili ağaç / denge koşulu nedir? b) <b>inorder</b> sırada anahtarları verilen BST'yi çizebilir miyiz? c) <b>preorder</b> sırada anahtarları 70, 60, 50, 32, 35, 55, 80, 75, 73, 78 olan BST'nin anahtarlarını <b>postorder</b> sırada yazınız.</p>
+    <details><summary>Çözümü göster</summary><div class="stack">
+      <p><b>a)</b> Ağaçtaki her düğümün sol alt ağacı ile sağ alt ağacı arasındaki yükseklik farkı en fazla 1 ise ağaç dengelidir.</p>
+      <p><b>b)</b> <mark>Hayır.</mark> BST'nin inorder çıktısı her zaman sıralıdır; aynı sıralı diziyi veren çok sayıda farklı ağaç vardır. (Soru <b>preorder</b> ya da postorder derse cevap <mark>Evet</mark>: preorder sırasıyla tek tek eklersen aynı BST oluşur.)</p>
+      <p><b>c)</b> Preorder sırasıyla ekle, ağacı çiz, postorder oku:</p>
+      <div class="tree" data-bst="70,60,50,32,35,55,80,75,73,78"></div>
+      <p class="out"><span><b>postorder</b> <mark>35 32 55 50 60 73 78 75 80 70</mark></span></p>
+    </div></details>
+  </div>
+
+  <div class="q">
+    <div class="q-top"><span class="q-tag">Çıkmış soru · 2023</span><span class="q-pts">20 puan</span></div>
+    <p class="q-text">BST'de en büyük anahtara sahip düğümü silen <code>void en_buyuk_anahtara_sahip_dugumu_sil(struct dugum **kok)</code> fonksiyonunu yazınız.</p>
+    <details><summary>Çözümü göster</summary><div class="stack">
+<pre>void en_buyuk_anahtara_sahip_dugumu_sil(struct dugum **kok){
+    struct dugum *a, *b = NULL;
+    if(*kok == NULL) return;
+    a = *kok;
+    while(a->sag != NULL){ b = a; a = a->sag; }   <span class="c">// en sağdaki = en büyük</span>
+    if(b == NULL) *kok = a->sol;                   <span class="c">// en büyük kökmüş</span>
+    else b->sag = a->sol;                          <span class="c">// sağı yok; solunu ebeveyne bağla</span>
+    free(a);
+}</pre>
+      <p class="muted">Bu fonksiyon HAFTA5 <code>main.c</code>'deki <code>en_sondaki_dugumu_sil</code> ile aynı. En büyük düğümün sağ çocuğu olamaz, bu yüzden tek durum var.</p>
+    </div></details>
+  </div>
+
+  <div class="q">
+    <div class="q-top"><span class="q-tag">Çıkmış soru · 2 kez</span><span class="q-pts">10–20 puan</span></div>
+    <p class="q-text">İki ağacın şekilce aynı olup olmadığını bulan <code>int sekilce_ayni_mi(struct dugum *kok1, struct dugum *kok2)</code> fonksiyonunu yazınız. (2020'de aynı kod <code>foo</code> adıyla verilip "ne yapar?" diye soruldu; başka bir yıl da yazdırıldı.)</p>
+    <details><summary>Çözümü göster</summary><div class="stack">
+<pre>int sekilce_ayni_mi(struct dugum *kok1, struct dugum *kok2){
+    if(kok1 == NULL &amp;&amp; kok2 == NULL) return 1;   <span class="c">// ikisi de boş</span>
+    if(kok1 == NULL || kok2 == NULL) return 0;   <span class="c">// biri boş, diğeri değil</span>
+    return sekilce_ayni_mi(kok1->sol, kok2->sol) &amp;&amp;
+           sekilce_ayni_mi(kok1->sag, kok2->sag);
+}</pre>
+      <p><b>foo ne yapar?</b> İki ağacın <mark>yapısı (şekli) aynıysa 1, değilse 0</mark> döndürür. Anahtarları karşılaştırmaz; "iki ağaç eşit mi" demek yanlış.</p>
+    </div></details>
+  </div>
+
+  <div class="q">
+    <div class="q-top"><span class="q-tag">Çıkmış soru · 2024</span><span class="q-pts">25 puan</span></div>
+    <p class="q-text">Anahtarları verilen iki düğüm kardeş mi? <code>int iki_dugum_kardes_mi(struct dugum *kok, int anahtar1, int anahtar2)</code> kardeşse 1, değilse 0 döndürsün.</p>
+    <details><summary>Çözümü göster</summary><div class="stack">
+<pre>int iki_dugum_kardes_mi(struct dugum *kok, int anahtar1, int anahtar2){
+    int k = anahtar1 &lt; anahtar2 ? anahtar1 : anahtar2;   <span class="c">// küçük</span>
+    int b = anahtar1 &lt; anahtar2 ? anahtar2 : anahtar1;   <span class="c">// büyük</span>
+    while(kok != NULL){
+        if(b &lt; kok->anahtar) kok = kok->sol;          <span class="c">// ikisi de solda</span>
+        else if(k > kok->anahtar) kok = kok->sag;     <span class="c">// ikisi de sağda</span>
+        else                                          <span class="c">// yollar ayrıldı: ortak ebeveyn ancak bu olabilir</span>
+            return kok->sol != NULL &amp;&amp; kok->sag != NULL &amp;&amp;
+                   kok->sol->anahtar == k &amp;&amp; kok->sag->anahtar == b;
+    }
+    return 0;
+}</pre>
+      <p class="muted">BST özelliğini kullanır: kardeşlerde küçük olan solda, büyük olan sağda olmak zorunda. O(h). Her ikili ağaçta çalışan rekürsif sürüm de kabul edilir: her düğümde (sol, sağ) çiftine bak, yoksa sol ve sağ alt ağaçta ara.</p>
+    </div></details>
+  </div>
+
+  <div class="q">
+    <div class="q-top"><span class="q-tag">Çıkmış soru · 2022</span><span class="q-pts">25 puan</span></div>
+    <p class="q-text">BST ve bir anahtar veriliyor. Anahtar ağaçta varsa ebeveyninin ebeveyninin (dedesinin) anahtarını, yoksa veya dedesi yoksa <code>SENTINEL</code> döndürünüz.</p>
+    <details><summary>Çözümü göster</summary><div class="stack">
+<pre>int dede_bul(struct dugum *kok, int anahtar){
+    struct dugum *dede = NULL, *ebeveyn = NULL;
+    while(kok != NULL &amp;&amp; kok->anahtar != anahtar){
+        dede = ebeveyn;
+        ebeveyn = kok;
+        kok = (anahtar &lt; kok->anahtar) ? kok->sol : kok->sag;
+    }
+    if(kok == NULL || dede == NULL) return SENTINEL;   <span class="c">// yok veya dedesi yok</span>
+    return dede->anahtar;
+}</pre>
+    </div></details>
+  </div>
+
+  <div class="q">
+    <div class="q-top"><span class="q-tag">Çıkmış soru · 2020</span><span class="q-pts">20 puan</span></div>
+    <p class="q-text">İkili ağaç dengeli ise 1, değilse 0 döndüren <code>int ikili_agac_dengeli_mi(struct dugum *kok)</code> fonksiyonunu yazınız.</p>
+    <details><summary>Çözümü göster</summary><div class="stack">
+<pre>int yukseklik(struct dugum *kok){
+    int s, g;
+    if(kok == NULL) return 0;
+    s = yukseklik(kok->sol);
+    g = yukseklik(kok->sag);
+    return 1 + (s > g ? s : g);
+}
+int ikili_agac_dengeli_mi(struct dugum *kok){
+    int fark;
+    if(kok == NULL) return 1;                        <span class="c">// boş ağaç dengeli</span>
+    fark = yukseklik(kok->sol) - yukseklik(kok->sag);
+    if(fark > 1 || fark &lt; -1) return 0;
+    return ikili_agac_dengeli_mi(kok->sol) &amp;&amp; ikili_agac_dengeli_mi(kok->sag);
+}</pre>
+      <p class="muted">Sadece kökte bakmak yetmez; <b>her düğüm</b> için kontrol gerekir (sondaki iki rekürsif çağrı bu yüzden).</p>
+    </div></details>
+  </div>
+
+  <h3>Rekürsif yardımcılar (kodda var, "ne yapar" diye gelebilir)</h3>
+<pre>int dugum_sayisi(struct agac_dugum *k){ if(k == NULL) return 0; return 1 + dugum_sayisi(k->sol) + dugum_sayisi(k->sag); }
+int yaprak_sayisi(struct agac_dugum *k){
+    if(k == NULL) return 0;
+    if(k->sol == NULL &amp;&amp; k->sag == NULL) return 1;
+    return yaprak_sayisi(k->sol) + yaprak_sayisi(k->sag);
+}
+int ic_dugum_sayisi(struct agac_dugum *k){
+    if(k == NULL || (k->sol == NULL &amp;&amp; k->sag == NULL)) return 0;
+    return 1 + ic_dugum_sayisi(k->sol) + ic_dugum_sayisi(k->sag);
+}
+void yoket(struct agac_dugum **k){          <span class="c">// postorder: önce çocuklar, sonra kendisi</span>
+    if(*k != NULL){ yoket(&amp;(*k)->sol); yoket(&amp;(*k)->sag); free(*k); *k = NULL; }
+}
+void invert(struct agac_dugum *k){          <span class="c">// ayna görüntüsü: her düğümde sol ↔ sağ</span>
+    struct agac_dugum *t;
+    if(k == NULL) return;
+    t = k->sol; k->sol = k->sag; k->sag = t;
+    invert(k->sol); invert(k->sag);
+}
+<span class="c">// en_kisa_yol_uzunlugu: kökten en yakın YAPRAĞA kadar düğüm sayısı.
+// Tek çocuklu düğümde boş taraf 0 döner ama yaprak değildir, bu yüzden büyük olan alınır.</span></pre>
+
+  <div class="q">
+    <div class="q-top"><span class="q-tag">Final · 2023–24</span><span class="q-pts">20 puan</span></div>
+    <p class="q-text">Soldaki ağacı sağdaki ağaca dönüştüren <code>void donustur(struct dugum *kok)</code> fonksiyonunu yazınız.</p>
+    <div class="grid2">
+      <div class="fig"><div class="tree" data-tree="50(25(,30(,39(35,))),90(80,13))"></div><p class="cap">sol (girdi)</p></div>
+      <div class="fig"><div class="tree" data-tree="50(90(13,80),25(30(39(,35),),))"></div><p class="cap">sağ (çıktı)</p></div>
+    </div>
+    <details><summary>Çözümü göster</summary><div class="stack">
+      <p>Sağdaki ağaç soldakinin <mark>ayna görüntüsü</mark>: her düğümde sol ve sağ çocuk yer değiştiriyor. HAFTA5 <code>main.c</code>'deki <code>invert</code> fonksiyonunun aynısı.</p>
+<pre>void donustur(struct dugum *kok){
+    struct dugum *temp;
+    if(kok == NULL) return;
+    temp = kok->sol;          <span class="c">// sol ↔ sağ</span>
+    kok->sol = kok->sag;
+    kok->sag = temp;
+    donustur(kok->sol);
+    donustur(kok->sag);
+}</pre>
+    </div></details>
+  </div>
+
+  <div class="q">
+    <div class="q-top"><span class="q-tag">Final · 2022–23</span><span class="q-pts">25 puan</span></div>
+    <p class="q-text">BST düğümünde <code>derinlik</code> (o düğümün alt ağacının yüksekliği) tutuluyor. Ağaçtaki en uzun yol üzerindeki düğümleri bağlı listeye ekleyen <code>void liste_olustur(struct bt_dugum *kok, struct ls_dugum **liste_basi)</code> fonksiyonunu yazınız.</p>
+<pre>struct bt_dugum { int key; int derinlik; struct bt_dugum *sol, *sag; };   <span class="c">// ikili arama ağacı</span>
+struct ls_dugum { struct bt_dugum *dugum; struct ls_dugum *sonraki; };     <span class="c">// bağlı liste</span></pre>
+    <details><summary>Çözümü göster</summary><div class="stack">
+      <p>Kökten başla; her adımda <b>derinliği büyük olan çocuğa</b> in. Geçtiğin her düğümü listenin sonuna ekle.</p>
+<pre>void liste_olustur(struct bt_dugum *kok, struct ls_dugum **liste_basi){
+    struct ls_dugum *yeni, *son = NULL;
+    *liste_basi = NULL;
+    while(kok != NULL){
+        yeni = (struct ls_dugum*)malloc(sizeof(struct ls_dugum));
+        yeni->dugum = kok;
+        yeni->sonraki = NULL;
+        if(son == NULL) *liste_basi = yeni;      <span class="c">// ilk eleman</span>
+        else son->sonraki = yeni;
+        son = yeni;
+        if(kok->sol == NULL) kok = kok->sag;     <span class="c">// tek yol (yapraksa NULL olur, döngü biter)</span>
+        else if(kok->sag == NULL) kok = kok->sol;
+        else kok = (kok->sol->derinlik >= kok->sag->derinlik) ? kok->sol : kok->sag;
+    }
+}</pre>
+      <p class="muted">Eşitlikte hangi tarafa gittiğin fark etmez ("herhangi biri" deniyor). Defterdeki çözüm başa ekliyor; o zaman liste yapraktan köke sıralanır, o da kabul edilir.</p>
+    </div></details>
+  </div>
+
+  <div class="q">
+    <div class="q-top"><span class="q-tag">Defterdeki soru</span><span class="q-pts">alıştırma</span></div>
+    <p class="q-text">Verilen ikili ağacın ikili arama ağacı olup olmadığını kontrol eden fonksiyonu yazınız.</p>
+    <details><summary>Çözümü göster</summary><div class="stack">
+      <div class="pit">
+        <p class="tag">Defterdeki hata</p>
+        <p>Sadece <code>kok-&gt;sol-&gt;anahtar &lt; kok-&gt;anahtar</code> gibi <b>bir alt seviyeye</b> bakmak yetmez. Aşağıdaki ağaçta her düğüm kendi çocuğuyla uyumlu, yine de BST değil: 60, 50'nin <b>sol</b> alt ağacında ama 50'den büyük.</p>
+        <div class="tree" data-tree="50(30(,60),70)"></div>
+      </div>
+      <p>Doğrusu: her düğümün anahtarı, atalarından gelen <b>alt ve üst sınırın</b> arasında olmalı.</p>
+<pre>#include &lt;limits.h&gt;
+int bst_yardimci(struct dugum *kok, int alt, int ust){
+    if(kok == NULL) return 1;
+    if(kok->anahtar &lt;= alt || kok->anahtar >= ust) return 0;
+    return bst_yardimci(kok->sol, alt, kok->anahtar) &amp;&amp;   <span class="c">// solda: üst sınır = kok</span>
+           bst_yardimci(kok->sag, kok->anahtar, ust);      <span class="c">// sağda: alt sınır = kok</span>
+}
+int ikili_arama_agaci_mi(struct dugum *kok){
+    return bst_yardimci(kok, INT_MIN, INT_MAX);
+}</pre>
+      <p class="muted">Dersin kodundaki <code>ikili_arama_agaci_mi</code> başka yol izliyor: her düğümün anahtarını kökten <b>arıyor</b>; arama o düğüme ulaşmıyorsa ağaç BST değil. Kısa yol: inorder dolaşım kesin artan sıradaysa ağaç BST'dir.</p>
+    </div></details>
+  </div>
+
+  <div class="q">
+    <div class="q-top"><span class="q-tag">Defterdeki soru</span><span class="q-pts">alıştırma</span></div>
+    <p class="q-text">İkili ağaçta tek çocuklu düğümlerin sayısını bulan fonksiyonu yazınız.</p>
+    <details><summary>Çözümü göster</summary><div class="stack">
+<pre>int tek_cocuklu_dugum_sayisi(struct dugum *kok){
+    int tek;
+    if(kok == NULL) return 0;
+    tek = (kok->sol == NULL) != (kok->sag == NULL);   <span class="c">// tam olarak biri boşsa 1</span>
+    return tek + tek_cocuklu_dugum_sayisi(kok->sol)
+               + tek_cocuklu_dugum_sayisi(kok->sag);
+}</pre>
+      <p class="muted">Tek çocuklu düğümü bulunca <code>return 1</code> deyip durma: altında başka tek çocuklu düğümler olabilir. HAFTA5 main ağacında (50, 25, 100, 80, 30, 130, 39, 35) cevap 3: 25, 30 ve 39.</p>
+    </div></details>
+  </div>
+
+  <div class="q">
+    <div class="q-top"><span class="q-tag">Sözel soru · defter</span><span class="q-pts">5'er puan</span></div>
+    <p class="q-text">a) Inorder taraması aynı olan iki ikili ağaç birbirinin aynısı mıdır? (inorder: 15 20 25 27 30 60 75 80) b) Preorder taraması aynı olan iki ikili arama ağacı aynı mıdır? c) "Dengeli ikili arama ağacında farklı iki yaprağın kök düğüme olan yollarının uzunlukları farkı en fazla 1'dir" doğru mu?</p>
+    <details><summary>Çözümü göster</summary><div class="stack">
+      <p><b>a)</b> <mark>Hayır.</mark> İki farklı ağaç aynı inorder çıktısını verebilir:</p>
+      <div class="grid2">
+        <div class="fig"><div class="tree" data-bst="75,25,15,20,30,27,60,80"></div><p class="cap">inorder 15 20 25 27 30 60 75 80</p></div>
+        <div class="fig"><div class="tree" data-bst="27,20,15,25,60,30,75,80"></div><p class="cap">inorder yine 15 20 25 27 30 60 75 80</p></div>
+      </div>
+      <p><b>b)</b> <mark>Evet</mark>, ikili <b>arama</b> ağacıysa (anahtarlar farklı): preorder sırasıyla ekleyince hep aynı ağaç çıkar. Soru genel <b>ikili ağaç</b> derse cevap Hayır.</p>
+      <p><b>c)</b> <mark>Hayır.</mark> Denge koşulu her düğümün alt ağaç <b>yükseklikleriyle</b> ilgili, yaprak derinlikleriyle değil. Aşağıdaki ağaç dengeli ama 5 yaprağı 5. seviyede, 90 yaprağı 3. seviyede (fark 2):</p>
+      <div class="tree" data-bst="50,30,80,20,40,70,90,10,25,35,65,5" data-leaves="1"></div>
+    </div></details>
+  </div>
+
+  <div class="q">
+    <div class="q-top"><span class="q-tag">Boşluk doldurma</span><span class="q-pts">iteratif inorder</span></div>
+    <p class="q-text">Yığın kullanarak iteratif inorder dolaşımdaki boşlukları doldurunuz.</p>
+    <details><summary>Çözümü göster</summary><div class="stack">
+<pre>void iteratif_inorder(struct agac_dugum *kok){
+    struct yigin_dugum *s = NULL;
+    struct agac_dugum *a = kok;
+    while(!yigin_bosmu(s) || <mark>a != NULL</mark>){
+        if(a != NULL){
+            yigin_ekle(a, &amp;s);          <span class="c">// düğümü sakla</span>
+            <mark>a = a->sol;</mark>                 <span class="c">// en sola in</span>
+        } else {
+            a = yigin_cikar(&amp;s);        <span class="c">// geri dön</span>
+            printf("%d ", a->anahtar);  <span class="c">// ziyaret</span>
+            <mark>a = a->sag;</mark>                 <span class="c">// sağ alt ağaca geç</span>
+        }
+    }
+}</pre>
+      <p class="muted">İteratif preorder: kökü it; döngüde çıkar, yazdır, önce <b>sağı</b> sonra <b>solu</b> it (sol önce işlensin diye).</p>
+    </div></details>
+  </div>
+</section>
+
+<!-- ============ H6 ============ -->
+<section id="h6">
+  <div class="sec-head">
+    <p class="eyebrow">Hafta 6</p>
+    <h2>Heap ve heap sort</h2>
+  </div>
+  <ul class="facts">
+    <li>Heap, <b>dizi ile gerçekleştirilen özel bir dengeli ikili ağaçtır</b>. Düğümler seviye seviye, <b>en soldan başlayarak</b> yerleşir; bir düğümün sol çocuğu yoksa sağ çocuğu da yoktur.</li>
+    <li><b>Max heap</b>: her düğümün anahtarı çocuklarınınkinden büyük (kökte en büyük). <b>Min heap</b>: tersi. Ders max heap'e odaklanıyor.</li>
+    <li>Heap <mark>ikili arama ağacı değildir</mark>: sol &lt; kök &lt; sağ sırası yok, sadece ebeveyn &gt; çocuk. ("Heap dengeli BST midir?" → <b>Hayır</b>.)</li>
+  </ul>
+  <div class="formula">
+    <p class="eyebrow">İndeks formülleri (kök = 0, n eleman)</p>
+    <p class="f">sol(i) = 2i + 1     sağ(i) = 2i + 2     ebeveyn(i) = (i − 1) / 2</p>
+    <p class="f">son iç düğüm = n/2 − 1     yapraklar = n/2 … n−1  (⌈n/2⌉ tane)</p>
+  </div>
+
+  <div class="tblw"><table>
+    <thead><tr><th>Algoritma</th><th>Ne yapar</th><th>Karmaşıklık</th></tr></thead>
+    <tbody>
+      <tr><td><b>buble_down(i)</b></td><td>i'deki anahtar büyük çocuğundan küçükse yer değiştir, heap özelliği sağlanana kadar aşağı in</td><td class="n">O(log n)</td></tr>
+      <tr><td><b>heapify</b></td><td>diziyi max heap yapar: <code>for(i = n/2-1; i >= 0; i--) buble_down(i)</code></td><td class="n"><mark>O(n)</mark></td></tr>
+      <tr><td><b>buble_up / ekle</b></td><td>sona ekle, ebeveyninden büyük oldukça yukarı çık</td><td class="n">O(log n)</td></tr>
+      <tr><td><b>delete_max</b></td><td>kök ile son elemanı değiştir, n−−, kökten buble_down</td><td class="n">O(log n)</td></tr>
+      <tr><td><b>heap_sort</b></td><td>n−1 kez delete_max: dizi küçükten büyüğe sıralanır</td><td class="n"><mark>O(n log n)</mark></td></tr>
+      <tr><td>en büyüğü bul / ara</td><td>kök / tüm diziyi tara</td><td class="n">O(1) / O(n)</td></tr>
+    </tbody>
+  </table></div>
+
+<pre>void buble_down(struct heap *heap, int index){
+    int sol = 2*index + 1, sag = 2*index + 2, buyuk;
+    struct dugum temp;
+    while(sol &lt; heap->eleman_sayisi){
+        buyuk = sol;                                       <span class="c">// büyük çocuğu seç</span>
+        if(sag &lt; heap->eleman_sayisi &amp;&amp; heap->dizi[sag].key > heap->dizi[sol].key) buyuk = sag;
+        if(heap->dizi[buyuk].key &lt; heap->dizi[index].key) break;   <span class="c">// heap özelliği tamam</span>
+        temp = heap->dizi[index]; heap->dizi[index] = heap->dizi[buyuk]; heap->dizi[buyuk] = temp;
+        index = buyuk; sol = 2*index + 1; sag = 2*index + 2;
+    }
+}
+void heapify(struct heap *heap){
+    int i;
+    for(i = heap->eleman_sayisi/2 - 1; i >= 0; i--) buble_down(heap, i);
+}
+void buble_up(struct heap *heap, int index){
+    int p = (index - 1)/2;   <span class="c">// C'de (0-1)/2 = 0 olur; kökte a[0] &lt; a[0] yanlış → döngü biter</span>
+    struct dugum temp;
+    while(p >= 0 &amp;&amp; heap->dizi[p].key &lt; heap->dizi[index].key){
+        temp = heap->dizi[p]; heap->dizi[p] = heap->dizi[index]; heap->dizi[index] = temp;
+        index = p; p = (index - 1)/2;
+    }
+}
+void delete_max(struct heap *heap){
+    struct dugum d;
+    if(heap->eleman_sayisi > 1){
+        d = heap->dizi[0];
+        heap->dizi[0] = heap->dizi[heap->eleman_sayisi - 1];
+        heap->dizi[heap->eleman_sayisi - 1] = d;    <span class="c">// max dizinin sonunda kalır</span>
+        heap->eleman_sayisi--;
+        buble_down(heap, 0);
+    }
+}</pre>
+
+  <h3>Slayttaki heapify örneği</h3>
+  <div class="grid2">
+    <div class="fig"><div class="tree" data-heap="48,56,84,15,78,44,92,52,34,98"></div><p class="cap">Başlangıç: 48 56 84 15 78 44 92 52 34 98</p></div>
+    <div class="fig"><div class="tree" data-heap="98,78,92,52,56,44,84,15,34,48"></div><p class="cap">heapify sonrası: 98 78 92 52 56 44 84 15 34 48</p></div>
+  </div>
+  <p class="muted" style="max-width:68ch">Sıra: buble_down(78) → buble_down(15) → buble_down(84) → buble_down(56) → buble_down(48). En büyük indeksli iç düğümden (n/2−1 = 4) köke doğru. Küçük sayılar altta indeks.</p>
+
+  <div class="q">
+    <div class="q-top"><span class="q-tag">Çıkmış soru · 2024</span><span class="q-pts">5 + 10 puan</span></div>
+    <p class="q-text">heapify algoritmasının karmaşıklığı nedir? Elemanları {20, 5, 42, 80, 65, 70, 88, 12, 6, 4, 33, 90, 27} olan diziye heapify uygulandığında elde edilen diziyi ikili ağaç şeklinde çiziniz.</p>
+    <details><summary>Çözümü göster</summary><div class="stack">
+      <p>Karmaşıklık: <mark>O(n)</mark>. n = 13, buble_down sırası i = 5, 4, 3, 2, 1, 0.</p>
+      <div class="tree" data-heap="90,80,88,12,65,70,20,5,6,4,33,42,27"></div>
+      <p class="out"><span><b>dizi</b> <mark>90 80 88 12 65 70 20 5 6 4 33 42 27</mark></span></p>
+    </div></details>
+  </div>
+
+  <div class="q">
+    <div class="q-top"><span class="q-tag">Çıkmış soru · 2023</span><span class="q-pts">5 + 5 puan</span></div>
+    <p class="q-text">heapSort karmaşıklığı nedir? {20, 30, 5, 42, 80, 70, 3, 12, 6, 4, 33} dizisine heapify uygulandığında elde edilen diziyi ağaç şeklinde çiziniz.</p>
+    <details><summary>Çözümü göster</summary><div class="stack">
+      <p>heapSort: <mark>O(n log n)</mark>.</p>
+      <div class="tree" data-heap="80,42,70,20,33,5,3,12,6,4,30"></div>
+      <p class="out"><span><b>dizi</b> <mark>80 42 70 20 33 5 3 12 6 4 30</mark></span></p>
+    </div></details>
+  </div>
+
+  <div class="q">
+    <div class="q-top"><span class="q-tag">Çıkmış soru · 2020</span><span class="q-pts">5 + 10 puan</span></div>
+    <p class="q-text"><code>{3, 44, 24, 56, 78, 89, 36, 55, 98, 76, 5, 25, 73, 88, 94, 61}</code> a) Diziyi dengeli ikili ağaç şeklinde gösteriniz. b) heapify uygulandığında elde edilen heap'i çiziniz.</p>
+    <details><summary>Çözümü göster</summary><div class="stack">
+      <p><b>a)</b> Diziyi <b>sıralama</b>; elemanları indeks sırasıyla (0 kök, 1–2 ikinci seviye…) yerleştir:</p>
+      <div class="tree" data-heap="3,44,24,56,78,89,36,55,98,76,5,25,73,88,94,61"></div>
+      <p><b>b)</b> heapify sonrası:</p>
+      <div class="tree" data-heap="98,78,94,61,76,89,88,55,56,3,5,25,73,24,36,44"></div>
+      <p class="out"><span><b>dizi</b> <mark>98 78 94 61 76 89 88 55 56 3 5 25 73 24 36 44</mark></span></p>
+      <p class="muted">Soruda <code>int dizi[18]</code> yazıyor ama 16 değer var; kalan 2 eleman 0 olur ve yaprakta kalır, sonuç değişmez. Yeni bulduğun defterdeki bir çözüm de aynı heap'i buluyor; diziyi sıralayıp çizen öteki el yazısı çözümler yanlış. (b) şıkkı heap'i de "dengeli ikili ağaç" diye adlandırıyor, yani (a)'da istenen de indeks sırasıyla çizim.</p>
+    </div></details>
+  </div>
+
+  <div class="q">
+    <div class="q-top"><span class="q-tag">Çıkmış soru · 2022</span><span class="q-pts">10 + 15 puan</span></div>
+    <p class="q-text">a) n elemanlı bir max heap'te en küçük anahtar kaç farklı pozisyonda olabilir? b) En az karşılaştırmayla en küçük anahtarı bulan <code>int minimum_anahtari_bul(struct heap *heap)</code> fonksiyonunu yazınız.</p>
+    <details><summary>Çözümü göster</summary><div class="stack">
+      <p><b>a)</b> En küçük eleman bir çocuğa sahip olamaz (çocuğu ondan küçük olurdu), yani <b>yapraktır</b>. Yapraklar <code>n/2 … n−1</code> indekslerinde: <mark>n − ⌊n/2⌋ = ⌈n/2⌉ pozisyon</mark>. (Örn. n = 10 → 5, n = 11 → 6.)</p>
+      <div class="tree" data-heap="98,78,92,52,56,44,84,15,34,48" data-leaves="1"></div>
+      <p class="cap muted" style="text-align:center;font-size:.85rem">Sarı düğümler yapraklar: en küçük bunlardan biri</p>
+<pre>int minimum_anahtari_bul(struct heap *heap){
+    int i, n = heap->eleman_sayisi, min;
+    if(n == 0) return SENTINEL;
+    min = heap->dizi[n/2].anahtar;           <span class="c">// ilk yaprak</span>
+    for(i = n/2 + 1; i &lt; n; i++)             <span class="c">// sadece yapraklara bak</span>
+        if(heap->dizi[i].anahtar &lt; min)
+            min = heap->dizi[i].anahtar;
+    return min;                              <span class="c">// ⌈n/2⌉ − 1 karşılaştırma</span>
+}</pre>
+    </div></details>
+  </div>
+
+  <div class="q">
+    <div class="q-top"><span class="q-tag">Defterdeki soru</span><span class="q-pts">alıştırma</span></div>
+    <p class="q-text">Verilen dizinin max heap özelliğini sağlayıp sağlamadığını bulan fonksiyonu yazınız.</p>
+    <details><summary>Çözümü göster</summary><div class="stack">
+<pre>int heap_mi(int A[], int n){
+    int i;
+    for(i = 0; i &lt;= n/2 - 1; i++){                       <span class="c">// sadece iç düğümler</span>
+        if(2*i + 1 &lt; n &amp;&amp; A[i] &lt; A[2*i + 1]) return 0;   <span class="c">// sol çocuk büyük</span>
+        if(2*i + 2 &lt; n &amp;&amp; A[i] &lt; A[2*i + 2]) return 0;   <span class="c">// sağ çocuk büyük</span>
+    }
+    return 1;
+}</pre>
+      <p class="muted">Yapraklara bakmaya gerek yok, çocukları yok. Örnek: 98 78 92 52 56 44 84 15 34 48 → 1, 48 56 84 15 78 → 0.</p>
+    </div></details>
+  </div>
+
+  <div class="tblw"><table>
+    <thead><tr><th>HAFTA6 main (kapasite 20)</th><th>Çıktı</th></tr></thead>
+    <tbody>
+      <tr><td>ekle 812, 900, 12, 121, 989, 990, 12 <span class="muted">(ikinci 12 eklenmez: heap_search)</span></td><td class="mono">990 900 989 121 812 12</td></tr>
+      <tr><td>delete_max</td><td class="mono">989 900 12 121 812</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ ARAÇLAR ============ -->
+<section id="arac">
+  <div class="sec-head">
+    <p class="eyebrow">Kendi cevabını kontrol et</p>
+    <h2>Araçlar</h2>
+    <p class="muted" style="max-width:65ch">Kâğıtta çözdüğün soruyu buraya yaz, dersteki algoritmanın aynısıyla kontrol et. İkisi de dersin C kodunu birebir taklit ediyor.</p>
+  </div>
+
+  <div class="q">
+    <h3>heapify</h3>
+    <div class="toolbar">
+      <div class="field"><label for="hin">Dizi (virgül veya boşlukla)</label><input id="hin" type="text" value="20, 5, 42, 80, 65, 70, 88, 12, 6, 4, 33, 90, 27"></div>
+      <button class="btn" id="hgo" type="button" style="align-self:end">heapify uygula</button>
+    </div>
+    <div class="grid2">
+      <div class="fig"><div class="tree" id="hbefore"></div><p class="cap">Dizi, indeks sırasıyla ağaç</p></div>
+      <div class="fig"><div class="tree" id="hafter"></div><p class="cap">heapify sonrası</p></div>
+    </div>
+    <div class="out" id="hout"></div>
+    <details><summary>Adım adım buble_down</summary><div class="steps" id="hsteps" style="margin-top:8px"></div></details>
+  </div>
+
+  <div class="q">
+    <h3>İkili arama ağacı</h3>
+    <div class="toolbar">
+      <div class="field"><label for="bin">Ekleme sırası (preorder verilirse aynen yaz)</label><input id="bin" type="text" value="70, 60, 50, 32, 35, 55, 80, 75, 73, 78"></div>
+      <button class="btn" id="bgo" type="button" style="align-self:end">Ağacı kur</button>
+    </div>
+    <div class="toolbar">
+      <div class="field" style="flex:0 1 160px"><label for="bdel">Silinecek anahtar</label><input id="bdel" type="text" value="60"></div>
+      <button class="btn" id="bdelgo" type="button" style="align-self:end">Sil (solun en sağı)</button>
+    </div>
+    <div class="tree" id="btree"></div>
+    <div class="out" id="bout"></div>
+  </div>
+</section>
+
+<!-- ============ TEST ============ -->
+<section id="test">
+  <div class="sec-head">
+    <p class="eyebrow">Kısa cevaplı sorular</p>
+    <h2>Kendini test et</h2>
+    <p class="muted">Cevabı söyle, sonra aç.</p>
+  </div>
+  <div class="stack" id="quiz"></div>
+</section>
+
+<!-- ============ SON 10 DK ============ -->
+<section id="son">
+  <div class="sec-head">
+    <p class="eyebrow">Sınav kapısında</p>
+    <h2>Son 10 dakika</h2>
+  </div>
+  <div class="tblw"><table>
+    <thead><tr><th>Konu</th><th>Ezberle</th></tr></thead>
+    <tbody>
+      <tr><td>2B dinamik bellek</td><td class="mono">ptr + satır·ptr + satır·sütun·int   (10×15, ptr 8, int 4 → 688)</td></tr>
+      <tr><td>Adres</td><td class="mono">&amp;A[i][j] = taban + (i·SÜTUN + j)·s</td></tr>
+      <tr><td>Bölgeler</td><td>malloc → heap · yerel değişken/parametre → stack · global → data</td></tr>
+      <tr><td>Fonksiyon değiştirecekse</td><td>adresini gönder: <code>int**</code> için <code>int***</code>, liste başı için <code>struct dugum **</code></td></tr>
+      <tr><td>Liste</td><td>başa ekle O(1) · sona ekle / ara / sil O(n) · sırala O(n²) · boş, tek düğüm, çok düğüm durumlarını yaz</td></tr>
+      <tr><td>Yığın</td><td>LIFO · push/pop O(1) · boş <code>ust==-1</code> · dolu <code>ust==kapasite-1</code></td></tr>
+      <tr><td>BST</td><td>sol &lt; kök &lt; sağ · ekleme hep yaprağa · O(h): dengeli O(log n), en kötü O(n)</td></tr>
+      <tr><td>Dolaşım</td><td>pre: kök-sol-sağ · in: sol-kök-sağ (sıralı) · post: sol-sağ-kök</td></tr>
+      <tr><td>Ağaç çizilir mi?</td><td>inorder'dan <b>Hayır</b> · preorder/postorder'dan <b>Evet</b> (preorder sırasıyla ekle)</td></tr>
+      <tr><td>Yükseklik / denge</td><td>kökten en uzak yaprağa düğüm sayısı · her düğümde |h(sol) − h(sağ)| ≤ 1</td></tr>
+      <tr><td>Silme (2 çocuk)</td><td>solun en sağı (dersin kodu) veya sağın en solu yerine geçer</td></tr>
+      <tr><td>Heap indeks</td><td class="mono">sol 2i+1 · sağ 2i+2 · ebeveyn (i−1)/2 · yapraklar n/2…n−1</td></tr>
+      <tr><td>Heap karmaşıklık</td><td>ekle / delete_max O(log n) · heapify O(n) · heapSort O(n log n) · max O(1)</td></tr>
+      <tr><td>heapify</td><td>i = n/2−1'den 0'a buble_down; büyük çocukla yer değiştir</td></tr>
+      <tr><td>Max heap'te min</td><td>yapraklarda, ⌈n/2⌉ pozisyon, ⌈n/2⌉−1 karşılaştırma</td></tr>
+      <tr><td>Heap BST mi?</td><td><b>Hayır</b> (dengeli ikili ağaç ama arama ağacı değil)</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<footer>
+  Kaynaklar: HAFTA1–6 <code>code</code> ve <code>slide</code> klasörleri, 2020 vize 1–2, 2022 vize, "vize çıkmış" ve "notlar falan" fotoğrafları. Vize kapsamı: hoca bu dönem heap'e kadar işledi; AVL, hash, kırmızı-siyah ağaç ve graf algoritmaları vizede yok, o yüzden bu kılavuzda da yok. Java/NYP sınav fotoğrafları başka derse ait.
+</footer>
+</main>
+
+<script>
+(function(){
+  // ---- ağaç çizimi ----
+  function svgTree(root, o){
+    o = o || {};
+    if(!root) return '<p class="muted" style="text-align:center">(boş ağaç)</p>';
+    var i = 0, maxD = 0, ns = [];
+    (function w(n, d){ if(!n) return; w(n.l, d+1); n.x = i++; n.d = d; if(d > maxD) maxD = d; ns.push(n); w(n.r, d+1); })(root, 0);
+    var SX = 44, SY = 58, R = 18, PAD = 24;
+    var W = PAD*2 + (i-1)*SX, H = PAD*2 + maxD*SY + (o.idx ? 12 : 0);
+    var px = function(n){ return PAD + n.x*SX; }, py = function(n){ return PAD + n.d*SY; };
+    var e = '', c = '';
+    ns.forEach(function(n){ [n.l, n.r].forEach(function(ch){ if(ch) e += '<line class="te" x1="'+px(n)+'" y1="'+py(n)+'" x2="'+px(ch)+'" y2="'+py(ch)+'"/>'; }); });
+    ns.forEach(function(n){
+      var leaf = !n.l && !n.r;
+      c += '<g class="tn'+(o.leaves && leaf ? ' leaf' : '')+'"><circle cx="'+px(n)+'" cy="'+py(n)+'" r="'+R+'"/>' +
+           '<text x="'+px(n)+'" y="'+py(n)+'" dy="0.35em">'+n.k+'</text>' +
+           (o.idx ? '<text class="ti" x="'+px(n)+'" y="'+(py(n)+R+11)+'">'+n.i+'</text>' : '') + '</g>';
+    });
+    return '<svg viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'" role="img" aria-label="'+(o.label||'ikili ağaç')+'">'+e+c+'</svg>';
+  }
+  function heapTree(a){
+    var ns = a.map(function(k, i){ return {k:k, i:i}; });
+    ns.forEach(function(n, i){ n.l = ns[2*i+1] || null; n.r = ns[2*i+2] || null; });
+    return ns[0] || null;
+  }
+  function parse(s){ return (s.match(/-?\d+/g) || []).map(Number); }
+
+  // ---- BST (dersin ekle / sil fonksiyonlarının aynısı) ----
+  function bstInsert(root, k){
+    var node = {k:k, l:null, r:null};
+    if(!root) return node;
+    var d = root;
+    for(;;){
+      if(k < d.k){ if(!d.l){ d.l = node; return root; } d = d.l; }
+      else if(k > d.k){ if(!d.r){ d.r = node; return root; } d = d.r; }
+      else return root;
+    }
+  }
+  function bstBuild(keys){ var r = null; keys.forEach(function(k){ r = bstInsert(r, k); }); return r; }
+  function bstDelete(root, x){
+    var parent = null, d = root, sol = 0;
+    while(d){ if(x < d.k){ parent = d; d = d.l; sol = 1; } else if(x > d.k){ parent = d; d = d.r; sol = 0; } else break; }
+    if(!d) return {root:root, ok:false};
+    var rep;
+    if(!d.l) rep = d.r;
+    else if(!d.r) rep = d.l;
+    else {
+      var d1 = d.l, d2 = null;
+      while(d1.r){ d2 = d1; d1 = d1.r; }
+      if(d2){ d2.r = d1.l; d1.l = d.l; }
+      d1.r = d.r; rep = d1;
+    }
+    if(!parent) return {root:rep, ok:true};
+    if(sol) parent.l = rep; else parent.r = rep;
+    return {root:root, ok:true};
+  }
+  function pre(t){ return t ? [t.k].concat(pre(t.l), pre(t.r)) : []; }
+  function ino(t){ return t ? ino(t.l).concat([t.k], ino(t.r)) : []; }
+  function post(t){ return t ? post(t.l).concat(post(t.r), [t.k]) : []; }
+  function h(t){ return t ? 1 + Math.max(h(t.l), h(t.r)) : 0; }
+  function leaves(t){ return !t ? 0 : (!t.l && !t.r ? 1 : leaves(t.l) + leaves(t.r)); }
+  function internal(t){ return (!t || (!t.l && !t.r)) ? 0 : 1 + internal(t.l) + internal(t.r); }
+  function balanced(t){ return !t || (Math.abs(h(t.l) - h(t.r)) <= 1 && balanced(t.l) && balanced(t.r)); }
+
+  // ---- heap (dersin buble_down / heapify'ının aynısı) ----
+  function bubbleDown(a, n, i){
+    while(2*i+1 < n){
+      var l = 2*i+1, r = l+1, b = l;
+      if(r < n && a[r] > a[l]) b = r;
+      if(a[b] < a[i]) break;
+      var t = a[i]; a[i] = a[b]; a[b] = t; i = b;
+    }
+  }
+  function heapify(arr){
+    var a = arr.slice(), steps = [];
+    for(var i = Math.floor(a.length/2) - 1; i >= 0; i--){
+      var k = a[i]; bubbleDown(a, a.length, i);
+      steps.push('buble_down(i=' + i + ', anahtar ' + k + ')  →  ' + a.join(' '));
+    }
+    return {a:a, steps:steps};
+  }
+
+  // "50(25(,30),90)" biçimindeki ağaç tanımını okur
+  function parseTree(s){
+    s = s.replace(/\s+/g, ''); var i = 0;
+    function node(){
+      var m = s.slice(i).match(/^-?\d+/);
+      if(!m) return null;
+      i += m[0].length;
+      var n = {k:+m[0], l:null, r:null};
+      if(s[i] === '('){ i++; n.l = node(); if(s[i] === ',') i++; n.r = node(); if(s[i] === ')') i++; }
+      return n;
+    }
+    return node();
+  }
+  document.querySelectorAll('[data-tree]').forEach(function(el){
+    el.innerHTML = svgTree(parseTree(el.dataset.tree), {leaves:!!el.dataset.leaves, label:'ikili ağaç'});
+  });
+
+  // statik çizimler
+  document.querySelectorAll('[data-heap]').forEach(function(el){
+    el.innerHTML = svgTree(heapTree(parse(el.dataset.heap)), {idx:true, leaves:!!el.dataset.leaves, label:'heap: '+el.dataset.heap});
+  });
+  document.querySelectorAll('[data-bst]').forEach(function(el){
+    el.innerHTML = svgTree(bstBuild(parse(el.dataset.bst)), {leaves:!!el.dataset.leaves, label:'ikili arama ağacı: '+el.dataset.bst});
+  });
+
+  // heapify aracı
+  function runHeap(){
+    var arr = parse(document.getElementById('hin').value);
+    var r = heapify(arr);
+    document.getElementById('hbefore').innerHTML = svgTree(heapTree(arr), {idx:true});
+    document.getElementById('hafter').innerHTML = svgTree(heapTree(r.a), {idx:true});
+    document.getElementById('hout').innerHTML = arr.length ? '<span><b>heap dizisi</b> ' + r.a.join(' ') + '</span><span><b>n</b> ' + arr.length + ' · buble_down i = ' + (Math.floor(arr.length/2)-1) + ' … 0</span>' : '';
+    document.getElementById('hsteps').innerHTML = r.steps.map(function(s){ return '<span>' + s + '</span>'; }).join('') || '<span>(iç düğüm yok)</span>';
+  }
+  document.getElementById('hgo').addEventListener('click', runHeap);
+  document.getElementById('hin').addEventListener('keydown', function(e){ if(e.key === 'Enter') runHeap(); });
+  runHeap();
+
+  // BST aracı
+  var bst = null, note = '';
+  function showBst(){
+    document.getElementById('btree').innerHTML = svgTree(bst);
+    document.getElementById('bout').innerHTML = bst ?
+      (note ? '<span>' + note + '</span>' : '') +
+      '<span><b>preorder </b> ' + pre(bst).join(' ') + '</span>' +
+      '<span><b>inorder  </b> ' + ino(bst).join(' ') + '</span>' +
+      '<span><b>postorder</b> ' + post(bst).join(' ') + '</span>' +
+      '<span><b>yükseklik</b> ' + h(bst) + ' · <b>yaprak</b> ' + leaves(bst) + ' · <b>iç düğüm</b> ' + internal(bst) + ' · <b>dengeli</b> ' + (balanced(bst) ? 'evet (1)' : 'hayır (0)') + '</span>' : '';
+  }
+  function runBst(){ bst = bstBuild(parse(document.getElementById('bin').value)); note = ''; showBst(); }
+  document.getElementById('bgo').addEventListener('click', runBst);
+  document.getElementById('bin').addEventListener('keydown', function(e){ if(e.key === 'Enter') runBst(); });
+  function runDel(){
+    var x = parse(document.getElementById('bdel').value)[0];
+    if(x === undefined) return;
+    var r = bstDelete(bst, x); bst = r.root;
+    note = r.ok ? 'sil(' + x + ') uygulandı' : x + ' ağaçta yok';
+    showBst();
+  }
+  document.getElementById('bdelgo').addEventListener('click', runDel);
+  document.getElementById('bdel').addEventListener('keydown', function(e){ if(e.key === 'Enter') runDel(); });
+  runBst();
+
+  // kısa cevaplı sorular
+  var Q = [
+    ['Dengeli ikili ağaç nedir?', 'Her düğümün sol ve sağ alt ağaçları arasındaki yükseklik farkı en fazla 1 olan ağaç.'],
+    ['Heap veri yapısı dengeli ikili arama ağacı mıdır?', 'Hayır. Dengeli ikili ağaçtır ama arama ağacı değildir (sol < kök < sağ sırası yok).'],
+    ['C\'de dizinin ismi neyi ifade eder?', 'Dizinin ilk elemanının adresini tutan sabit işaretçiyi.'],
+    ['int dizi[]={1,2,3}; için dizi = dizi + 1 doğru mu?', 'Hayır. Dizi ismi sabit işaretçidir, atama yapılamaz (derleme hatası).'],
+    ['Dizi elemanları neden aynı tipte olmak zorunda?', 'Ardışık tutulup adres taban + i·boyut ile hesaplandığı için her eleman aynı boyutta olmalı.'],
+    ['BST\'de düğüm ekleme karmaşıklığı?', 'O(h). Dengeli ağaçta O(log n), en kötü durumda (doğrusal ağaç) O(n).'],
+    ['Inorder çıktısı verilen BST çizilebilir mi?', 'Hayır. Inorder her zaman sıralıdır, birçok ağaç aynı çıktıyı verir.'],
+    ['Preorder çıktısı verilen BST çizilebilir mi?', 'Evet. Preorder sırasıyla ekleyince aynı BST oluşur.'],
+    ['heapify karmaşıklığı?', 'O(n).'],
+    ['heapSort karmaşıklığı?', 'O(n log n): n−1 kez delete_max, her biri O(log n).'],
+    ['delete_max ve heap\'e ekleme karmaşıklığı?', 'İkisi de O(log n) (ağacın yüksekliği kadar buble_down / buble_up).'],
+    ['Bağlı listede silme karmaşıklığı?', 'O(n): silinecek düğümü bulmak için yürümek gerekir.'],
+    ['n elemanlı max heap\'te en küçük eleman kaç farklı pozisyonda olabilir?', '⌈n/2⌉ = n − ⌊n/2⌋ (sadece yapraklarda: indeks n/2 … n−1).'],
+    ['Heap\'te i indeksli düğümün çocukları ve ebeveyni?', 'Sol 2i+1, sağ 2i+2, ebeveyn (i−1)/2.'],
+    ['heapify hangi düğümden başlar?', 'Yaprak olmayan en büyük indeksli düğümden (n/2 − 1), köke kadar buble_down.'],
+    ['Ağacın yüksekliği nedir?', 'Kökten en uzak yaprağa giden yol üzerindeki düğüm sayısı.'],
+    ['malloc ile ayrılan dizi elemanları ve main\'deki int **A nerede tutulur?', 'Elemanlar heap\'te; A yerel değişken olduğu için stack\'te (64-bit\'te 8 byte).'],
+    ['Liste fonksiyonlarına liste başı neden ** ile gönderilir?', 'Fonksiyon liste başını değiştirebilsin diye; C\'de parametre kopyalanarak gider.'],
+    ['Yığın hangi prensiple çalışır, işlemler kaç adım?', 'LIFO (son giren ilk çıkar). push/pop O(1).'],
+    ['Çift yönlü listenin avantajı ve dezavantajı?', 'Avantaj: iki yönde dolaşma, işlemler kolaylaşır. Dezavantaj: düğüm başına fazladan işaretçi, daha çok bellek.'],
+    ['Bitişik ve bitişik olmayan veri yapısına birer örnek?', 'Bitişik: dizi. Bitişik olmayan: bağlı liste.'],
+    ['BST\'de iki çocuklu düğüm nasıl silinir?', 'Sol alt ağacın en sağındaki (veya sağ alt ağacın en solundaki) düğüm silinenin yerine geçer.'],
+    ['C dizileri bellekte nasıl saklar?', 'Satır öncelikli (row-major): önce 0. satırın tüm elemanları, sonra 1. satır.'],
+    ['İkili ağaç nedir?', 'Her düğümün en fazla 2 çocuğu olduğu ağaç.'],
+    ['Inorder taraması aynı olan iki ikili ağaç aynı mıdır?', 'Hayır. Farklı ağaçlar aynı inorder çıktısını verebilir.'],
+    ['Preorder taraması aynı olan iki ikili arama ağacı aynı mıdır?', 'Evet (anahtarlar farklıysa). Genel ikili ağaçta Hayır.'],
+    ['Dengeli BST\'de iki yaprağın köke uzaklık farkı en fazla 1 midir?', 'Hayır. Denge koşulu alt ağaç yüksekliklerinde; yaprak derinlikleri 2 ve daha fazla farklı olabilir.'],
+    ['Bir fonksiyonda yerel değişkenin adresini geri döndürmek anlamsal hataya yol açar mı?', 'Evet. Fonksiyon bitince yerel değişkenin stack\'teki yeri geri verilir, adres geçersiz kalır.'],
+    ['int a=10; int *p=&a; int **q=&p; için *q ve **q nedir?', '*q = p = a\'nın adresi, **q = a\'nın değeri (10).'],
+    ['Bellek sızıntısı (memory leak) nedir?', 'malloc ile ayrılan bloğun adresini kaybedip free etmemek; o bellek program bitene kadar kullanılamaz.']
+  ];
+  var esc = function(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); };
+  document.getElementById('quiz').innerHTML = Q.map(function(q, i){
+    return '<div class="q"><p class="q-text">' + (i+1) + '. ' + esc(q[0]) + '</p><details><summary>Cevap</summary><div class="stack"><p>' + esc(q[1]) + '</p></div></details></div>';
+  }).join('');
+
+  // tümünü aç / kapat
+  var btn = document.getElementById('toggleAll'), open = false;
+  btn.addEventListener('click', function(){
+    open = !open;
+    document.querySelectorAll('main details').forEach(function(d){ d.open = open; });
+    btn.textContent = open ? 'Tüm çözümleri kapat' : 'Tüm çözümleri aç';
+  });
+})();
+</script>
+
+</body>
+</html>

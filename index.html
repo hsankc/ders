@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kasım 2026 Vize Haftası</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,750&family=Caveat:wght@600&family=JetBrains+Mono:wght@400;600&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+/* Düzen: tek kolon (≤ 960px). Üstte sıradaki sınavın geri sayımı, sonra bugün, takvim, dersler, gün gün plan. Kâğıt + tükenmez mavi + kırmızı kalem; her ders kendi mürekkep rengiyle. */
+:root{
+  --paper:#F3F5F8; --sheet:#FFFFFF; --ink:#17202A; --muted:#566370; --rule:#D6DDE5;
+  --pen:#2346A0; --pen-soft:#E4EAF8; --red:#B3312A; --red-soft:#FBE9E7; --hl:#FFEF9C; --code:#F7F9FB;
+  --ok:#1F7A4D; --ok-soft:#E3F3EA;
+  --c-ym:#2346A0; --c-vy:#0E7468; --c-yz:#6D3FC4; --c-dif:#A65A0B; --c-ddi:#2F7A27;
+  --f-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --f-body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  --f-hand:"Caveat","Segoe Print","Comic Sans MS",cursive;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#10151B; --sheet:#171F28; --ink:#E3E8EE; --muted:#9BA8B5; --rule:#2A3440;
+  --pen:#97B3FF; --pen-soft:#1D2942; --red:#FF8E84; --red-soft:#3A201F; --hl:#4D4416; --code:#131A22;
+  --ok:#6FD39E; --ok-soft:#173326;
+  --c-ym:#97B3FF; --c-vy:#5CD0C0; --c-yz:#C2A4FF; --c-dif:#F0B266; --c-ddi:#8FD483; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#10151B; --sheet:#171F28; --ink:#E3E8EE; --muted:#9BA8B5; --rule:#2A3440;
+  --pen:#97B3FF; --pen-soft:#1D2942; --red:#FF8E84; --red-soft:#3A201F; --hl:#4D4416; --code:#131A22;
+  --ok:#6FD39E; --ok-soft:#173326;
+  --c-ym:#97B3FF; --c-vy:#5CD0C0; --c-yz:#C2A4FF; --c-dif:#F0B266; --c-ddi:#8FD483; color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:1.0625rem;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:960px;margin:0 auto}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.12;margin:0}
+h1{font-size:clamp(2.1rem,6.5vw,3.4rem);font-weight:750;letter-spacing:-.025em}
+h2{font-size:clamp(1.35rem,3.4vw,1.75rem);font-weight:750;letter-spacing:-.01em}
+h3{font-size:1.08rem;font-weight:600}
+p{margin:0}
+a{color:var(--pen)}
+.muted{color:var(--muted)}
+.eyebrow{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.mono{font-family:var(--f-mono)}
+
+header.top{padding-block:40px 18px;display:grid;gap:10px}
+.lede{max-width:64ch;color:var(--muted);font-size:1.06rem}
+
+/* sıradaki sınav */
+.next{background:var(--sheet);border:1px solid var(--rule);border-radius:16px;padding:20px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px 24px;align-items:center}
+.next .tag{font-family:var(--f-hand);font-size:1.6rem;color:var(--red);line-height:1}
+.next h2{font-size:clamp(1.5rem,4.4vw,2.2rem)}
+.next .when{font-size:1rem}
+.next .when b{font-weight:600}
+.clock{display:flex;gap:10px}
+.clock div{display:grid;justify-items:center;min-width:64px;padding:8px 6px;border-radius:10px;background:var(--red-soft)}
+.clock b{font-family:var(--f-mono);font-size:clamp(1.6rem,5vw,2.3rem);font-weight:600;color:var(--red);font-variant-numeric:tabular-nums;line-height:1.1}
+.clock span{font-size:.75rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+@media (max-width:640px){.next{grid-template-columns:1fr}}
+
+section{padding-block:30px 6px;display:grid;gap:14px;scroll-margin-top:12px}
+.sec-head{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:baseline;justify-content:space-between}
+
+/* ders etiketi */
+.cdot{display:inline-flex;align-items:center;gap:7px;font-weight:600}
+.cdot::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--c);flex:0 0 auto}
+.c-ym{--c:var(--c-ym)} .c-vy{--c:var(--c-vy)} .c-yz{--c:var(--c-yz)} .c-dif{--c:var(--c-dif)} .c-ddi{--c:var(--c-ddi)}
+
+.pill{font-size:.78rem;font-weight:600;border-radius:999px;padding:2px 9px;white-space:nowrap;border:1px solid transparent}
+.pill.ready{background:var(--ok-soft);color:var(--ok)}
+.pill.self{background:var(--code);color:var(--muted);border-color:var(--rule)}
+.pill.wait{background:var(--hl);color:var(--ink)}
+.pill.done{background:var(--code);color:var(--muted);border-color:var(--rule)}
+
+/* takvim */
+.cal{display:grid;gap:8px}
+.exam{display:grid;grid-template-columns:92px minmax(0,1fr) auto;gap:4px 16px;align-items:center;background:var(--sheet);border:1px solid var(--rule);border-radius:12px;padding:12px 14px;position:relative}
+.exam .d{display:grid;justify-items:start}
+.exam .d b{font-family:var(--f-mono);font-size:1.25rem;font-variant-numeric:tabular-nums}
+.exam .d span{font-size:.82rem;color:var(--muted)}
+.exam .rooms{font-size:.86rem;color:var(--muted)}
+.exam a.go{font-size:.9rem;font-weight:600;text-decoration:none}
+.exam.past{opacity:.55}
+.exam.isnext{border-color:var(--red)}
+@media (max-width:560px){.exam{grid-template-columns:72px minmax(0,1fr)} .exam .right{grid-column:2}}
+
+/* dersler */
+.courses{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.course{background:var(--sheet);border:1px solid var(--rule);border-radius:14px;padding:16px;display:grid;gap:10px;align-content:start}
+.course h3{font-size:1.25rem}
+.bar{height:8px;border-radius:99px;background:var(--code);border:1px solid var(--rule);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--c);width:0}
+.jump{display:flex;flex-wrap:wrap;gap:6px}
+.jump a{font-size:.84rem;text-decoration:none;border:1px solid var(--rule);border-radius:999px;padding:2px 9px;color:var(--ink);background:var(--code)}
+.jump a:hover{border-color:var(--c);color:var(--c)}
+.btn{display:inline-flex;justify-content:center;font:inherit;font-size:.95rem;font-weight:600;text-decoration:none;border-radius:9px;padding:8px 14px;background:var(--c);color:var(--sheet)}
+.btn:hover{opacity:.9}
+.btn:focus-visible,.jump a:focus-visible,a.go:focus-visible{outline:2px solid var(--pen);outline-offset:2px}
+
+/* plan */
+.days{display:grid;gap:10px}
+.day{background:var(--sheet);border:1px solid var(--rule);border-radius:14px;padding:12px 14px;display:grid;gap:8px}
+.day.today{border-color:var(--pen);box-shadow:0 0 0 1px var(--pen)}
+.day.past{opacity:.6}
+.dhead{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:baseline}
+.dhead h3{font-size:1.05rem}
+.dhead .sum{font-size:.85rem;color:var(--muted);font-family:var(--f-mono)}
+.badge{font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:6px;padding:1px 7px;background:var(--pen);color:var(--sheet)}
+.blk{display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:4px 10px;align-items:start;padding:6px 0;border-top:1px dashed var(--rule)}
+.blk:first-of-type{border-top:0}
+.blk input{width:18px;height:18px;margin-top:3px;accent-color:var(--ok)}
+.blk .t{min-width:0}
+.blk .t a{text-decoration:none;color:var(--ink)}
+.blk .t a:hover{color:var(--c)}
+.blk .h{font-family:var(--f-mono);font-size:.82rem;color:var(--muted);white-space:nowrap;padding-top:3px}
+.blk.checked .t{text-decoration:line-through;color:var(--muted)}
+.blk.nomat .t{color:var(--muted)}
+.blk .note{display:block;font-size:.82rem;color:var(--muted)}
+.ex{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;background:var(--red-soft);border-radius:9px;padding:8px 10px;color:var(--red);font-weight:600}
+.ex .mono{font-size:.9rem}
+.ex span.r{font-weight:400;font-size:.85rem;color:var(--muted)}
+label.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+.note-box{background:var(--code);border:1px dashed var(--rule);border-radius:12px;padding:12px 14px;font-size:.95rem;color:var(--muted)}
+.note-box b{color:var(--ink)}
+footer{padding-block:28px 48px;color:var(--muted);font-size:.9rem;border-top:1px solid var(--rule);margin-top:26px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">Bilgisayar Mühendisliği · 2–6 Kasım 2026</p>
+    <h1>Vize Haftası</h1>
+    <p class="lede">Beş sınav, beş gün. Her ders için konu özetleri, çıkmış ya da olası sorular ve kendini test etme sayfaları; altta da sınavlara kadar gün gün çalışma planı. İşaretlediğin her şey kendi tarayıcında saklanır.</p>
+  </header>
+
+  <div class="next" id="next">
+    <div class="stack" style="display:grid;gap:6px;min-width:0">
+      <p class="tag">Sıradaki sınav</p>
+      <h2 id="nx-name">…</h2>
+      <p class="when muted" id="nx-when"></p>
+    </div>
+    <div class="clock" id="nx-clock" aria-live="off">
+      <div><b id="cd-d">–</b><span>gün</span></div>
+      <div><b id="cd-h">–</b><span>saat</span></div>
+      <div><b id="cd-m">–</b><span>dakika</span></div>
+    </div>
+  </div>
+
+  <section id="bugun">
+    <div class="sec-head"><h2 id="today-title">Bugün</h2><span class="muted mono" id="today-sum" style="font-size:.9rem"></span></div>
+    <div id="today"></div>
+  </section>
+
+  <section id="takvim">
+    <div class="sec-head"><h2>Sınav takvimi</h2></div>
+    <div class="cal" id="cal"></div>
+  </section>
+
+  <section id="dersler">
+    <div class="sec-head"><h2>Hazır dersler</h2><span class="muted" style="font-size:.92rem">Diğerlerinin notları geldikçe eklenecek</span></div>
+    <div class="courses" id="courses"></div>
+  </section>
+
+  <section id="plan">
+    <div class="sec-head"><h2>Gün gün plan</h2><span class="muted mono" id="plan-sum" style="font-size:.9rem"></span></div>
+    <div class="note-box"><b>Plan mantığı:</b> İlk sınav Yazılım Mühendisliği olduğu için 1 Kasım'a kadar sabahlar ona gidiyor. Veri Yapıları 30 Ekim'de başlıyor ve 2–3 Kasım akşamları çıkmış sorularla bitiyor. Diferansiyel için kendi notlarınla çalışacağın saatler ayrıldı. Yapay Zeka ve Doğal Dil İşleme blokları, notlar gelince doldurulacak.</div>
+    <div class="days" id="days"></div>
+  </section>
+
+  <footer>
+    Kişisel çalışma notlarıdır. Yazılım Mühendisliği: Sommerville, <i>Software Engineering</i> 8. baskı, Bölüm 1–7. Veri Yapıları: ders kodları (Hafta 1–6) ve 2020–2024 çıkmış vize soruları. Sınav yerlerini fakültenin resmî listesinden tekrar kontrol et.
+  </footer>
+</div>
+
+<script>
+(function(){
+  var C = {
+    ym: {name:'Yazılım Mühendisliği', href:'yazilim-muhendisligi.html', at:'2026-11-02T14:30:00+03:00', rooms:'A305 · A201 · A203', st:'ready'},
+    vy: {name:'Veri Yapıları', href:'veri-yapilari.html', at:'2026-11-04T11:00:00+03:00', rooms:'A305 · A201 · A203 · A205 · A311 · Lab1 · Elk.Lab.', st:'ready'},
+    yz: {name:'Yapay Zeka', at:'2026-11-04T15:00:00+03:00', rooms:'A201 · A203 · Lab1', st:'wait', note:'Slaytlar toplanıyor'},
+    dif:{name:'Diferansiyel Denklemler', at:'2026-11-05T12:30:00+03:00', rooms:'A305 · A201 · A203 · A311 · Lab1', st:'self', note:'Kendi notlarınla'},
+    ddi:{name:'Doğal Dil İşlemeye Giriş', at:'2026-11-06T14:00:00+03:00', rooms:'A201 · A203 · Lab1', st:'wait', note:'Notlar aranıyor'}
+  };
+  var ORDER = ['ym','vy','yz','dif','ddi'];
+  var YM = 'yazilim-muhendisligi.html', VY = 'veri-yapilari.html';
+  // [ders, iş, saat, bağlantı]  ·  sınavlar: ['EXAM', ders]
+  var PLAN = {
+    '2026-10-26':[['ym','B1 Giriş: özet, mutlaka bil, sorular, test',1.5,YM+'#b1'],['ym','B2 Sosyo-teknik sistemler',1.5,YM+'#b2']],
+    '2026-10-27':[['ym','B3 Kritik sistemler',1.5,YM+'#b3'],['ym','B4 Yazılım süreçleri (en uzun bölüm)',2.5,YM+'#b4'],['dif','Diferansiyel: kendi notlarınla',2]],
+    '2026-10-28':[['ym','B5 Proje yönetimi',1.5,YM+'#b5'],['ym','B1–B4 testlerini yeniden çöz, 15 altı kalanları tekrar et',1,YM+'#harita'],['dif','Diferansiyel: kendi notlarınla',2.5]],
+    '2026-10-29':[['ym','B6 Yazılım gereksinimleri',2,YM+'#b6'],['ym','B7 Gereksinim mühendisliği süreçleri',2,YM+'#b7'],['yz','Yapay Zeka: slaytları topla, göz gezdir',1]],
+    '2026-10-30':[['ym','B5–B7 testleri + sözlükte bilmediğin terimler',1.5,YM+'#sozluk'],['vy','H1–H2 diziler, işaretçi tipleri, bellek hesabı, matris',2,VY+'#h1'],['dif','Diferansiyel: kendi notlarınla',2]],
+    '2026-10-31':[['vy','H3 Listeler: 6 liste fonksiyonunu kâğıtta yaz',2.5,VY+'#h3'],['vy','H4 Yığın',0.5,VY+'#h4'],['yz','Yapay Zeka',2.5]],
+    '2026-11-01':[['ym','Genel tekrar: sayılı listeler + 2 karışık test',2.5,YM+'#son'],['ym','İngilizce cevap kalıplarını sesli tekrar et',1,YM+'#b1'],['vy','H5 BST: dolaşımlar ve ağaç fonksiyonları',2,VY+'#h5']],
+    '2026-11-02':[['ym','Sabah: sayılı listeler + 1 karışık test',1,YM+'#karisik'],['EXAM','ym'],['vy','Akşam: H6 Heap, heapify çizimleri',2,VY+'#h6'],['yz','Yapay Zeka',1.5]],
+    '2026-11-03':[['vy','Çıkmış soruları kâğıtta baştan çöz, araçlarla kontrol et',3,VY+'#harita'],['yz','Yapay Zeka: genel tekrar',3]],
+    '2026-11-04':[['vy','Sabah: son 10 dakika tablosu',0.5,VY+'#son'],['EXAM','vy'],['yz','Sınav arası son tekrar',1.5],['EXAM','yz'],['dif','Akşam: Diferansiyel tekrar',2.5]],
+    '2026-11-05':[['dif','Sabah: Diferansiyel son tekrar',1.5],['EXAM','dif'],['ddi','Akşam: Doğal Dil İşleme',3]],
+    '2026-11-06':[['ddi','Sabah: Doğal Dil İşleme son tekrar',2],['EXAM','ddi']]
+  };
+  var DN = ['Paz','Pzt','Sal','Çar','Per','Cum','Cmt'], DL = ['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'];
+  var MN = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+  var store = {
+    get: function(k, d){ try { var v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch(e){ return d; } },
+    set: function(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+  };
+  var esc = function(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); };
+  function ist(date){ // İstanbul saatine göre YYYY-MM-DD
+    try { return date.toLocaleDateString('sv-SE', {timeZone:'Europe/Istanbul'}); }
+    catch(e){ return date.toISOString().slice(0,10); }
+  }
+  function dObj(key){ return new Date(key + 'T12:00:00+03:00'); }
+  function dayLabel(key, long){ var d = dObj(key); return (long ? DL : DN)[d.getUTCDay()] + ' ' + d.getUTCDate() + ' ' + MN[d.getUTCMonth()]; }
+  function hm(iso){ return iso.slice(11,16); }
+  function fmtH(h){ return (h % 1 ? h.toFixed(1).replace('.', ',') : h) + ' sa'; }
+
+  var done = store.get('vh.plan', {});
+  function blockId(day, i){ return day + '#' + i; }
+
+  // sıradaki sınav + geri sayım
+  function nextExam(){
+    var now = new Date();
+    for(var i = 0; i < ORDER.length; i++){ var c = C[ORDER[i]]; if(new Date(c.at) > now) return ORDER[i]; }
+    return null;
+  }
+  function paintNext(){
+    var k = nextExam(), box = document.getElementById('next');
+    if(!k){ document.getElementById('nx-name').textContent = 'Bütün sınavlar bitti'; document.getElementById('nx-clock').hidden = true; document.getElementById('nx-when').textContent = 'Geçmiş olsun.'; return; }
+    var c = C[k], at = new Date(c.at), ms = at - new Date();
+    var nm = document.getElementById('nx-name');
+    nm.innerHTML = '<span class="cdot c-' + k + '">' + esc(c.name) + '</span>';
+    var dk = ist(at);
+    document.getElementById('nx-when').innerHTML = '<b>' + dayLabel(dk, true) + ', ' + hm(c.at) + '</b> · ' + esc(c.rooms) +
+      (c.href ? ' · <a href="' + c.href + '">Notlara git →</a>' : ' · ' + esc(c.note || ''));
+    document.getElementById('cd-d').textContent = Math.floor(ms / 864e5);
+    document.getElementById('cd-h').textContent = Math.floor(ms % 864e5 / 36e5);
+    document.getElementById('cd-m').textContent = Math.floor(ms % 36e5 / 6e4);
+    paintCal(k);
+  }
+
+  // takvim
+  function paintCal(nextK){
+    var now = new Date();
+    document.getElementById('cal').innerHTML = ORDER.map(function(k){
+      var c = C[k], at = new Date(c.at), dk = ist(at), past = at < now;
+      var pill = past ? '<span class="pill done">Bitti</span>' :
+        c.st === 'ready' ? '<span class="pill ready">Notlar hazır</span>' :
+        c.st === 'self' ? '<span class="pill self">' + esc(c.note) + '</span>' : '<span class="pill wait">' + esc(c.note) + '</span>';
+      return '<div class="exam' + (past ? ' past' : '') + (k === nextK ? ' isnext' : '') + '">' +
+        '<div class="d"><b>' + hm(c.at) + '</b><span>' + dayLabel(dk, false) + '</span></div>' +
+        '<div style="min-width:0"><span class="cdot c-' + k + '">' + esc(c.name) + '</span><div class="rooms">' + esc(c.rooms) + '</div></div>' +
+        '<div class="right" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">' + pill + (c.href ? '<a class="go" href="' + c.href + '">Notlar →</a>' : '') + '</div></div>';
+    }).join('');
+  }
+
+  // plan blokları
+  function blockHTML(day, i, b){
+    if(b[0] === 'EXAM'){
+      var c = C[b[1]];
+      return '<div class="ex"><span class="mono">' + hm(c.at) + '</span><span>SINAV · ' + esc(c.name) + '</span><span class="r">' + esc(c.rooms) + '</span></div>';
+    }
+    var id = blockId(day, i), k = b[0], c = C[k], chk = !!done[id];
+    var nomat = !c.href && c.st === 'wait';
+    var txt = b[3] ? '<a href="' + b[3] + '">' + esc(b[1]) + '</a>' : esc(b[1]);
+    var note = nomat ? '<span class="note">' + esc(c.note) + ', notlar gelince bu blok doldurulacak</span>' : '';
+    var cbid = 'cb-' + id.replace(/[^\w]/g, '-');
+    return '<div class="blk c-' + k + (chk ? ' checked' : '') + (nomat ? ' nomat' : '') + '">' +
+      '<input type="checkbox" id="' + cbid + '" data-id="' + id + '"' + (chk ? ' checked' : '') + '>' +
+      '<div class="t"><label class="sr" for="' + cbid + '">' + esc(b[1]) + '</label><span class="cdot c-' + k + '" style="font-weight:400">' + txt + '</span>' + note + '</div>' +
+      '<span class="h">' + fmtH(b[2]) + '</span></div>';
+  }
+  function daySum(day){
+    var t = 0, n = 0, d = 0;
+    PLAN[day].forEach(function(b, i){ if(b[0] !== 'EXAM'){ t += b[2]; n++; if(done[blockId(day, i)]) d++; } });
+    return {t:t, n:n, d:d};
+  }
+  function paintDays(){
+    var today = ist(new Date()), keys = Object.keys(PLAN).sort();
+    var tot = 0, dn = 0;
+    document.getElementById('days').innerHTML = keys.map(function(day){
+      var s = daySum(day); tot += s.n; dn += s.d;
+      var cls = day === today ? ' today' : day < today ? ' past' : '';
+      return '<div class="day' + cls + '" id="g' + day + '"><div class="dhead"><h3>' + dayLabel(day, true) + '</h3>' +
+        (day === today ? '<span class="badge">Bugün</span>' : '') +
+        '<span class="sum">' + fmtH(s.t) + ' · ' + s.d + '/' + s.n + '</span></div>' +
+        PLAN[day].map(function(b, i){ return blockHTML(day, i, b); }).join('') + '</div>';
+    }).join('');
+    document.getElementById('plan-sum').textContent = dn + ' / ' + tot + ' blok tamam';
+
+    // bugün kutusu: bugün plandaysa onu, değilse sıradaki plan gününü göster
+    var show = keys.indexOf(today) >= 0 ? today : keys.filter(function(k){ return k > today; })[0];
+    var host = document.getElementById('today');
+    if(!show){ document.getElementById('today-title').textContent = 'Plan bitti'; host.innerHTML = ''; document.getElementById('today-sum').textContent = ''; return; }
+    var s = daySum(show);
+    document.getElementById('today-title').textContent = show === today ? 'Bugün · ' + dayLabel(show, true) : 'Plan ' + dayLabel(show, true) + ' günü başlıyor';
+    document.getElementById('today-sum').textContent = fmtH(s.t) + ' · ' + s.d + '/' + s.n + ' tamam';
+    host.innerHTML = '<div class="day today">' + PLAN[show].map(function(b, i){ return blockHTML(show, i, b); }).join('').replace(/id="cb-/g, 'id="tcb-').replace(/for="cb-/g, 'for="tcb-') + '</div>';
+  }
+  document.addEventListener('change', function(e){
+    var id = e.target && e.target.dataset && e.target.dataset.id;
+    if(!id) return;
+    if(e.target.checked) done[id] = 1; else delete done[id];
+    store.set('vh.plan', done);
+    paintDays(); paintCourses();
+  });
+
+  // ders kartları (ilerleme Yazılım Mühendisliği sayfasının kayıtlarından)
+  function paintCourses(){
+    var ymDone = 0, ymBest = 0;
+    for(var i = 1; i <= 7; i++){
+      var p = store.get('vh.ym.ch' + i, null);
+      if(p){ if(p.ozet && p.soru && p.best >= 15) ymDone++; ymBest += (p.best || 0); }
+    }
+    var vyBlocks = 0, vyDone = 0, ymB = 0, ymBD = 0;
+    Object.keys(PLAN).forEach(function(day){ PLAN[day].forEach(function(b, i){
+      if(b[0] === 'vy'){ vyBlocks++; if(done[blockId(day, i)]) vyDone++; }
+      if(b[0] === 'ym'){ ymB++; if(done[blockId(day, i)]) ymBD++; }
+    }); });
+    var cards = [
+      {k:'ym', title:'Yazılım Mühendisliği', sub:'Sommerville 8. baskı · Bölüm 1–7 · 101 olası soru · 126 test sorusu · 477 terim',
+       stat: ymDone + ' / 7 bölüm tamam · testlerde toplam ' + ymBest + ' / 126', pct: ymDone / 7,
+       jump:[['Konu haritası','#harita'],['B1','#b1'],['B2','#b2'],['B3','#b3'],['B4','#b4'],['B5','#b5'],['B6','#b6'],['B7','#b7'],['Sözlük','#sozluk'],['Karışık test','#karisik'],['Sayılı listeler','#son']]},
+      {k:'vy', title:'Veri Yapıları', sub:'Hafta 1–6 (heap\'e kadar) · 2020–2024 çıkmış vizeler çözümlü · heapify ve BST araçları',
+       stat: vyDone + ' / ' + vyBlocks + ' plan bloğu tamam', pct: vyBlocks ? vyDone / vyBlocks : 0,
+       jump:[['Sınav haritası','#harita'],['H1 Diziler','#h1'],['H2 Matris','#h2'],['H3 Liste','#h3'],['H4 Yığın','#h4'],['H5 BST','#h5'],['H6 Heap','#h6'],['Araçlar','#arac'],['Test','#test'],['Son 10 dk','#son']]}
+    ];
+    document.getElementById('courses').innerHTML = cards.map(function(c){
+      var href = C[c.k].href;
+      return '<div class="course c-' + c.k + '"><span class="cdot c-' + c.k + '" style="font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)">' + dayLabel(ist(new Date(C[c.k].at)), false) + ' · ' + hm(C[c.k].at) + '</span>' +
+        '<h3>' + esc(c.title) + '</h3><p class="muted" style="font-size:.92rem">' + esc(c.sub) + '</p>' +
+        '<div class="bar" aria-hidden="true"><i style="width:' + Math.round(c.pct * 100) + '%"></i></div>' +
+        '<p class="mono" style="font-size:.85rem">' + esc(c.stat) + '</p>' +
+        '<div class="jump">' + c.jump.map(function(j){ return '<a href="' + href + j[1] + '">' + esc(j[0]) + '</a>'; }).join('') + '</div>' +
+        '<a class="btn" href="' + href + '">Notları aç</a></div>';
+    }).join('');
+  }
+
+  paintNext(); paintDays(); paintCourses();
+  setInterval(function(){ paintNext(); }, 30000);
+})();
+</script>
+
+</body>
+</html>
