@@ -26,12 +26,17 @@
   <div class="hero">
     <div class="hero-row"><span class="badge lg c-vy">VY</span>
       <div><h1>Veri Yapıları</h1><p class="muted">Vize: Çarşamba, 4 Kasım · 11:00 · A305, A201, A203, A205, A311, Lab1, Elk.Lab.</p></div></div>
-    <p class="sub">Hafta 1–6, heap'e kadar. Her haftada konu özeti, dersin kodlarından örnekler ve 2020–2024 çıkmış vize sorularının çözümleri var.</p>
+    <p class="sub">Hafta 1–6, heap'e kadar. Her haftada konu özeti ve 2020–2024 çıkmış vize sorularının çözümleri var. Dersin bütün kodları satır satır açıklandı, en önemli fonksiyonlar animasyonla izlenebiliyor.</p>
   </div>
 
   <div class="section">
     <div class="section-title"><h2>Haftalar</h2></div>
     <div class="grid"><a class="card" href="#h1"><span class="label">Hafta 1</span><h3>Diziler, işaretçiler ve dinamik bellek</h3><p class="desc">Adres hesabı, işaretçi tipleri, 2B dinamik dizi ve bellek hesabı.</p><div class="foot"><span class="meta">3 soru</span><span class="go">Aç →</span></div></a><a class="card" href="#h2"><span class="label">Hafta 2</span><h3>Matris çarpımı</h3><p class="desc">Statik ve dinamik matris, çarpım şartı, birim matris sorusu.</p><div class="foot"><span class="meta">1 soru</span><span class="go">Aç →</span></div></a><a class="card" href="#h3"><span class="label">Hafta 3</span><h3>Bağlı listeler</h3><p class="desc">Ekleme, silme, ters çevirme; her yıl çıkan liste fonksiyonları.</p><div class="foot"><span class="meta">7 soru</span><span class="go">Aç →</span></div></a><a class="card" href="#h4"><span class="label">Hafta 4</span><h3>Yığın (stack)</h3><p class="desc">Dizi ve bağlı listeyle yığın, LIFO, kapasite artırma.</p><div class="foot"><span class="meta">Konu özeti</span><span class="go">Aç →</span></div></a><a class="card" href="#h5"><span class="label">Hafta 5</span><h3>İkili arama ağacı</h3><p class="desc">Ekleme, silme, dolaşımlar ve en çok puan getiren ağaç fonksiyonları.</p><div class="foot"><span class="meta">12 soru</span><span class="go">Aç →</span></div></a><a class="card" href="#h6"><span class="label">Hafta 6</span><h3>Heap ve heap sort</h3><p class="desc">buble_down, heapify, delete_max ve çıkmış heapify çizimleri.</p><div class="foot"><span class="meta">5 soru</span><span class="go">Aç →</span></div></a></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><h2>Kodları anlamak</h2><p>Dersin C kodları: kelime kelime, fonksiyon fonksiyon, animasyonlu</p></div>
+    <div class="grid"><a class="card" href="#c"><span class="label">34 kavram</span><h3>C dili sözlüğü</h3><p class="desc">malloc, free, *, **, ->, struct, NULL, sizeof… Ne işe yarar, nasıl yazılır, derste nerede geçiyor.</p><span class="go">Sözlüğü aç →</span></a><a class="card" href="#kod"><span class="label">16 dosya</span><h3>Kod anlatımı</h3><p class="desc">Hocanın bütün kodları fonksiyon fonksiyon: ne yapar, adım adım nasıl çalışır, nerede hata var.</p><span class="go">Kodları aç →</span></a><a class="card" href="#anim"><span class="label">21 animasyon</span><h3>Animasyonlar</h3><p class="desc">Kod satır satır çalışırken liste, ağaç, heap ve bellek ekranda değişir. Kendi verinle oynat.</p><span class="go">İzle →</span></a></div>
   </div>
 
   <div class="section">
@@ -44,7 +49,7 @@
     <div class="grid wide">
       <div class="card"><span class="label">Slaytlar</span><h3>Ders slaytları</h3><div class="files"><a href="kaynaklar/veri-yapilari/slaytlar/hafta-1-diziler.pdf" target="_blank" rel="noopener"><span class="ic pdf">PDF</span><span>Hafta 1 · Diziler</span><span class="sz">220 KB</span></a><a href="kaynaklar/veri-yapilari/slaytlar/hafta-3-listeler.pdf" target="_blank" rel="noopener"><span class="ic pdf">PDF</span><span>Hafta 3 · Listeler</span><span class="sz">232 KB</span></a><a href="kaynaklar/veri-yapilari/slaytlar/hafta-5-ikili-arama-agaci.pdf" target="_blank" rel="noopener"><span class="ic pdf">PDF</span><span>Hafta 5 · İkili arama ağacı</span><span class="sz">527 KB</span></a><a href="kaynaklar/veri-yapilari/slaytlar/hafta-6-heap.pdf" target="_blank" rel="noopener"><span class="ic pdf">PDF</span><span>Hafta 6 · Heap</span><span class="sz">395 KB</span></a></div>
         <p class="meta">2., 4. haftaların slaytı klasörde yoktu; o haftalar ders kodlarıyla anlatılmış.</p></div>
-      <a class="card" href="#kod"><span class="label">16 dosya</span><h3>Ders kodları</h3><p class="desc">Hafta hafta derste yazılan C kodları: dizi, matris, liste, yığın, BST, heap. Sitede okunabilir.</p><span class="go">Kodları aç →</span></a>
+      <a class="card" href="#kod"><span class="label">16 dosya</span><h3>Ders kodları</h3><p class="desc">Hafta hafta derste yazılan C kodları: dizi, matris, liste, yığın, BST, heap. Her biri sitede açıklamalı, indirilebilir.</p><span class="go">Kodları aç →</span></a>
     </div>
   </div>
 </section>
@@ -1073,12 +1078,21 @@ void delete_max(struct heap *heap){
 
 <section class="view" data-view="kod" hidden>
   <a class="back" href="#">← Tüm konular</a>
-  <div class="view-head"><span class="label">Orijinal kaynaklar</span><h1>Ders kodları</h1><p class="muted">Bir dosya seç, kod aşağıda açılır.</p></div>
-  <div class="grid wide" id="kod-list" style="margin-top:14px"></div>
-  <div class="box" id="kod-box" style="margin-top:18px" hidden>
-    <div class="toolbar"><h3 id="kod-title"></h3><a class="btn" id="kod-gh" target="_blank" rel="noopener">GitHub'da aç</a></div>
-    <pre class="code" id="kod-pre"></pre>
-  </div>
+  <div class="view-head"><span class="label">Kodları anlamak</span><h1>Kod anlatımı</h1><p class="muted" style="max-width:70ch">Hocanın derste yazdığı bütün dosyalar. Bir dosyayı açınca her fonksiyonun ne yaptığı, adım adım nasıl çalıştığı ve içinde geçen C ifadelerinin anlamı kodun hemen üstünde. Koddaki mor ve yeşil kelimelerin üzerine gelince kısa anlamı çıkar.</p></div>
+  <div id="kod-index"></div>
+</section>
+
+<section class="view" data-view="c" hidden>
+  <a class="back" href="#">← Tüm konular</a>
+  <div class="view-head"><span class="label">Kodları anlamak</span><h1>C dili sözlüğü</h1><p class="muted" style="max-width:70ch">Ders kodlarında geçen her kelime ve işaret: ne işe yarar, nasıl yazılır, derste nerede geçiyor, nerede hata yapılıyor.</p></div>
+  <div class="filters" style="margin-top:8px"><div class="field" style="max-width:420px"><label for="c-q">Ara</label><input type="search" id="c-q" placeholder="malloc, ->, NULL, struct…" autocomplete="off"></div></div>
+  <div id="c-list"></div>
+</section>
+
+<section class="view" data-view="anim" hidden>
+  <a class="back" href="#">← Tüm konular</a>
+  <div class="view-head"><span class="label">Kodları anlamak</span><h1>Animasyonlar</h1><p class="muted" style="max-width:70ch">Her animasyon dersin kodunu satır satır çalıştırır: solda çalışan satır sarı yanar, sağda liste, ağaç ya da bellek o satırdan sonraki hâline geçer. ▶ ile video gibi oynat, ◀ ▶| ile adım adım git (klavyede ← →). Üstteki kutulara kendi sayılarını yazıp çalıştırabilirsin.</p></div>
+  <div id="anim-index"></div>
 </section>
 
 </main>
@@ -1086,6 +1100,8 @@ void delete_max(struct heap *heap){
 <footer class="site">Kaynak: ders kodları ve slaytları (Hafta 1–6) ve 2020–2024 çıkmış vize soruları. Kişisel çalışma notudur.</footer>
 
 <script src="assets/vy-tools.js"></script>
+<script src="assets/vy-kod.js"></script>
+<script src="assets/vy-anim.js"></script>
 <script src="assets/vy.js"></script>
 </body>
 </html>

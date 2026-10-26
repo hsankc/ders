@@ -17,7 +17,7 @@
       var st = p.done ? '<span class="tag ok">✓ Bitti</span>' : p.best ? '<span class="tag accent">Test ' + p.best + '/18</span>' : '<span class="meta">' + esc(ch.pages) + '</span>';
       return '<a class="card" href="#b' + ch.no + '"><span class="label">Bölüm ' + ch.no + '</span>' +
         '<h3>' + esc(ch.tr) + '</h3><p class="desc">' + esc(ESS[ch.no]) + '</p>' +
-        '<div class="foot"><span class="meta">' + ch.qa.length + ' soru · ' + ch.quiz.length + ' test</span>' + st + '</div></a>';
+        '<div class="foot"><span class="meta">Konu anlatımı · ' + ch.qa.length + ' soru · ' + ch.quiz.length + ' test</span>' + st + '</div></a>';
     }).join('');
     document.getElementById('ch-progress').textContent = done + ' / 7 bölüm bitti';
   }
@@ -158,6 +158,77 @@
     return '<tr><td class="big">' + r[0] + '</td><td><b>' + esc(r[1]) + '</b></td><td>' + esc(r[2]) + '</td><td class="n">' + esc(r[3]) + '</td></tr>';
   }).join('');
 
+  // --- konu anlatımı: Türkçe notun bölüm içeriği, sekme açılınca yüklenir
+  var notesState = {};
+  var GRP = {
+    intro: {cls:'intro', ic:'◎', title:'Bu bölüm ne anlatıyor?'},
+    kitap: {cls:'kitap', ic:'📖', title:'Kitapta ne anlatılıyor'},
+    hoca:  {cls:'hoca',  ic:'👨‍🏫', title:'Hoca anlatımı'},
+    not:   {cls:'not',   ic:'📝', title:'Deftere not'}
+  };
+  function txt(b){ return b.em ? '<strong>' + esc(b.x) + '</strong>' : esc(b.x); }
+  function renderItems(items){
+    var h = '', tops = null;
+    function flush(){
+      if(!tops) return;
+      h += '<ul class="nl">' + tops.map(function(t){
+        return '<li>' + t.html + (t.kids.length ? '<ul>' + t.kids.map(function(k){ return '<li>' + k + '</li>'; }).join('') + '</ul>' : '') + '</li>';
+      }).join('') + '</ul>';
+      tops = null;
+    }
+    items.forEach(function(b){
+      if(b.t === 'li'){
+        if(!tops) tops = [];
+        if(b.l === 2 && tops.length) tops[tops.length - 1].kids.push(txt(b));
+        else tops.push({html: txt(b), kids: []});
+        return;
+      }
+      flush();
+      if(b.t === 'p') h += '<p>' + txt(b) + '</p>';
+      else if(b.t === 'label') h += '<p class="lbl-sm">' + esc(b.x) + '</p>';
+      else if(b.t === 'img') h += '<figure class="nfig"><img src="assets/ym-notes/img/' + b.src + '" width="' + Math.round(b.w * 1.4) + '" alt="' + esc(b.cap || 'Şema') + '" loading="lazy">' + (b.cap ? '<figcaption>' + esc(b.cap) + '</figcaption>' : '') + '</figure>';
+    });
+    flush();
+    return h;
+  }
+  function renderGroups(blocks){
+    var groups = [], cur = null;
+    blocks.forEach(function(b){
+      if(b.t === 'h'){ cur = {k: b.k, items: []}; groups.push(cur); return; }
+      if(!cur){ cur = {k: 'kitap', items: []}; groups.push(cur); }
+      cur.items.push(b);
+    });
+    return groups.map(function(g){
+      var m = GRP[g.k] || GRP.kitap;
+      return '<div class="grp ' + m.cls + '"><p class="grp-h"><span aria-hidden="true">' + m.ic + '</span>' + m.title + '</p>' + renderItems(g.items) + '</div>';
+    }).join('');
+  }
+  function renderNotes(n, d){
+    var h = '<div class="konu-nav" role="group" aria-label="Kitap sayfasına git"><span class="muted">Kitap sayfası:</span>' +
+      d.pages.map(function(pg, i){ return '<button type="button" data-goto="b' + n + '-pg' + i + '">s.' + esc(pg.p) + '</button>'; }).join('') + '</div>';
+    if(d.intro.length) h += '<div class="pg">' + renderGroups(d.intro) + '</div>';
+    h += d.pages.map(function(pg, i){
+      return '<article class="pg" id="b' + n + '-pg' + i + '"><div class="pg-head"><span class="pg-no">Kitap s.' + esc(pg.p) + '</span><h3>' + esc(pg.title || ('Sayfa ' + pg.p)) + '</h3></div>' + renderGroups(pg.blocks) + '</article>';
+    }).join('');
+    h += '<p class="muted" style="font-size:.9rem">Bu metin, kitabın bu bölümünden sayfa sayfa hazırlanmış Türkçe vize notlarının kendisidir. <a href="kaynaklar/yazilim-muhendisligi/vize-notlari.pdf" target="_blank" rel="noopener">PDF hâlini aç</a>.</p>';
+    return h;
+  }
+  function loadNotes(n){
+    if(notesState[n]) return;
+    notesState[n] = 'loading';
+    var panel = document.querySelector('[data-view="b' + n + '"] [data-panel="konu"]');
+    fetch('assets/ym-notes/b' + n + '.json').then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); }).then(function(d){
+      panel.innerHTML = renderNotes(n, d);
+      panel.querySelectorAll('[data-goto]').forEach(function(b){
+        b.addEventListener('click', function(){ document.getElementById(b.dataset.goto).scrollIntoView({behavior:'smooth', block:'start'}); });
+      });
+      notesState[n] = 'done';
+    }).catch(function(){
+      notesState[n] = null;
+      panel.innerHTML = '<p class="muted">Konu anlatımı yüklenemedi. Sayfayı yenile ya da <a href="kaynaklar/yazilim-muhendisligi/vize-notlari.pdf" target="_blank" rel="noopener">notların PDF hâlini aç</a>.</p>';
+    });
+  }
+
   // --- görünüm yönlendirme (#b3, #sozluk ...)
   var views = document.querySelectorAll('.view');
   var first = true;
@@ -167,6 +238,7 @@
     var has = document.querySelector('[data-view="' + id + '"]');
     var v = has ? id : 'home';
     views.forEach(function(el){ el.hidden = el.dataset.view !== v; });
+    var m = /^b(\d)$/.exec(v); if(m) loadNotes(+m[1]);
     if(location.hash === '#kaynaklar'){ document.getElementById('kaynaklar').scrollIntoView(); }
     else if(!first || has){ window.scrollTo(0, 0); }
     first = false;
