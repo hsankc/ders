@@ -3,180 +3,56 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Veri Yapıları Vize Kılavuzu</title>
+<title>Veri Yapıları · Vize Haftası</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,750&family=Caveat:wght@600&family=JetBrains+Mono:wght@400;600&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
-<style>
-/* Düzen: tek okuma kolonu (≤ 900px), yapışkan hafta sekmeleri; sınav kâğıdı: tükenmez mavi + öğretmen kırmızı kalemi + fosforlu kalem */
-:root{
-  --paper:#F3F5F8; --sheet:#FFFFFF; --ink:#17202A; --muted:#566370; --rule:#D6DDE5;
-  --pen:#2346A0; --pen-soft:#E4EAF8; --red:#B3312A; --red-soft:#FBE9E7; --hl:#FFEF9C; --code:#F7F9FB;
-  --f-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
-  --f-body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
-  --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
-  --f-hand:"Caveat","Segoe Print","Comic Sans MS",cursive;
-}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --paper:#10151B; --sheet:#171F28; --ink:#E3E8EE; --muted:#9BA8B5; --rule:#2A3440;
-  --pen:#97B3FF; --pen-soft:#1D2942; --red:#FF8E84; --red-soft:#3A201F; --hl:#4D4416; --code:#131A22; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --paper:#10151B; --sheet:#171F28; --ink:#E3E8EE; --muted:#9BA8B5; --rule:#2A3440;
-  --pen:#97B3FF; --pen-soft:#1D2942; --red:#FF8E84; --red-soft:#3A201F; --hl:#4D4416; --code:#131A22; color-scheme:dark}
-
-body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:1.0625rem;line-height:1.6;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
-.wrap{max-width:900px;margin:0 auto}
-h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.15;margin:0}
-h1{font-size:clamp(2rem,6vw,3.1rem);font-weight:750;letter-spacing:-.02em}
-h2{font-size:clamp(1.45rem,3.6vw,1.9rem);font-weight:750;letter-spacing:-.01em}
-h3{font-size:1.15rem;font-weight:600}
-p{margin:0}
-a{color:var(--pen)}
-code,pre,.mono{font-family:var(--f-mono);font-size:.86em}
-:not(pre)>code{background:var(--pen-soft);padding:.05em .35em;border-radius:4px;white-space:nowrap}
-mark{background:var(--hl);color:var(--ink);padding:0 .2em;border-radius:3px}
-.muted{color:var(--muted)}
-.eyebrow{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
-
-/* başlık */
-.top{padding-block:40px 28px;display:grid;gap:14px}
-.lede{max-width:65ch;color:var(--muted);font-size:1.08rem}
-.scope{display:flex;flex-wrap:wrap;gap:8px}
-.chip{font-size:.85rem;border:1px solid var(--rule);border-radius:999px;padding:3px 10px;background:var(--sheet);color:var(--muted)}
-.chip b{color:var(--ink);font-weight:600}
-
-/* sekmeler */
-.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);border-bottom:1px solid var(--rule);margin-bottom:8px}
-.tabs .row{display:flex;gap:6px;overflow-x:auto;padding-block:10px;scrollbar-width:thin;max-width:900px;margin:0 auto}
-.tabs a{flex:0 0 auto;text-decoration:none;color:var(--ink);font-size:.9rem;padding:5px 12px;border-radius:999px;border:1px solid var(--rule);background:var(--sheet);white-space:nowrap}
-.tabs a:hover,.tabs a:focus-visible{border-color:var(--pen);color:var(--pen);outline:none}
-.tabs a b{font-family:var(--f-mono);font-size:.78rem;color:var(--muted);margin-right:4px;font-weight:400}
-
-/* bölümler */
-section{padding-block:34px 10px;display:grid;gap:18px;scroll-margin-top:64px}
-section+section{border-top:1px solid var(--rule)}
-.sec-head{display:grid;gap:6px}
-.sec-head .eyebrow{color:var(--pen)}
-.stack{display:grid;gap:14px;min-width:0}
-ul.facts{margin:0;padding-left:1.15em;display:grid;gap:6px}
-ul.facts li{max-width:72ch}
-ul.facts li::marker{color:var(--pen)}
-
-pre{background:var(--code);border:1px solid var(--rule);border-radius:8px;padding:12px 14px;overflow-x:auto;margin:0;line-height:1.5;tab-size:4}
-pre .c{color:var(--muted);font-style:italic}
-.tblw{overflow-x:auto;border:1px solid var(--rule);border-radius:8px;background:var(--sheet)}
-table{border-collapse:collapse;width:100%;font-size:.95rem}
-th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
-tr:last-child td{border-bottom:0}
-th{font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--code)}
-td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
-
-.formula{background:var(--sheet);border:1px solid var(--rule);border-radius:10px;padding:14px 16px;display:grid;gap:8px}
-.formula .f{font-family:var(--f-mono);font-size:.92rem;overflow-x:auto}
-
-/* kırmızı kalem uyarısı */
-.pit{background:var(--red-soft);border-radius:10px;padding:12px 16px;display:grid;gap:6px}
-.pit .tag{font-family:var(--f-hand);font-size:1.45rem;color:var(--red);line-height:1}
-.pit ul{margin:0;padding-left:1.1em;display:grid;gap:4px}
-
-/* çıkmış soru kartı */
-.q{background:var(--sheet);border:1px solid var(--rule);border-radius:12px;padding:16px;display:grid;gap:10px;min-width:0}
-.q-top{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;justify-content:space-between}
-.q-tag{font-size:.75rem;letter-spacing:.07em;text-transform:uppercase;font-weight:700;color:var(--red)}
-.q-pts{font-family:var(--f-mono);font-size:.8rem;color:var(--muted)}
-.q-text{font-weight:600}
-details{border-top:1px dashed var(--rule);padding-top:8px}
-summary{cursor:pointer;color:var(--pen);font-weight:600;list-style:none;display:inline-flex;gap:6px;align-items:center}
-summary::-webkit-details-marker{display:none}
-summary::before{content:"▸";transition:transform .15s}
-details[open]>summary::before{transform:rotate(90deg)}
-summary:focus-visible{outline:2px solid var(--pen);outline-offset:3px;border-radius:4px}
-details>.stack{margin-top:10px}
-
-.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-.tree{overflow-x:auto;padding-block:4px}
-.tree svg{display:block;margin:0 auto}
-.fig{display:grid;gap:4px;min-width:0}
-.fig .cap{font-size:.85rem;color:var(--muted);text-align:center}
-.te{stroke:var(--muted);stroke-width:1.4}
-.tn circle{fill:var(--sheet);stroke:var(--pen);stroke-width:1.8}
-.tn.leaf circle{fill:var(--hl)}
-.tn text{fill:var(--ink);font-family:var(--f-mono);font-size:12px;text-anchor:middle;font-weight:600}
-.tn text.ti{fill:var(--muted);font-size:9.5px;font-weight:400}
-
-.btn{font:inherit;font-size:.9rem;font-weight:600;border:1px solid var(--pen);color:var(--pen);background:var(--sheet);border-radius:8px;padding:6px 12px;cursor:pointer}
-.btn:hover{background:var(--pen-soft)}
-.btn:focus-visible,input:focus-visible{outline:2px solid var(--pen);outline-offset:2px}
-.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-label{font-size:.85rem;color:var(--muted);font-weight:600}
-input[type=text]{font-family:var(--f-mono);font-size:.9rem;padding:7px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--code);color:var(--ink);width:100%;min-width:0}
-.field{display:grid;gap:4px;flex:1 1 260px;min-width:0}
-.out{font-family:var(--f-mono);font-size:.86rem;display:grid;gap:3px;overflow-x:auto}
-.out b{color:var(--pen)}
-.steps{font-family:var(--f-mono);font-size:.8rem;color:var(--muted);display:grid;gap:2px;overflow-x:auto}
-
-.map{display:grid;gap:10px}
-.map-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;padding:10px 14px;background:var(--sheet);border:1px solid var(--rule);border-radius:10px}
-.map-row .w{font-size:.78rem;color:var(--muted);font-family:var(--f-mono)}
-.yrs{display:flex;gap:4px;align-items:center;grid-row:span 2;align-self:center}
-.yr{font-family:var(--f-mono);font-size:.72rem;padding:1px 6px;border-radius:5px;color:var(--muted);opacity:.45;border:1px dashed var(--rule)}
-.yr.on{opacity:1;color:var(--red);background:var(--red-soft);border:1px solid transparent;font-weight:600}
-@media (max-width:520px){.map-row{grid-template-columns:1fr}.yrs{grid-row:auto}}
-
-footer{padding-block:30px 48px;color:var(--muted);font-size:.9rem;border-top:1px solid var(--rule);margin-top:20px}
-@media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
-html{scroll-behavior:smooth}
-</style>
-<style>
-*,*::before,*::after{box-sizing:border-box}
-:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-body{margin:0}
-img{max-width:100%}
-[hidden]{display:none!important}
-.back{display:inline-flex;gap:6px;align-items:center;font-size:.9rem;text-decoration:none;color:var(--muted);padding-top:18px}
-.back:hover{color:var(--pen)}
-</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
-<div class="wrap"><a class="back" href="./">← Vize Haftası ana sayfası</a></div>
 
+<header class="topbar"><div class="in">
+  <a class="brand" href="./"><i></i>Vize Haftası</a>
+  <nav aria-label="Dersler">
+    <a href="yazilim-muhendisligi.html">Yazılım Müh.</a>
+    <a href="veri-yapilari.html" class="on">Veri Yapıları</a>
+  </nav>
+</div></header>
 
-<header class="wrap top">
-  <p class="eyebrow">Bilgisayar Mühendisliği · 2. sınıf · Hafta 1–6</p>
-  <h1>Veri Yapıları Vize Kılavuzu</h1>
-  <p class="lede">Klasöründeki HAFTA1–6 kodlarından ve slaytlarından, 2020–2024 çıkmış vize sorularıyla ve "notlar falan" klasöründeki defter/final sorularıyla birlikte hazırlandı. Kod çıktıları ve heapify cevapları, dersteki C kodunun birebir simülasyonuyla doğrulandı.</p>
-  <div class="scope">
-    <span class="chip"><b>H1</b> Diziler, işaretçiler</span>
-    <span class="chip"><b>H2</b> Matris çarpımı</span>
-    <span class="chip"><b>H3</b> Bağlı listeler</span>
-    <span class="chip"><b>H4</b> Yığın</span>
-    <span class="chip"><b>H5</b> İkili arama ağacı</span>
-    <span class="chip"><b>H6</b> Heap</span>
+<main class="page">
+
+<section class="view" data-view="home">
+  <div class="hero">
+    <div class="hero-row"><span class="badge lg c-vy">VY</span>
+      <div><h1>Veri Yapıları</h1><p class="muted">Vize: Çarşamba, 4 Kasım · 11:00 · A305, A201, A203, A205, A311, Lab1, Elk.Lab.</p></div></div>
+    <p class="sub">Hafta 1–6, heap'e kadar. Her haftada konu özeti, dersin kodlarından örnekler ve 2020–2024 çıkmış vize sorularının çözümleri var.</p>
   </div>
-</header>
 
-<nav class="tabs" aria-label="Bölümler">
-  <div class="row">
-    <a href="#harita">Sınav haritası</a>
-    <a href="#h1"><b>H1</b>Diziler</a>
-    <a href="#h2"><b>H2</b>Matris</a>
-    <a href="#h3"><b>H3</b>Liste</a>
-    <a href="#h4"><b>H4</b>Yığın</a>
-    <a href="#h5"><b>H5</b>BST</a>
-    <a href="#h6"><b>H6</b>Heap</a>
-    <a href="#arac">Araçlar</a>
-    <a href="#test">Kendini test et</a>
-    <a href="#son">Son 10 dakika</a>
+  <div class="section">
+    <div class="section-title"><h2>Haftalar</h2></div>
+    <div class="grid"><a class="card" href="#h1"><span class="label">Hafta 1</span><h3>Diziler, işaretçiler ve dinamik bellek</h3><p class="desc">Adres hesabı, işaretçi tipleri, 2B dinamik dizi ve bellek hesabı.</p><div class="foot"><span class="meta">3 soru</span><span class="go">Aç →</span></div></a><a class="card" href="#h2"><span class="label">Hafta 2</span><h3>Matris çarpımı</h3><p class="desc">Statik ve dinamik matris, çarpım şartı, birim matris sorusu.</p><div class="foot"><span class="meta">1 soru</span><span class="go">Aç →</span></div></a><a class="card" href="#h3"><span class="label">Hafta 3</span><h3>Bağlı listeler</h3><p class="desc">Ekleme, silme, ters çevirme; her yıl çıkan liste fonksiyonları.</p><div class="foot"><span class="meta">7 soru</span><span class="go">Aç →</span></div></a><a class="card" href="#h4"><span class="label">Hafta 4</span><h3>Yığın (stack)</h3><p class="desc">Dizi ve bağlı listeyle yığın, LIFO, kapasite artırma.</p><div class="foot"><span class="meta">Konu özeti</span><span class="go">Aç →</span></div></a><a class="card" href="#h5"><span class="label">Hafta 5</span><h3>İkili arama ağacı</h3><p class="desc">Ekleme, silme, dolaşımlar ve en çok puan getiren ağaç fonksiyonları.</p><div class="foot"><span class="meta">12 soru</span><span class="go">Aç →</span></div></a><a class="card" href="#h6"><span class="label">Hafta 6</span><h3>Heap ve heap sort</h3><p class="desc">buble_down, heapify, delete_max ve çıkmış heapify çizimleri.</p><div class="foot"><span class="meta">5 soru</span><span class="go">Aç →</span></div></a></div>
   </div>
-</nav>
 
-<main class="wrap">
+  <div class="section">
+    <div class="section-title"><h2>Sınav için</h2></div>
+    <div class="grid"><a class="card" href="#harita"><h3>Sınav haritası</h3><p class="desc">Hangi soru tipi hangi yıl çıktı, klasördeki yanlış çözümler.</p><span class="go">Aç →</span></a><a class="card" href="#arac"><h3>Araçlar</h3><p class="desc">Kâğıtta çözdüğün heapify ve BST sorularını kontrol et.</p><span class="go">Aç →</span></a><a class="card" href="#test"><h3>Kendini test et</h3><p class="desc">30 kısa cevaplı soru, cevaplar gizli.</p><span class="go">Aç →</span></a><a class="card" href="#son"><h3>Son 10 dakika</h3><p class="desc">Sınav kapısında bakılacak formül ve karmaşıklık tablosu.</p><span class="go">Aç →</span></a></div>
+  </div>
 
-<!-- ============ HARİTA ============ -->
-<section id="harita">
-  <div class="sec-head">
+  <div class="section">
+    <div class="section-title"><h2>Orijinal kaynaklar</h2><p>Hocanın slaytları ve ders kodları</p></div>
+    <div class="grid wide">
+      <div class="card"><span class="label">Slaytlar</span><h3>Ders slaytları</h3><div class="files"><a href="kaynaklar/veri-yapilari/slaytlar/hafta-1-diziler.pdf" target="_blank" rel="noopener"><span class="ic pdf">PDF</span><span>Hafta 1 · Diziler</span><span class="sz">220 KB</span></a><a href="kaynaklar/veri-yapilari/slaytlar/hafta-3-listeler.pdf" target="_blank" rel="noopener"><span class="ic pdf">PDF</span><span>Hafta 3 · Listeler</span><span class="sz">232 KB</span></a><a href="kaynaklar/veri-yapilari/slaytlar/hafta-5-ikili-arama-agaci.pdf" target="_blank" rel="noopener"><span class="ic pdf">PDF</span><span>Hafta 5 · İkili arama ağacı</span><span class="sz">527 KB</span></a><a href="kaynaklar/veri-yapilari/slaytlar/hafta-6-heap.pdf" target="_blank" rel="noopener"><span class="ic pdf">PDF</span><span>Hafta 6 · Heap</span><span class="sz">395 KB</span></a></div>
+        <p class="meta">2., 4. haftaların slaytı klasörde yoktu; o haftalar ders kodlarıyla anlatılmış.</p></div>
+      <a class="card" href="#kod"><span class="label">16 dosya</span><h3>Ders kodları</h3><p class="desc">Hafta hafta derste yazılan C kodları: dizi, matris, liste, yığın, BST, heap. Sitede okunabilir.</p><span class="go">Kodları aç →</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="view" data-view="harita" hidden>
+  <a class="back" href="#">← Tüm konular</a>
+  <div class="read vy" style="margin-top:14px"><section>
+<div class="sec-head">
     <p class="eyebrow">Önce bunu oku</p>
     <h2>Sınav haritası</h2>
     <p class="muted" style="max-width:65ch">Vize 90 dakika, 4 soru civarı. Her yıl aynı kalıplar dönüyor: bir liste fonksiyonu yaz, bir ağaç fonksiyonu yaz, heapify sonucu çiz, kısa cevaplı karmaşıklık/tanım soruları. Kırmızı yıllar, o kalıbın hangi yılın vizesinde çıktığını gösteriyor.</p>
@@ -209,11 +85,12 @@ img{max-width:100%}
     <button class="btn" id="toggleAll" type="button">Tüm çözümleri aç</button>
     <span class="muted" style="font-size:.9rem">Çözümler kapalı başlar: önce kendin dene, sonra aç.</span>
   </div>
+  </section></div>
 </section>
-
-<!-- ============ H1 ============ -->
-<section id="h1">
-  <div class="sec-head">
+<section class="view" data-view="h1" hidden>
+  <a class="back" href="#">← Tüm konular</a>
+  <div class="read vy" style="margin-top:14px"><section>
+<div class="sec-head">
     <p class="eyebrow">Hafta 1</p>
     <h2>Diziler, işaretçiler ve dinamik bellek</h2>
   </div>
@@ -333,11 +210,12 @@ dinamik_matris_olustur(&amp;A, 10, 15);   <span class="c">// A değişecek → a
       <p class="muted">Sıra önemli: önce <code>free(*matris)</code> yaparsan satırların adreslerini kaybedersin (bellek sızıntısı).</p>
     </div></details>
   </div>
+  </section><div class="pager"><a class="btn" href="#">← Tüm konular</a><a class="btn" href="#h2">Hafta 2 →</a></div></div>
 </section>
-
-<!-- ============ H2 ============ -->
-<section id="h2">
-  <div class="sec-head">
+<section class="view" data-view="h2" hidden>
+  <a class="back" href="#">← Tüm konular</a>
+  <div class="read vy" style="margin-top:14px"><section>
+<div class="sec-head">
     <p class="eyebrow">Hafta 2</p>
     <h2>Matris çarpımı (statik ve dinamik)</h2>
   </div>
@@ -380,11 +258,12 @@ dinamik_matris_olustur(&amp;A, 10, 15);   <span class="c">// A değişecek → a
     <p class="tag">Kırmızı kalem</p>
     <ul><li><code>dinamik_matris_olustur2</code> içinde <code>malloc(satir*sutun*sizeof(int*))</code> yazıyor; doğrusu <code>sizeof(int)</code>. 64-bit'te iki kat fazla yer ayırır ("hatayı bul" sorusu olabilir).</li></ul>
   </div>
+  </section><div class="pager"><a class="btn" href="#h1">← Hafta 1</a><a class="btn" href="#h3">Hafta 3 →</a></div></div>
 </section>
-
-<!-- ============ H3 ============ -->
-<section id="h3">
-  <div class="sec-head">
+<section class="view" data-view="h3" hidden>
+  <a class="back" href="#">← Tüm konular</a>
+  <div class="read vy" style="margin-top:14px"><section>
+<div class="sec-head">
     <p class="eyebrow">Hafta 3</p>
     <h2>Bağlı listeler (tek ve çift yönlü)</h2>
   </div>
@@ -608,11 +487,12 @@ void sondakini_basa_tasi(struct dugum **liste_basi){
       <p class="muted">Çift yönlüde her eklemede <b>dört bağ</b> düşün: yeni→ileri, yeni→geri, öncekinin ileri'si, sonrakinin geri'si. Başa/sona eklemede <code>bas</code>/<code>son</code> da güncellenir.</p>
     </div></details>
   </div>
+  </section><div class="pager"><a class="btn" href="#h2">← Hafta 2</a><a class="btn" href="#h4">Hafta 4 →</a></div></div>
 </section>
-
-<!-- ============ H4 ============ -->
-<section id="h4">
-  <div class="sec-head">
+<section class="view" data-view="h4" hidden>
+  <a class="back" href="#">← Tüm konular</a>
+  <div class="read vy" style="margin-top:14px"><section>
+<div class="sec-head">
     <p class="eyebrow">Hafta 4</p>
     <h2>Yığın (stack)</h2>
   </div>
@@ -652,11 +532,12 @@ int sil(struct dugum **yigin){
     <p class="tag">Kırmızı kalem</p>
     <ul><li><code>kapasiteyi_artir_yeni</code> belleği <code>kackat</code> ile büyütüyor ama kapasiteyi sabit <code>2</code> ile çarpıyor. <code>kackat ≠ 2</code> olursa kapasite yanlış olur; doğrusu <code>kapasite = kackat * kapasite</code>.</li></ul>
   </div>
+  </section><div class="pager"><a class="btn" href="#h3">← Hafta 3</a><a class="btn" href="#h5">Hafta 5 →</a></div></div>
 </section>
-
-<!-- ============ H5 ============ -->
-<section id="h5">
-  <div class="sec-head">
+<section class="view" data-view="h5" hidden>
+  <a class="back" href="#">← Tüm konular</a>
+  <div class="read vy" style="margin-top:14px"><section>
+<div class="sec-head">
     <p class="eyebrow">Hafta 5 · en çok puan buradan</p>
     <h2>Ağaçlar ve ikili arama ağacı (BST)</h2>
   </div>
@@ -960,11 +841,12 @@ int ikili_arama_agaci_mi(struct dugum *kok){
       <p class="muted">İteratif preorder: kökü it; döngüde çıkar, yazdır, önce <b>sağı</b> sonra <b>solu</b> it (sol önce işlensin diye).</p>
     </div></details>
   </div>
+  </section><div class="pager"><a class="btn" href="#h4">← Hafta 4</a><a class="btn" href="#h6">Hafta 6 →</a></div></div>
 </section>
-
-<!-- ============ H6 ============ -->
-<section id="h6">
-  <div class="sec-head">
+<section class="view" data-view="h6" hidden>
+  <a class="back" href="#">← Tüm konular</a>
+  <div class="read vy" style="margin-top:14px"><section>
+<div class="sec-head">
     <p class="eyebrow">Hafta 6</p>
     <h2>Heap ve heap sort</h2>
   </div>
@@ -1107,11 +989,12 @@ void delete_max(struct heap *heap){
       <tr><td>delete_max</td><td class="mono">989 900 12 121 812</td></tr>
     </tbody>
   </table></div>
+  </section><div class="pager"><a class="btn" href="#h5">← Hafta 5</a><a class="btn" href="#son">Son 10 dakika →</a></div></div>
 </section>
-
-<!-- ============ ARAÇLAR ============ -->
-<section id="arac">
-  <div class="sec-head">
+<section class="view" data-view="arac" hidden>
+  <a class="back" href="#">← Tüm konular</a>
+  <div class="read vy" style="margin-top:14px"><section>
+<div class="sec-head">
     <p class="eyebrow">Kendi cevabını kontrol et</p>
     <h2>Araçlar</h2>
     <p class="muted" style="max-width:65ch">Kâğıtta çözdüğün soruyu buraya yaz, dersteki algoritmanın aynısıyla kontrol et. İkisi de dersin C kodunu birebir taklit ediyor.</p>
@@ -1144,21 +1027,23 @@ void delete_max(struct heap *heap){
     <div class="tree" id="btree"></div>
     <div class="out" id="bout"></div>
   </div>
+  </section></div>
 </section>
-
-<!-- ============ TEST ============ -->
-<section id="test">
-  <div class="sec-head">
+<section class="view" data-view="test" hidden>
+  <a class="back" href="#">← Tüm konular</a>
+  <div class="read vy" style="margin-top:14px"><section>
+<div class="sec-head">
     <p class="eyebrow">Kısa cevaplı sorular</p>
     <h2>Kendini test et</h2>
     <p class="muted">Cevabı söyle, sonra aç.</p>
   </div>
   <div class="stack" id="quiz"></div>
+  </section></div>
 </section>
-
-<!-- ============ SON 10 DK ============ -->
-<section id="son">
-  <div class="sec-head">
+<section class="view" data-view="son" hidden>
+  <a class="back" href="#">← Tüm konular</a>
+  <div class="read vy" style="margin-top:14px"><section>
+<div class="sec-head">
     <p class="eyebrow">Sınav kapısında</p>
     <h2>Son 10 dakika</h2>
   </div>
@@ -1183,206 +1068,24 @@ void delete_max(struct heap *heap){
       <tr><td>Heap BST mi?</td><td><b>Hayır</b> (dengeli ikili ağaç ama arama ağacı değil)</td></tr>
     </tbody>
   </table></div>
+  </section></div>
 </section>
 
-<footer>
-  Kaynaklar: HAFTA1–6 <code>code</code> ve <code>slide</code> klasörleri, 2020 vize 1–2, 2022 vize, "vize çıkmış" ve "notlar falan" fotoğrafları. Vize kapsamı: hoca bu dönem heap'e kadar işledi; AVL, hash, kırmızı-siyah ağaç ve graf algoritmaları vizede yok, o yüzden bu kılavuzda da yok. Java/NYP sınav fotoğrafları başka derse ait.
-</footer>
+<section class="view" data-view="kod" hidden>
+  <a class="back" href="#">← Tüm konular</a>
+  <div class="view-head"><span class="label">Orijinal kaynaklar</span><h1>Ders kodları</h1><p class="muted">Bir dosya seç, kod aşağıda açılır.</p></div>
+  <div class="grid wide" id="kod-list" style="margin-top:14px"></div>
+  <div class="box" id="kod-box" style="margin-top:18px" hidden>
+    <div class="toolbar"><h3 id="kod-title"></h3><a class="btn" id="kod-gh" target="_blank" rel="noopener">GitHub'da aç</a></div>
+    <pre class="code" id="kod-pre"></pre>
+  </div>
+</section>
+
 </main>
 
-<script>
-(function(){
-  // ---- ağaç çizimi ----
-  function svgTree(root, o){
-    o = o || {};
-    if(!root) return '<p class="muted" style="text-align:center">(boş ağaç)</p>';
-    var i = 0, maxD = 0, ns = [];
-    (function w(n, d){ if(!n) return; w(n.l, d+1); n.x = i++; n.d = d; if(d > maxD) maxD = d; ns.push(n); w(n.r, d+1); })(root, 0);
-    var SX = 44, SY = 58, R = 18, PAD = 24;
-    var W = PAD*2 + (i-1)*SX, H = PAD*2 + maxD*SY + (o.idx ? 12 : 0);
-    var px = function(n){ return PAD + n.x*SX; }, py = function(n){ return PAD + n.d*SY; };
-    var e = '', c = '';
-    ns.forEach(function(n){ [n.l, n.r].forEach(function(ch){ if(ch) e += '<line class="te" x1="'+px(n)+'" y1="'+py(n)+'" x2="'+px(ch)+'" y2="'+py(ch)+'"/>'; }); });
-    ns.forEach(function(n){
-      var leaf = !n.l && !n.r;
-      c += '<g class="tn'+(o.leaves && leaf ? ' leaf' : '')+'"><circle cx="'+px(n)+'" cy="'+py(n)+'" r="'+R+'"/>' +
-           '<text x="'+px(n)+'" y="'+py(n)+'" dy="0.35em">'+n.k+'</text>' +
-           (o.idx ? '<text class="ti" x="'+px(n)+'" y="'+(py(n)+R+11)+'">'+n.i+'</text>' : '') + '</g>';
-    });
-    return '<svg viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'" role="img" aria-label="'+(o.label||'ikili ağaç')+'">'+e+c+'</svg>';
-  }
-  function heapTree(a){
-    var ns = a.map(function(k, i){ return {k:k, i:i}; });
-    ns.forEach(function(n, i){ n.l = ns[2*i+1] || null; n.r = ns[2*i+2] || null; });
-    return ns[0] || null;
-  }
-  function parse(s){ return (s.match(/-?\d+/g) || []).map(Number); }
+<footer class="site">Kaynak: ders kodları ve slaytları (Hafta 1–6) ve 2020–2024 çıkmış vize soruları. Kişisel çalışma notudur.</footer>
 
-  // ---- BST (dersin ekle / sil fonksiyonlarının aynısı) ----
-  function bstInsert(root, k){
-    var node = {k:k, l:null, r:null};
-    if(!root) return node;
-    var d = root;
-    for(;;){
-      if(k < d.k){ if(!d.l){ d.l = node; return root; } d = d.l; }
-      else if(k > d.k){ if(!d.r){ d.r = node; return root; } d = d.r; }
-      else return root;
-    }
-  }
-  function bstBuild(keys){ var r = null; keys.forEach(function(k){ r = bstInsert(r, k); }); return r; }
-  function bstDelete(root, x){
-    var parent = null, d = root, sol = 0;
-    while(d){ if(x < d.k){ parent = d; d = d.l; sol = 1; } else if(x > d.k){ parent = d; d = d.r; sol = 0; } else break; }
-    if(!d) return {root:root, ok:false};
-    var rep;
-    if(!d.l) rep = d.r;
-    else if(!d.r) rep = d.l;
-    else {
-      var d1 = d.l, d2 = null;
-      while(d1.r){ d2 = d1; d1 = d1.r; }
-      if(d2){ d2.r = d1.l; d1.l = d.l; }
-      d1.r = d.r; rep = d1;
-    }
-    if(!parent) return {root:rep, ok:true};
-    if(sol) parent.l = rep; else parent.r = rep;
-    return {root:root, ok:true};
-  }
-  function pre(t){ return t ? [t.k].concat(pre(t.l), pre(t.r)) : []; }
-  function ino(t){ return t ? ino(t.l).concat([t.k], ino(t.r)) : []; }
-  function post(t){ return t ? post(t.l).concat(post(t.r), [t.k]) : []; }
-  function h(t){ return t ? 1 + Math.max(h(t.l), h(t.r)) : 0; }
-  function leaves(t){ return !t ? 0 : (!t.l && !t.r ? 1 : leaves(t.l) + leaves(t.r)); }
-  function internal(t){ return (!t || (!t.l && !t.r)) ? 0 : 1 + internal(t.l) + internal(t.r); }
-  function balanced(t){ return !t || (Math.abs(h(t.l) - h(t.r)) <= 1 && balanced(t.l) && balanced(t.r)); }
-
-  // ---- heap (dersin buble_down / heapify'ının aynısı) ----
-  function bubbleDown(a, n, i){
-    while(2*i+1 < n){
-      var l = 2*i+1, r = l+1, b = l;
-      if(r < n && a[r] > a[l]) b = r;
-      if(a[b] < a[i]) break;
-      var t = a[i]; a[i] = a[b]; a[b] = t; i = b;
-    }
-  }
-  function heapify(arr){
-    var a = arr.slice(), steps = [];
-    for(var i = Math.floor(a.length/2) - 1; i >= 0; i--){
-      var k = a[i]; bubbleDown(a, a.length, i);
-      steps.push('buble_down(i=' + i + ', anahtar ' + k + ')  →  ' + a.join(' '));
-    }
-    return {a:a, steps:steps};
-  }
-
-  // "50(25(,30),90)" biçimindeki ağaç tanımını okur
-  function parseTree(s){
-    s = s.replace(/\s+/g, ''); var i = 0;
-    function node(){
-      var m = s.slice(i).match(/^-?\d+/);
-      if(!m) return null;
-      i += m[0].length;
-      var n = {k:+m[0], l:null, r:null};
-      if(s[i] === '('){ i++; n.l = node(); if(s[i] === ',') i++; n.r = node(); if(s[i] === ')') i++; }
-      return n;
-    }
-    return node();
-  }
-  document.querySelectorAll('[data-tree]').forEach(function(el){
-    el.innerHTML = svgTree(parseTree(el.dataset.tree), {leaves:!!el.dataset.leaves, label:'ikili ağaç'});
-  });
-
-  // statik çizimler
-  document.querySelectorAll('[data-heap]').forEach(function(el){
-    el.innerHTML = svgTree(heapTree(parse(el.dataset.heap)), {idx:true, leaves:!!el.dataset.leaves, label:'heap: '+el.dataset.heap});
-  });
-  document.querySelectorAll('[data-bst]').forEach(function(el){
-    el.innerHTML = svgTree(bstBuild(parse(el.dataset.bst)), {leaves:!!el.dataset.leaves, label:'ikili arama ağacı: '+el.dataset.bst});
-  });
-
-  // heapify aracı
-  function runHeap(){
-    var arr = parse(document.getElementById('hin').value);
-    var r = heapify(arr);
-    document.getElementById('hbefore').innerHTML = svgTree(heapTree(arr), {idx:true});
-    document.getElementById('hafter').innerHTML = svgTree(heapTree(r.a), {idx:true});
-    document.getElementById('hout').innerHTML = arr.length ? '<span><b>heap dizisi</b> ' + r.a.join(' ') + '</span><span><b>n</b> ' + arr.length + ' · buble_down i = ' + (Math.floor(arr.length/2)-1) + ' … 0</span>' : '';
-    document.getElementById('hsteps').innerHTML = r.steps.map(function(s){ return '<span>' + s + '</span>'; }).join('') || '<span>(iç düğüm yok)</span>';
-  }
-  document.getElementById('hgo').addEventListener('click', runHeap);
-  document.getElementById('hin').addEventListener('keydown', function(e){ if(e.key === 'Enter') runHeap(); });
-  runHeap();
-
-  // BST aracı
-  var bst = null, note = '';
-  function showBst(){
-    document.getElementById('btree').innerHTML = svgTree(bst);
-    document.getElementById('bout').innerHTML = bst ?
-      (note ? '<span>' + note + '</span>' : '') +
-      '<span><b>preorder </b> ' + pre(bst).join(' ') + '</span>' +
-      '<span><b>inorder  </b> ' + ino(bst).join(' ') + '</span>' +
-      '<span><b>postorder</b> ' + post(bst).join(' ') + '</span>' +
-      '<span><b>yükseklik</b> ' + h(bst) + ' · <b>yaprak</b> ' + leaves(bst) + ' · <b>iç düğüm</b> ' + internal(bst) + ' · <b>dengeli</b> ' + (balanced(bst) ? 'evet (1)' : 'hayır (0)') + '</span>' : '';
-  }
-  function runBst(){ bst = bstBuild(parse(document.getElementById('bin').value)); note = ''; showBst(); }
-  document.getElementById('bgo').addEventListener('click', runBst);
-  document.getElementById('bin').addEventListener('keydown', function(e){ if(e.key === 'Enter') runBst(); });
-  function runDel(){
-    var x = parse(document.getElementById('bdel').value)[0];
-    if(x === undefined) return;
-    var r = bstDelete(bst, x); bst = r.root;
-    note = r.ok ? 'sil(' + x + ') uygulandı' : x + ' ağaçta yok';
-    showBst();
-  }
-  document.getElementById('bdelgo').addEventListener('click', runDel);
-  document.getElementById('bdel').addEventListener('keydown', function(e){ if(e.key === 'Enter') runDel(); });
-  runBst();
-
-  // kısa cevaplı sorular
-  var Q = [
-    ['Dengeli ikili ağaç nedir?', 'Her düğümün sol ve sağ alt ağaçları arasındaki yükseklik farkı en fazla 1 olan ağaç.'],
-    ['Heap veri yapısı dengeli ikili arama ağacı mıdır?', 'Hayır. Dengeli ikili ağaçtır ama arama ağacı değildir (sol < kök < sağ sırası yok).'],
-    ['C\'de dizinin ismi neyi ifade eder?', 'Dizinin ilk elemanının adresini tutan sabit işaretçiyi.'],
-    ['int dizi[]={1,2,3}; için dizi = dizi + 1 doğru mu?', 'Hayır. Dizi ismi sabit işaretçidir, atama yapılamaz (derleme hatası).'],
-    ['Dizi elemanları neden aynı tipte olmak zorunda?', 'Ardışık tutulup adres taban + i·boyut ile hesaplandığı için her eleman aynı boyutta olmalı.'],
-    ['BST\'de düğüm ekleme karmaşıklığı?', 'O(h). Dengeli ağaçta O(log n), en kötü durumda (doğrusal ağaç) O(n).'],
-    ['Inorder çıktısı verilen BST çizilebilir mi?', 'Hayır. Inorder her zaman sıralıdır, birçok ağaç aynı çıktıyı verir.'],
-    ['Preorder çıktısı verilen BST çizilebilir mi?', 'Evet. Preorder sırasıyla ekleyince aynı BST oluşur.'],
-    ['heapify karmaşıklığı?', 'O(n).'],
-    ['heapSort karmaşıklığı?', 'O(n log n): n−1 kez delete_max, her biri O(log n).'],
-    ['delete_max ve heap\'e ekleme karmaşıklığı?', 'İkisi de O(log n) (ağacın yüksekliği kadar buble_down / buble_up).'],
-    ['Bağlı listede silme karmaşıklığı?', 'O(n): silinecek düğümü bulmak için yürümek gerekir.'],
-    ['n elemanlı max heap\'te en küçük eleman kaç farklı pozisyonda olabilir?', '⌈n/2⌉ = n − ⌊n/2⌋ (sadece yapraklarda: indeks n/2 … n−1).'],
-    ['Heap\'te i indeksli düğümün çocukları ve ebeveyni?', 'Sol 2i+1, sağ 2i+2, ebeveyn (i−1)/2.'],
-    ['heapify hangi düğümden başlar?', 'Yaprak olmayan en büyük indeksli düğümden (n/2 − 1), köke kadar buble_down.'],
-    ['Ağacın yüksekliği nedir?', 'Kökten en uzak yaprağa giden yol üzerindeki düğüm sayısı.'],
-    ['malloc ile ayrılan dizi elemanları ve main\'deki int **A nerede tutulur?', 'Elemanlar heap\'te; A yerel değişken olduğu için stack\'te (64-bit\'te 8 byte).'],
-    ['Liste fonksiyonlarına liste başı neden ** ile gönderilir?', 'Fonksiyon liste başını değiştirebilsin diye; C\'de parametre kopyalanarak gider.'],
-    ['Yığın hangi prensiple çalışır, işlemler kaç adım?', 'LIFO (son giren ilk çıkar). push/pop O(1).'],
-    ['Çift yönlü listenin avantajı ve dezavantajı?', 'Avantaj: iki yönde dolaşma, işlemler kolaylaşır. Dezavantaj: düğüm başına fazladan işaretçi, daha çok bellek.'],
-    ['Bitişik ve bitişik olmayan veri yapısına birer örnek?', 'Bitişik: dizi. Bitişik olmayan: bağlı liste.'],
-    ['BST\'de iki çocuklu düğüm nasıl silinir?', 'Sol alt ağacın en sağındaki (veya sağ alt ağacın en solundaki) düğüm silinenin yerine geçer.'],
-    ['C dizileri bellekte nasıl saklar?', 'Satır öncelikli (row-major): önce 0. satırın tüm elemanları, sonra 1. satır.'],
-    ['İkili ağaç nedir?', 'Her düğümün en fazla 2 çocuğu olduğu ağaç.'],
-    ['Inorder taraması aynı olan iki ikili ağaç aynı mıdır?', 'Hayır. Farklı ağaçlar aynı inorder çıktısını verebilir.'],
-    ['Preorder taraması aynı olan iki ikili arama ağacı aynı mıdır?', 'Evet (anahtarlar farklıysa). Genel ikili ağaçta Hayır.'],
-    ['Dengeli BST\'de iki yaprağın köke uzaklık farkı en fazla 1 midir?', 'Hayır. Denge koşulu alt ağaç yüksekliklerinde; yaprak derinlikleri 2 ve daha fazla farklı olabilir.'],
-    ['Bir fonksiyonda yerel değişkenin adresini geri döndürmek anlamsal hataya yol açar mı?', 'Evet. Fonksiyon bitince yerel değişkenin stack\'teki yeri geri verilir, adres geçersiz kalır.'],
-    ['int a=10; int *p=&a; int **q=&p; için *q ve **q nedir?', '*q = p = a\'nın adresi, **q = a\'nın değeri (10).'],
-    ['Bellek sızıntısı (memory leak) nedir?', 'malloc ile ayrılan bloğun adresini kaybedip free etmemek; o bellek program bitene kadar kullanılamaz.']
-  ];
-  var esc = function(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); };
-  document.getElementById('quiz').innerHTML = Q.map(function(q, i){
-    return '<div class="q"><p class="q-text">' + (i+1) + '. ' + esc(q[0]) + '</p><details><summary>Cevap</summary><div class="stack"><p>' + esc(q[1]) + '</p></div></details></div>';
-  }).join('');
-
-  // tümünü aç / kapat
-  var btn = document.getElementById('toggleAll'), open = false;
-  btn.addEventListener('click', function(){
-    open = !open;
-    document.querySelectorAll('main details').forEach(function(d){ d.open = open; });
-    btn.textContent = open ? 'Tüm çözümleri kapat' : 'Tüm çözümleri aç';
-  });
-})();
-</script>
-
+<script src="assets/vy-tools.js"></script>
+<script src="assets/vy.js"></script>
 </body>
 </html>
