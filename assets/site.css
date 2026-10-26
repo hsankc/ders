@@ -295,6 +295,21 @@ pre.code [title]{cursor:help;text-decoration:underline dotted rgba(31,36,48,.3);
 .chip:hover,.chip[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
 a.chip.anim{font-family:var(--f-body);font-weight:600;color:var(--vy);background:var(--vy-soft);border-color:transparent}
 a.chip.anim:hover{border-color:var(--vy)}
+a.chip.yt{font-family:var(--f-body);font-weight:600;color:#B42318;background:#FDECEA;border-color:transparent}
+a.chip.yt:hover{border-color:#B42318}
+.fix{display:grid;gap:6px;background:var(--ok-soft);border-radius:12px;padding:12px 14px}
+.fix .lbl-sm{color:var(--ok);margin:0}
+.fix pre.code{background:#fff}
+.anim-svg .frame{fill:none;stroke:#C9CFDA;stroke-dasharray:4 3}
+.anim-svg .adr{font-size:10px;fill:var(--muted);text-anchor:end}
+.exam-list{display:grid;gap:10px}
+.exam{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;text-decoration:none;color:inherit;box-shadow:var(--shadow)}
+.exam:hover{border-color:#CBD2DE;box-shadow:var(--shadow-hover)}
+.exam .ic{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-size:.7rem;font-weight:700;grid-row:span 2}
+.exam b{font-size:1rem}
+.exam .q{grid-column:2;font-size:.9rem;color:var(--muted)}
+.exam .sz{grid-row:span 2;font-size:.82rem;color:var(--muted);white-space:nowrap}
+@media (max-width:520px){.exam{grid-template-columns:auto minmax(0,1fr)}.exam .sz{grid-row:auto;grid-column:2}}
 .kod-top{margin:4px 0 16px}
 .konu-nav button.dim{color:var(--muted);font-style:italic}
 .kod-body{display:grid;gap:18px}

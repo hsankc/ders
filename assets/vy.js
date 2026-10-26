@@ -4,6 +4,8 @@
   var K = 'kaynaklar/veri-yapilari/kod/';
   var esc = function(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
   var CS = window.VY_C || [], KOD = window.VY_KOD || [], ANIMS = window.VY_ANIMS || [];
+  var CL = window.VY_CL || {};
+  CL.list = (/list=([\w-]+)/.exec(CL.playlist || '') || [])[1] || '';
   var hl = window.VY_HL || function(s){ return esc(s); };
   var fileById = {}, animById = {};
   KOD.forEach(function(f){ fileById[f.id] = f; });
@@ -104,6 +106,7 @@
     ['if / else', /\bif\s*\(/], ['while', /\bwhile\s*\(/], ['for', /\bfor\s*\(/], ['break / continue / return', /\b(break|continue)\b/],
     ['&& ve || (kısa devre)', /&&|\|\|/], ['printf', /\bprintf\s*\(/], ['rand / srand / time', /\b(rand|srand)\s*\(/],
     ['va_list (değişken sayıda argüman)', /va_list/], ['#include', /#include/], ['#define', /#define/],
+    ['typedef', /\btypedef\b/], ['scanf', /\bscanf\s*\(/],
     ['Prototip ve .h dosyası', function(t, c){ return !c.name && /^\s*[A-Za-z_][\w\s\*]*\([^)]*\)\s*;\s*$/m.test(t); }],
     ['int main(int argc, char** argv)', function(t, c){ return c.name === 'main'; }]
   ];
@@ -135,7 +138,7 @@
   }
   function explain(f, name){
     if(f.fns && f.fns[name]) return {e:f.fns[name]};
-    var other = KOD.filter(function(o){ return o !== f && o.fns && o.fns[name]; })
+    var other = KOD.filter(function(o){ return o !== f && !o.cl === !f.cl && o.fns && o.fns[name]; })
       .sort(function(a, b){ return Math.abs(a.week - f.week) - Math.abs(b.week - f.week); })[0];
     return other ? {e:other.fns[name], from:other} : null;
   }
@@ -146,14 +149,21 @@
     if(/\)\s*;/.test(t)) return ['Fonksiyon prototipleri', 'Gövdesi sonra yazılan fonksiyonların adı ve parametreleri önceden duyuruluyor.'];
     return ['Diğer satırlar', ''];
   }
+  function pathOf(f){ return (f.base || K) + f.path; }
+  function videoOf(no){
+    var v = (CL.videos || []).filter(function(x){ return x[0] === no; })[0];
+    return v ? {no:v[0], t:v[1], d:v[3], url:'https://www.youtube.com/watch?v=' + v[2] + '&list=' + CL.list} : null;
+  }
   function buildKodView(f){
     var sec = document.createElement('section');
     sec.className = 'view'; sec.dataset.view = 'k-' + f.id; sec.hidden = true;
-    var an = animsOf(f);
-    sec.innerHTML = '<a class="back" href="#kod">← Bütün kodlar</a>' +
-      '<div class="view-head"><span class="label">Hafta ' + f.week + ' · ' + esc(f.path) + '</span><h1>' + esc(f.title) + '</h1><p class="muted" style="max-width:70ch">' + esc(f.intro) + '</p></div>' +
+    var an = animsOf(f), vids = (f.videos || []).map(videoOf).filter(Boolean);
+    var label = f.cl ? 'CoderLog' + (vids.length ? ' · video ' + vids[0].no + (vids.length > 1 ? '–' + vids[vids.length - 1].no : '') : '') : 'Hafta ' + f.week;
+    sec.innerHTML = (f.cl ? '<a class="back" href="#coderlog">← CoderLog kodları</a>' : '<a class="back" href="#kod">← Bütün kodlar</a>') +
+      '<div class="view-head"><span class="label">' + label + ' · ' + esc(f.path) + '</span><h1>' + esc(f.title) + (f.out ? ' <span class="tag wait">Vize dışı</span>' : '') + '</h1><p class="muted" style="max-width:70ch">' + esc(f.intro) + '</p></div>' +
+      (vids.length ? '<div class="chips kod-top"><span class="lbl-sm">Videolar</span>' + vids.map(function(v){ return '<a class="chip yt" href="' + v.url + '" target="_blank" rel="noopener">▶ ' + esc(v.no + ' ' + v.t) + '</a>'; }).join('') + '</div>' : '') +
       '<div class="chips kod-top">' + an.map(function(a){ return '<a class="chip anim" href="#' + a.id + '">▶ ' + esc(a.title) + '</a>'; }).join('') +
-      '<a class="chip" href="' + REPO + K + f.path + '" target="_blank" rel="noopener">GitHub\'da aç</a><a class="chip" href="' + K + f.path + '" download>Dosyayı indir</a></div>' +
+      '<a class="chip" href="' + REPO + pathOf(f) + '" target="_blank" rel="noopener">GitHub\'da aç</a><a class="chip" href="' + pathOf(f) + '" download>Dosyayı indir</a></div>' +
       '<div class="konu-nav" data-toc></div><div class="kod-body" data-body><p class="muted">Yükleniyor…</p></div>';
     sec.addEventListener('click', function(e){
       var b = e.target.closest('[data-goto]'); if(!b) return;
@@ -174,6 +184,7 @@
         return;
       }
       var ex = explain(f, c.name), an = animsFor(f, c.name);
+      if(ex && ex.e[3]) ex.e[3].forEach(function(id){ if(animById[id] && an.indexOf(animById[id]) < 0) an.push(animById[id]); });
       toc.push('<button type="button" data-goto="' + i + '">' + esc(c.name) + '</button>');
       html += '<article class="fn-card" data-i="' + i + '"><div class="fn-head"><h3><code>' + esc(c.name) + '</code></h3><span class="muted">' + rng + '</span></div>';
       if(ex){
@@ -184,7 +195,8 @@
         if(ex.from) html += '<p class="muted" style="font-size:.88rem">Aynı fonksiyon <a href="#k-' + ex.from.id + '">' + esc(ex.from.title) + '</a> dosyasında da var; açıklama oradan.</p>';
       }
       if(an.length) html += '<div class="chips">' + an.map(function(a){ return '<a class="chip anim" href="#' + a.id + '">▶ Animasyonu izle: ' + esc(a.title) + '</a>'; }).join('') + '</div>';
-      html += chips + code + '</article>';
+      var fix = ex && ex.e[4] ? '<div class="fix"><div class="lbl-sm">Düzeltilmiş hâli</div><pre class="code hl">' + hl(ex.e[4]) + '</pre></div>' : '';
+      html += chips + code + fix + '</article>';
     });
     sec.querySelector('[data-toc]').innerHTML = '<span class="lbl-sm" style="margin:0 4px 0 0">Bu dosyada</span>' + toc.join('');
     var body = sec.querySelector('[data-body]');
@@ -198,16 +210,16 @@
     var sec = kodViews[f.id];
     if(sec.dataset.loaded) return;
     sec.dataset.loaded = '1';
-    fetch(K + f.path).then(function(r){ if(!r.ok) throw new Error(r.status); return r.text(); })
+    fetch(pathOf(f)).then(function(r){ if(!r.ok) throw new Error(r.status); return r.text(); })
       .then(function(t){ renderKod(f, sec, t.replace(/\r\n?/g, '\n').replace(/\t/g, '    ')); })
-      .catch(function(){ delete sec.dataset.loaded; sec.querySelector('[data-body]').innerHTML = '<p class="muted">Dosya burada açılamadı. <a href="' + REPO + K + f.path + '" target="_blank" rel="noopener">GitHub\'da aç</a></p>'; });
+      .catch(function(){ delete sec.dataset.loaded; sec.querySelector('[data-body]').innerHTML = '<p class="muted">Dosya burada açılamadı. <a href="' + REPO + pathOf(f) + '" target="_blank" rel="noopener">GitHub\'da aç</a></p>'; });
   }
 
   // ---------- liste sayfaları
   var WEEKN = {1:'Diziler', 2:'Matris ve dinamik bellek', 3:'Bağlı listeler', 4:'Yığın', 5:'İkili arama ağacı', 6:'Heap'};
   function byWeek(list){ var g = {}; list.forEach(function(x){ (g[x.week] = g[x.week] || []).push(x); }); return Object.keys(g).sort().map(function(w){ return [w, g[w]]; }); }
   var ki = document.getElementById('kod-index');
-  if(ki) ki.innerHTML = byWeek(KOD).map(function(g){
+  if(ki) ki.innerHTML = byWeek(KOD.filter(function(f){ return !f.cl; })).map(function(g){
     return '<div class="section"><div class="section-title"><h2>Hafta ' + g[0] + ' · ' + WEEKN[g[0]] + '</h2></div><div class="grid">' + g[1].map(function(f){
       var nf = Object.keys(f.fns || {}).length, na = animsOf(f).length;
       return '<a class="card" href="#k-' + f.id + '"><span class="label">' + esc(f.path.split('/').pop()) + '</span><h3>' + esc(f.title) + '</h3><p class="desc">' + esc(f.intro.split('. ')[0].replace(/\.$/, '')) + '.</p>' +
@@ -221,16 +233,35 @@
     }).join('') + '</div></div>';
   }).join('');
 
+  // CoderLog sayfası: dosya kartları ve videoların listesi
+  var cli = document.getElementById('cl-index');
+  if(cli){
+    var cf = KOD.filter(function(f){ return f.cl; });
+    var fileOfVideo = {};
+    cf.forEach(function(f){ (f.videos || []).forEach(function(no){ fileOfVideo[no] = f; }); });
+    cli.innerHTML = '<div class="section"><div class="section-title"><h2>Kodlar</h2><p>Fonksiyon fonksiyon açıklamalı; hatalı yerlerin düzeltilmiş hâli de var</p></div><div class="grid">' + cf.map(function(f){
+        var nf = Object.keys(f.fns).length, nfix = Object.keys(f.fns).filter(function(k){ return f.fns[k][4]; }).length, vids = f.videos || [];
+        return '<a class="card" href="#k-' + f.id + '"><span class="label">' + (vids.length ? 'Video ' + vids[0] + (vids.length > 1 ? '–' + vids[vids.length - 1] : '') : 'Videosu yok') + '</span><h3>' + esc(f.title) + (f.out ? ' <span class="tag wait">Vize dışı</span>' : '') + '</h3><p class="desc">' + esc(f.intro.split('. ')[0].replace(/\.$/, '')) + '.</p>' +
+          '<div class="foot"><span class="meta">' + nf + ' parça açıklamalı' + (nfix ? ' · ' + nfix + ' düzeltme' : '') + '</span><span class="go">Aç →</span></div></a>';
+      }).join('') + '</div></div>' +
+      '<div class="section"><div class="section-title"><h2>Videolar</h2><p><a href="' + esc(CL.playlist || '#') + '" target="_blank" rel="noopener">Oynatma listesini YouTube\'da aç</a></p></div><div class="tblw"><table><thead><tr><th>No</th><th>Video</th><th>Süre</th><th>Kodu</th></tr></thead><tbody>' +
+      (CL.videos || []).map(function(v){
+        var f = fileOfVideo[v[0]], vv = videoOf(v[0]);
+        return '<tr><td class="n">' + esc(v[0]) + '</td><td><a href="' + vv.url + '" target="_blank" rel="noopener">' + esc(v[1]) + '</a></td><td class="n">' + esc(v[3]) + '</td><td>' + (f ? '<a href="#k-' + f.id + '">' + esc(f.title) + '</a>' : '') + '</td></tr>';
+      }).join('') + '</tbody></table></div></div>';
+  }
+
   // her haftanın konusunun başına o haftanın kodları ve animasyonları
   [1, 2, 3, 4, 5, 6].forEach(function(w){
     var sec = document.querySelector('[data-view="h' + w + '"] .read > section'); if(!sec) return;
-    var fs = KOD.filter(function(f){ return f.week === w && !f.extra; });
+    var fs = KOD.filter(function(f){ return f.week === w && !f.extra && !f.cl; }), cls = KOD.filter(function(f){ return f.week === w && f.cl; });
     var as = ANIMS.filter(function(a){ return a.week === w || fs.some(function(f){ return (f.anim || []).indexOf(a.id) >= 0; }); });
-    if(!fs.length && !as.length) return;
+    if(!fs.length && !as.length && !cls.length) return;
     var box = document.createElement('div');
     box.className = 'kod-week';
     box.innerHTML = (fs.length ? '<div class="chips"><span class="lbl-sm">Bu haftanın kodları</span>' + fs.map(function(f){ return '<a class="chip" href="#k-' + f.id + '">' + esc(f.title) + '</a>'; }).join('') + '</div>' : '') +
-      (as.length ? '<div class="chips"><span class="lbl-sm">Animasyonlar</span>' + as.map(function(a){ return '<a class="chip anim" href="#' + a.id + '">▶ ' + esc(a.title) + '</a>'; }).join('') + '</div>' : '');
+      (as.length ? '<div class="chips"><span class="lbl-sm">Animasyonlar</span>' + as.map(function(a){ return '<a class="chip anim" href="#' + a.id + '">▶ ' + esc(a.title) + '</a>'; }).join('') + '</div>' : '') +
+      (cls.length ? '<div class="chips"><span class="lbl-sm">CoderLog</span>' + cls.map(function(f){ return '<a class="chip yt" href="#k-' + f.id + '">' + esc(f.title) + '</a>'; }).join('') + '</div>' : '');
     var head = sec.querySelector('.sec-head');
     if(head) head.insertAdjacentElement('afterend', box); else sec.insertBefore(box, sec.firstChild);
   });

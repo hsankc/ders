@@ -62,7 +62,7 @@
     var h = '';
     list.forEach(function(p, i){
       var ty = up ? y - 26 - i * 22 : y + H + 10 + i * 22, w = Math.max(34, p.length * 7.4 + 12);
-      h += '<g class="ptr' + (p === 'liste_basi' || p === 'bas' || p === 'yigin' || p === 'kok' ? ' main' : '') + '"><rect x="' + (x + W / 2 - w / 2) + '" y="' + ty + '" width="' + w + '" height="18" rx="9"/><text x="' + (x + W / 2) + '" y="' + (ty + 13) + '">' + esc(p) + '</text></g>';
+      h += '<g class="ptr' + (p === 'liste_basi' || p === 'bas' || p === 'yigin' || p === 'kok' || p === 'head_of_list' ? ' main' : '') + '"><rect x="' + (x + W / 2 - w / 2) + '" y="' + ty + '" width="' + w + '" height="18" rx="9"/><text x="' + (x + W / 2) + '" y="' + (ty + 13) + '">' + esc(p) + '</text></g>';
     });
     if(list.length){
       var y1 = up ? y - 8 : y + H + 10, y2 = up ? y - 1 : y + H + 1;
@@ -218,7 +218,35 @@
     return svg(x, 40 + rows * CW, body);
   }
 
-  var DRAW = {list: drawList, dlist: drawDList, tree: drawTree, heap: drawHeap, stack: drawStack, mem: drawMem, matrix: drawMatrix};
+  // değişkenler: st = {frames:[{name, vars:[{id, ad, v, adr, to, hl}]}]}; her çerçeve bir fonksiyonun stack'teki yeri
+  function drawVars(st){
+    var FW = 230, RH = 58, BH = 34, GAPF = 80, top = 32, pos = {}, body = '', arrows = '', maxRows = 1;
+    st.frames.forEach(function(fr, fi){
+      var x = 16 + fi * (FW + GAPF);
+      body += '<text class="zone" x="' + x + '" y="16">' + esc(fr.name) + '</text>';
+      body += '<rect class="frame" x="' + (x - 8) + '" y="24" width="' + (FW + 16) + '" height="' + (Math.max(1, fr.vars.length) * RH + 10) + '" rx="10"/>';
+      fr.vars.forEach(function(v, vi){
+        var y = top + vi * RH; pos[v.id] = {x:x, y:y, fi:fi};
+        body += '<g class="cell' + (v.hl ? ' hl' : '') + '"><rect x="' + x + '" y="' + y + '" width="' + FW + '" height="' + BH + '" rx="6"/>' +
+          '<text class="lft" x="' + (x + 10) + '" y="' + (y + 22) + '">' + esc(v.ad) + '</text><text class="rgt" x="' + (x + FW - 10) + '" y="' + (y + 22) + '">' + esc(v.v == null ? '?' : v.v) + '</text></g>' +
+          (v.adr ? '<text class="adr" x="' + (x + FW) + '" y="' + (y + BH + 13) + '">adresi ' + esc(v.adr) + '</text>' : '');
+      });
+      if(fr.vars.length > maxRows) maxRows = fr.vars.length;
+    });
+    st.frames.forEach(function(fr){ fr.vars.forEach(function(v){
+      if(v.to == null || !pos[v.to] || !pos[v.id]) return;
+      var a = pos[v.id], b = pos[v.to], ay = a.y + BH / 2, by = b.y + BH / 2;
+      if(a.fi === b.fi){
+        var sx = a.x + FW, cx = sx + 30 + Math.abs(ay - by) * 0.12;
+        arrows += '<path class="arr" d="M' + sx + ',' + ay + ' C' + cx + ',' + ay + ' ' + cx + ',' + by + ' ' + (b.x + FW + 2) + ',' + by + '" marker-end="url(#ah)"/>';
+      } else {
+        arrows += '<path class="arr" d="M' + a.x + ',' + ay + ' C' + (a.x - 40) + ',' + ay + ' ' + (b.x + FW + 40) + ',' + by + ' ' + (b.x + FW + 2) + ',' + by + '" marker-end="url(#ah)"/>';
+      }
+    }); });
+    return svg(Math.max(300, 30 + st.frames.length * (FW + GAPF)), top + maxRows * RH + 20, body + arrows);
+  }
+
+  var DRAW = {list: drawList, dlist: drawDList, tree: drawTree, heap: drawHeap, stack: drawStack, mem: drawMem, matrix: drawMatrix, vars: drawVars};
 
   // ================= ANİMASYONLAR =================
   var ANIMS = [];
@@ -881,6 +909,128 @@
       }
       st.i = st.j = st.k = -1;
       r.f(null, 'Bitti. Toplam ' + (A.length * B[0].length * A[0].length) + ' çarpma: O(m·n·p).', st, {});
+    }});
+
+  // ---------- CoderLog videolarındaki kodlar
+  function vset(st, id, f){ st.frames.forEach(function(fr){ fr.vars.forEach(function(v){ if(v.id === id) f(v); }); }); }
+  function hlOnly(st, ids){ st.frames.forEach(function(fr){ fr.vars.forEach(function(v){ v.hl = ids.indexOf(v.id) >= 0; }); }); }
+
+  def({id:'a-cl-pointer', week:1, title:'Pointer\'a pointer: *, ** ve *** (CoderLog)', view:'vars', file:'cl-1',
+    desc:'1.1 ve 1.2 videolarındaki kod. a, ptr, ptr2 ve ptr3 bellekte yan yana durur; her biri bir öncekinin adresini tutar. Her * bir ok takip eder.',
+    inputs:[['a', 'a\'nın değeri', '10']],
+    code: function(p){ return 'int a = ' + (nums(p.a)[0] == null ? 10 : nums(p.a)[0]) + ';\n\nint* ptr;\nint** ptr2;\nint*** ptr3;\n\nptr = &a;\n\nprintf("%d\\n", a);      //a\'nin değeri\nprintf("%p\\n", &a);     //a\'nin adresi\nprintf("%p\\n", ptr);    //a\'nin adresi\nprintf("%d\\n", *ptr);   //a\'nin değeri\nprintf("%p\\n", &ptr);   //pointer\'in adresi\n\nptr2 = &ptr;\n\nprintf("%p\\n", ptr2);\nprintf("%p\\n", &ptr2);\nprintf("%d\\n", **ptr2);\n\nptr3 = &ptr2;\n\nprintf("%p\\n", ptr3);       //ptr2\'nin adresi\nprintf("%p\\n", *ptr3);      //ptr\'nin adresi\nprintf("%p\\n", **ptr3);     //a\'nın adresi\nprintf("%d\\n", ***ptr3);    //a\'nın değeri'; },
+    run: function(p, r){
+      var a = nums(p.a)[0]; if(a == null) a = 10;
+      var AD = {a:'0x61FE1C', ptr:'0x61FE10', ptr2:'0x61FE08', ptr3:'0x61FE00'}, out = [];
+      var st = {frames:[{name:'main', vars:[]}]}, V = st.frames[0].vars;
+      var O = function(){ return {'ekrana yazılan': out.join('  ·  ') || '-'}; };
+      V.push({id:'a', ad:'int a', v:a, adr:AD.a, hl:true});
+      r.f('int a = ', 'a için stack\'te 4 byte ayrıldı, içine ' + a + ' yazıldı. Adresi 0x61FE1C olsun; gerçek adresler her çalıştırmada değişir.', st, O());
+      V.push({id:'ptr', ad:'int* ptr', v:null, adr:AD.ptr}); hlOnly(st, ['ptr']);
+      r.f('int* ptr;', 'ptr bir int\'in adresini tutacak. Henüz bir yeri göstermiyor, içinde çöp değer var (?).', st, O());
+      V.push({id:'ptr2', ad:'int** ptr2', v:null, adr:AD.ptr2}); hlOnly(st, ['ptr2']);
+      r.f('int** ptr2;', 'ptr2 bir int* değişkeninin (bir pointer\'ın) adresini tutacak.', st, O());
+      V.push({id:'ptr3', ad:'int*** ptr3', v:null, adr:AD.ptr3}); hlOnly(st, ['ptr3']);
+      r.f('int*** ptr3;', 'ptr3 bir int** değişkeninin adresini tutacak. Pointer\'lar da birer değişken; her birinin kendi adresi var (8 byte).', st, O());
+      vset(st, 'ptr', function(v){ v.v = AD.a; v.to = 'a'; }); hlOnly(st, ['ptr', 'a']);
+      r.f('ptr = &a;', '&a, a\'nın adresi. ptr\'nin içine 0x61FE1C yazıldı; artık ptr a\'yı gösteriyor (ok).', st, O());
+      hlOnly(st, ['a']); out.push(String(a));
+      r.f('printf("%d\\n", a);', '%d ile a\'nın değeri: ' + a + '.', st, O());
+      out.push(AD.a);
+      r.f('printf("%p\\n", &a);', '%p adres yazar. &a: a\'nın adresi, 0x61FE1C. (CodeBlocks\'ta 000000000061FE1C gibi görünür.)', st, O());
+      hlOnly(st, ['ptr']); out.push(AD.a);
+      r.f('printf("%p\\n", ptr);', 'ptr\'nin içindeki değer de a\'nın adresi: yine 0x61FE1C.', st, O());
+      hlOnly(st, ['ptr', 'a']); out.push(String(a));
+      r.f('printf("%d\\n", *ptr);', '*ptr: ptr\'nin gösterdiği yere git (oku takip et) ve oradaki değeri al: ' + a + '.', st, O());
+      hlOnly(st, ['ptr']); out.push(AD.ptr);
+      r.f('printf("%p\\n", &ptr);', '&ptr: pointer\'ın kendi adresi, 0x61FE10. ptr\'nin gösterdiği yer başka, kendisinin durduğu yer başka.', st, O());
+      vset(st, 'ptr2', function(v){ v.v = AD.ptr; v.to = 'ptr'; }); hlOnly(st, ['ptr2', 'ptr']);
+      r.f('ptr2 = &ptr;', 'ptr2\'ye ptr\'nin adresi yazıldı: pointer\'a pointer. ptr2 → ptr → a.', st, O());
+      hlOnly(st, ['ptr2']); out.push(AD.ptr);
+      r.f('printf("%p\\n", ptr2);', 'ptr2\'nin değeri ptr\'nin adresi: 0x61FE10.', st, O());
+      out.push(AD.ptr2);
+      r.f('printf("%p\\n", &ptr2);', '&ptr2: ptr2\'nin kendi adresi, 0x61FE08.', st, O());
+      hlOnly(st, ['ptr2', 'ptr', 'a']); out.push(String(a));
+      r.f('printf("%d\\n", **ptr2);', '*ptr2 = ptr (a\'nın adresi), **ptr2 = a = ' + a + '. İki * iki ok demek.', st, O());
+      vset(st, 'ptr3', function(v){ v.v = AD.ptr2; v.to = 'ptr2'; }); hlOnly(st, ['ptr3', 'ptr2']);
+      r.f('ptr3 = &ptr2;', 'ptr3\'e ptr2\'nin adresi yazıldı. Zincir: ptr3 → ptr2 → ptr → a.', st, O());
+      hlOnly(st, ['ptr3']); out.push(AD.ptr2);
+      r.f('printf("%p\\n", ptr3);', 'ptr3 = ptr2\'nin adresi: 0x61FE08.', st, O());
+      hlOnly(st, ['ptr3', 'ptr2']); out.push(AD.ptr);
+      r.f('printf("%p\\n", *ptr3);', '*ptr3: bir ok git, ptr2\'nin değerini al = ptr\'nin adresi, 0x61FE10.', st, O());
+      hlOnly(st, ['ptr3', 'ptr2', 'ptr']); out.push(AD.a);
+      r.f('printf("%p\\n", **ptr3);', '**ptr3: iki ok git = ptr\'nin değeri, yani a\'nın adresi: 0x61FE1C.', st, O());
+      hlOnly(st, ['ptr3', 'ptr2', 'ptr', 'a']); out.push(String(a));
+      r.f('printf("%d\\n", ***ptr3);', '***ptr3: üç ok git = a\'nın kendisi: ' + a + '.', st, O());
+      hlOnly(st, []);
+      r.f(null, 'Kural: tipteki * sayısı kadar ok takip edebilirsin. int*** ptr3 için *ptr3 int**, **ptr3 int*, ***ptr3 int. Hocanın int ***dizi parametreleri de bu yüzden: main\'deki int**\'yi değiştirmek için onun adresi gerekiyor.', st, O());
+    }});
+
+  def({id:'a-cl-kati', week:1, title:'Değerle ve adresle gönderme (CoderLog)', view:'vars', file:'cl-1',
+    desc:'1.3 ve 1.4 videolarındaki kod. sayinin_iki_kati x\'in kopyasını değiştirir, main\'deki x değişmez. sayinin_uc_kati adresi alır ve main\'deki x\'in kendisini değiştirir.',
+    inputs:[['x', 'x\'in değeri', '20']],
+    code: function(p){ return 'void sayinin_iki_kati(int x)\n{\n    x = x*2;\n}\n\nvoid sayinin_uc_kati(int* ptr)\n{\n    *ptr = (*ptr) * 3;\n}\n\nint main()\n{\n    int x = ' + (nums(p.x)[0] == null ? 20 : nums(p.x)[0]) + ';\n    int* ptr;\n\n    ptr = &x;\n\n    printf("%d\\n", x);\n\n    sayinin_iki_kati(x);\n    sayinin_uc_kati(ptr);\n\n    printf("%d\\n", x);\n}'; },
+    run: function(p, r){
+      var x = nums(p.x)[0]; if(x == null) x = 20;
+      var out = [], st = {frames:[{name:'main', vars:[]}]}, M = st.frames[0].vars;
+      var O = function(){ return {'ekrana yazılan': out.join('  ·  ') || '-'}; };
+      M.push({id:'x', ad:'int x', v:x, adr:'0x61FE1C', hl:true});
+      r.f('int x = ', 'main\'de x = ' + x + '.', st, O());
+      M.push({id:'ptr', ad:'int* ptr', v:null, adr:'0x61FE10'}); hlOnly(st, ['ptr']);
+      r.f('int* ptr;', 'ptr henüz bir yeri göstermiyor.', st, O());
+      vset(st, 'ptr', function(v){ v.v = '0x61FE1C'; v.to = 'x'; }); hlOnly(st, ['ptr', 'x']);
+      r.f('ptr = &x;', 'ptr artık x\'i gösteriyor.', st, O());
+      hlOnly(st, ['x']); out.push(String(x));
+      r.f('printf("%d\\n", x);', 'Ekrana ' + x + ' yazıldı.', st, O(), 1);
+      st.frames.push({name:'sayinin_iki_kati', vars:[{id:'x2', ad:'int x (kopya)', v:x, adr:'0x61FDF0', hl:true}]});
+      r.f('sayinin_iki_kati(x);', 'Fonksiyona x\'in DEĞERİ gönderildi. Fonksiyonun x\'i ayrı bir değişken: başka adreste duran bir kopya.', st, O());
+      vset(st, 'x2', function(v){ v.v = x * 2; });
+      r.f('x = x*2;', 'Kopya ' + (x * 2) + ' oldu. main\'deki x hâlâ ' + x + '.', st, O());
+      st.frames.pop(); hlOnly(st, ['x']);
+      r.f('}', 'Fonksiyon bitti, kopya stack\'ten silindi. Yapılan değişiklik de onunla gitti.', st, O(), 1);
+      st.frames.push({name:'sayinin_uc_kati', vars:[{id:'p2', ad:'int* ptr (kopya)', v:'0x61FE1C', adr:'0x61FDF0', to:'x', hl:true}]});
+      r.f('sayinin_uc_kati(ptr);', 'Bu sefer x\'in ADRESİ gönderildi. Fonksiyondaki ptr da bir kopya ama main\'deki x\'i gösteriyor.', st, O());
+      vset(st, 'x', function(v){ v.v = x * 3; }); hlOnly(st, ['p2', 'x']);
+      r.f('*ptr = (*ptr) * 3;', '*ptr main\'deki x\'in kendisi: ' + x + ' · 3 = ' + (x * 3) + '.', st, O());
+      st.frames.pop(); hlOnly(st, ['x']);
+      r.f('}', 'Fonksiyon bitti, kopya pointer silindi ama değişiklik main\'in x\'inde kaldı.', st, O(), 2);
+      out.push(String(x * 3));
+      r.f('printf("%d\\n", x);', 'Ekrana ' + (x * 3) + ' yazıldı. Çıktı: ' + x + ' ve ' + (x * 3) + '.', st, O(), 2);
+      hlOnly(st, []);
+      r.f(null, 'Dışarıdaki değişkeni değiştirmek için adresini gönder. Liste başını değiştiren fonksiyonların ** alması da bu yüzden.', st, O());
+    }});
+
+  def({id:'a-cl-ters', week:3, title:'Listeyi ters çevirme, CoderLog yolu', view:'list', file:'cl-4',
+    desc:'3.6 videosundaki kod. İlk düğüm sona kalır; geri kalan düğümler sırayla listenin başına alınır. Boş listede çöktüğünü de görebilirsin (listeyi boş bırak).',
+    inputs:[['liste', 'Liste', '1 2 3 4']],
+    code: 'void reverse_linkedlist(struct Node** head_of_list)\n{\n    node* temp;\n    node* iter = (*head_of_list)->next;\n    (*head_of_list)->next = NULL;\n\n    if(*head_of_list == NULL)\n    {\n        printf("The list is empty.");\n    }\n    else\n    {\n        while(iter!=NULL)\n        {\n            temp = iter;\n            iter = iter->next;\n            temp->next = (*head_of_list);\n            (*head_of_list) = temp;\n        }\n    }\n\n}',
+    run: function(p, r){
+      var st = mkList(nums(p.liste)); st.ptrs.head_of_list = headOf(st);
+      var K2 = function(id){ return id ? st.nodes[id].k : 'NULL'; };
+      r.f('void reverse_linkedlist', 'reverse_linkedlist(&root) çağrıldı.', st, {});
+      if(st.ptrs.head_of_list == null){
+        r.f('node* iter = (*head_of_list)->next;', 'Liste boş: *head_of_list NULL ve NULL\'un next\'i okunmaya çalışılıyor. Program burada çöker; boş liste kontrolü bu satırdan önce olmalıydı.', st, {});
+        return;
+      }
+      var h = st.ptrs.head_of_list, iter = st.nodes[h].n, temp = null; st.ptrs.iter = iter; st.hl = iter ? [iter] : [];
+      r.f('node* iter = (*head_of_list)->next;', 'iter ikinci düğümden (' + K2(iter) + ') başlıyor.', st, {iter:K2(iter)});
+      st.nodes[h].n = null; st.hl = [h];
+      r.f('(*head_of_list)->next = NULL;', 'İlk düğüm (' + K2(h) + ') sona kalacak, next\'i NULL yapıldı.', st, {iter:K2(iter)});
+      r.f('if(*head_of_list == NULL)', 'Liste boş değil. (Bu kontrol iki satır geç kalmış: boş listede yukarıda zaten çökerdi.)', st, {});
+      while(iter != null){
+        r.f('while(iter!=NULL)', 'iter = ' + K2(iter) + ', devam.', st, {iter:K2(iter), head_of_list:K2(st.ptrs.head_of_list)});
+        temp = iter; st.ptrs.temp = temp; st.hl = [temp];
+        r.f('temp = iter;', 'temp başa alınacak düğüm: ' + K2(temp) + '.', st, {temp:K2(temp), iter:K2(iter)});
+        iter = st.nodes[iter].n; st.ptrs.iter = iter;
+        r.f('iter = iter->next;', 'iter önden ilerledi (' + K2(iter) + '), kalan liste kaybolmasın diye.', st, {temp:K2(temp), iter:K2(iter)});
+        st.nodes[temp].n = st.ptrs.head_of_list;
+        r.f('temp->next = (*head_of_list);', K2(temp) + ' artık eski başı (' + K2(st.ptrs.head_of_list) + ') gösteriyor.', st, {temp:K2(temp), iter:K2(iter)});
+        st.ptrs.head_of_list = temp;
+        r.f('(*head_of_list) = temp;', 'Liste başı ' + K2(temp) + ' oldu. Şu anki liste: ' + printList(st, temp) + '.', st, {head_of_list:K2(temp), iter:K2(iter)});
+      }
+      r.f('while(iter!=NULL)', 'iter NULL: bütün düğümler başa alındı.', st, {});
+      st.ptrs = {head_of_list: st.ptrs.head_of_list}; st.hl = [];
+      r.f(null, 'Bitti: ' + printList(st, st.ptrs.head_of_list) + '. Hocanın liste_ters_cevir\'i aynı sonucu boş listede çökmeden verir.', st, {});
     }});
 
   // ================= OYNATICI =================
