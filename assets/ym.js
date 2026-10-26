@@ -163,9 +163,10 @@
   var GRP = {
     intro: {cls:'intro', ic:'◎', title:'Bu bölüm ne anlatıyor?'},
     kitap: {cls:'kitap', ic:'📖', title:'Kitapta ne anlatılıyor'},
-    hoca:  {cls:'hoca',  ic:'👨‍🏫', title:'Hoca anlatımı'},
-    not:   {cls:'not',   ic:'📝', title:'Deftere not'}
+    hoca:  {cls:'hoca',  ic:'👨‍🏫', title:'Hocanın sözleri'},
+    not:   {cls:'not',   ic:'📝', title:'Notlar'}
   };
+  var FOLD = {hoca:1, not:1};   // konu anlatımında açılır kapanır gruplar
   function txt(b){ return b.em ? '<strong>' + esc(b.x) + '</strong>' : esc(b.x); }
   function renderItems(items){
     var h = '', tops = null;
@@ -191,20 +192,40 @@
     flush();
     return h;
   }
-  function renderGroups(blocks){
+  function groupsOf(blocks){
     var groups = [], cur = null;
     blocks.forEach(function(b){
       if(b.t === 'h'){ cur = {k: b.k, items: []}; groups.push(cur); return; }
       if(!cur){ cur = {k: 'kitap', items: []}; groups.push(cur); }
       cur.items.push(b);
     });
-    return groups.map(function(g){
-      var m = GRP[g.k] || GRP.kitap;
-      return '<div class="grp ' + m.cls + '"><p class="grp-h"><span aria-hidden="true">' + m.ic + '</span>' + m.title + '</p>' + renderItems(g.items) + '</div>';
+    return groups;
+  }
+  function renderGroups(blocks){
+    return groupsOf(blocks).map(function(g){
+      var m = GRP[g.k] || GRP.kitap, head = '<span aria-hidden="true">' + m.ic + '</span>' + m.title;
+      if(FOLD[g.k]) return '<details class="grp fold ' + m.cls + '"><summary class="grp-h">' + head + '<span class="hint"></span></summary><div class="grp-body">' + renderItems(g.items) + '</div></details>';
+      return '<div class="grp ' + m.cls + '"><p class="grp-h">' + head + '</p>' + renderItems(g.items) + '</div>';
     }).join('');
   }
+  // tek bir grup türünü (hocanın sözleri ya da notlar) bütün bölümden toplayıp sayfa sırasıyla gösterir
+  function renderOnly(k, d){
+    var m = GRP[k];
+    var parts = [{p:'', title:'Bölüme giriş', blocks:d.intro}].concat(d.pages).map(function(pg){
+      var items = [];
+      groupsOf(pg.blocks).forEach(function(g){ if(g.k === k) items = items.concat(g.items); });
+      return items.length ? {pg:pg, items:items} : null;
+    }).filter(Boolean);
+    if(!parts.length) return '<p class="muted">Bu bölümde bu kısım yok.</p>';
+    return '<p class="muted" style="margin-bottom:16px">' + (k === 'hoca' ? 'Hocanın bu bölümde anlattıkları, kitap sayfası sırasıyla bir arada.' : 'Deftere yazılacak kısa notlar, kitap sayfası sırasıyla bir arada.') + '</p>' +
+      parts.map(function(x){
+        return '<article class="pg"><div class="pg-head"><span class="pg-no">' + (x.pg.p ? 'Kitap s.' + esc(x.pg.p) : 'Giriş') + '</span><h3>' + esc(x.pg.title || ('Sayfa ' + x.pg.p)) + '</h3></div>' +
+          '<div class="grp ' + m.cls + '"><p class="grp-h"><span aria-hidden="true">' + m.ic + '</span>' + m.title + '</p>' + renderItems(x.items) + '</div></article>';
+      }).join('');
+  }
   function renderNotes(n, d){
-    var h = '<div class="konu-nav" role="group" aria-label="Kitap sayfasına git"><span class="muted">Kitap sayfası:</span>' +
+    var h = '<div class="toolbar fold-bar"><span class="muted">Hocanın sözleri ve notlar kapalı; başlığına tıklayınca açılır.</span><button class="btn" type="button" data-foldall>Hepsini aç</button></div>' +
+      '<div class="konu-nav" role="group" aria-label="Kitap sayfasına git"><span class="muted">Kitap sayfası:</span>' +
       d.pages.map(function(pg, i){ return '<button type="button" data-goto="b' + n + '-pg' + i + '">s.' + esc(pg.p) + '</button>'; }).join('') + '</div>';
     if(d.intro.length) h += '<div class="pg">' + renderGroups(d.intro) + '</div>';
     h += d.pages.map(function(pg, i){
@@ -216,16 +237,26 @@
   function loadNotes(n){
     if(notesState[n]) return;
     notesState[n] = 'loading';
-    var panel = document.querySelector('[data-view="b' + n + '"] [data-panel="konu"]');
+    var view = document.querySelector('[data-view="b' + n + '"]');
+    var panel = view.querySelector('[data-panel="konu"]'), hp = view.querySelector('[data-panel="hoca"]'), np = view.querySelector('[data-panel="not"]');
     fetch('assets/ym-notes/b' + n + '.json').then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); }).then(function(d){
       panel.innerHTML = renderNotes(n, d);
+      hp.innerHTML = renderOnly('hoca', d);
+      np.innerHTML = renderOnly('not', d);
       panel.querySelectorAll('[data-goto]').forEach(function(b){
         b.addEventListener('click', function(){ document.getElementById(b.dataset.goto).scrollIntoView({behavior:'smooth', block:'start'}); });
+      });
+      var all = panel.querySelector('[data-foldall]'), open = false;
+      all.addEventListener('click', function(){
+        open = !open;
+        panel.querySelectorAll('details.fold').forEach(function(x){ x.open = open; });
+        all.textContent = open ? 'Hepsini kapat' : 'Hepsini aç';
       });
       notesState[n] = 'done';
     }).catch(function(){
       notesState[n] = null;
-      panel.innerHTML = '<p class="muted">Konu anlatımı yüklenemedi. Sayfayı yenile ya da <a href="kaynaklar/yazilim-muhendisligi/vize-notlari.pdf" target="_blank" rel="noopener">notların PDF hâlini aç</a>.</p>';
+      var msg = '<p class="muted">Konu anlatımı yüklenemedi. Sayfayı yenile ya da <a href="kaynaklar/yazilim-muhendisligi/vize-notlari.pdf" target="_blank" rel="noopener">notların PDF hâlini aç</a>.</p>';
+      panel.innerHTML = msg; hp.innerHTML = msg; np.innerHTML = msg;
     });
   }
 
