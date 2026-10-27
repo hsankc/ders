@@ -471,10 +471,34 @@ ol.son{margin:0;display:grid;gap:10px;background:var(--card);border:1px solid va
   .fcard,.box{box-shadow:none;break-inside:avoid}
 }
 
+/* Yazılım Mühendisliği: vize, Mimari Tasarım ve alıştırma sayfaları */
+.vlead{max-width:72ch}
+.vize .box p,.vize .ans p{margin:0}
+.vize h2.vh{margin-top:22px;scroll-margin-top:80px}
+.vize h2.vh .n{display:block;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.vize .box{scroll-margin-top:80px}
+.vize .box h3 .n{font-family:var(--f-mono);font-size:.82rem;color:var(--muted);font-weight:400;margin-right:8px}
+.vize .box h3 .en,.scard h3 .en{display:block;font-size:.85rem;margin-top:2px}
+ol.steps,ol.sys{margin:0;padding-left:1.35em;display:grid;gap:7px}
+ol.sys{list-style:lower-alpha;color:var(--ink-2)}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));gap:12px}
+.scard{gap:6px;align-content:start;padding:18px 20px}
+.scard .tag{width:fit-content}
+.scard .lbl-sm{margin-top:8px}
+.pc{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:4px 18px}
+.pc ul{margin:4px 0 0}
+.vq{gap:10px}
+.vq .q-en{font-weight:600;margin:0}
+.vq textarea.ex-ans{font-family:var(--f-body);font-size:.95rem}
+table.cmp th[scope=row]{text-transform:none;letter-spacing:0;font-size:.9rem;color:var(--ink);position:static;min-width:110px}
+table.cmp th .en{display:block;text-transform:none;letter-spacing:0;font-size:.8rem}
+
 @media (max-width:560px){
   body{font-size:16px}
   .card{padding:18px}
   .hero{padding-block:30px 20px}
   .topbar .in{height:54px}
+  .vize th,.vize td{padding:8px 9px}
+  table.cmp th[scope=row]{min-width:84px}
 }
 @media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}

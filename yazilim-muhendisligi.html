@@ -27,7 +27,16 @@
   <div class="hero">
     <div class="hero-row"><span class="badge lg c-ym">YM</span>
       <div><h1>Yazılım Mühendisliği</h1><p class="muted">Vize: Pazartesi, 2 Kasım · 14:30 · A305, A201, A203</p></div></div>
-    <p class="sub">Sommerville, <i>Software Engineering</i> 8. baskı, Bölüm 1–7 (kitap s.3–168). Her bölümde kitabın sayfa sayfa konu anlatımı (213 sayfalık Türkçe notun tamamı), kısa özet, mutlaka bilinecekler, hocanın sözleri ve notlar ayrı sekmelerde, İngilizce ve Türkçe cevaplı sınav soruları ve 18 soruluk test var.</p>
+    <p class="sub">Sommerville, <i>Software Engineering</i> 8. baskı, Bölüm 1–7 (kitap s.3–168). Her bölümde kitabın sayfa sayfa konu anlatımı (213 sayfalık Türkçe notun tamamı), kısa özet, mutlaka bilinecekler, hocanın sözleri ve notlar ayrı sekmelerde, İngilizce ve Türkçe cevaplı sınav soruları ve 18 soruluk test var. Hocanın vize notuna göre son konu olan Mimari Tasarım da (hafta 10 slaytları) ayrı sayfada.</p>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><h2>Vize</h2><p>Hocanın söyledikleri</p></div>
+    <div class="grid">
+      <a class="card" href="#vize"><span class="label">5 klasik soru · tanım yok</span><h3>Vizede ne çıkacak?</h3><p class="desc">Hocanın derste verdiği soru tipleri: sistemlere organizasyon stili ve kontrol stratejisi önermek, kullanıcı ve sistem gereksinimleri. Örnek cevapları ve aynı kalıpta gelebilecek sorular.</p><span class="go">Aç →</span></a>
+      <a class="card" href="#mimari"><span class="label">Son konu · hafta 10</span><h3>Mimari Tasarım</h3><p class="desc">Organizasyon stilleri (depo, istemci-sunucu, katmanlı), modüler ayrıştırma, kontrol stilleri ve referans mimariler. Slayttaki şemalarla.</p><span class="go">Aç →</span></a>
+      <a class="card" href="#pratik"><span class="label">20 sistem</span><h3>Sistemi gör, stili seç</h3><p class="desc">Bir sistem tarifi gelir; hangi organizasyon stilini ya da kontrol modelini önereceğini seçersin, nedenini görürsün.</p><span class="go">Başla →</span></a>
+    </div>
   </div>
 
   <div class="section">
@@ -54,6 +63,7 @@
 <div class="card"><span class="label">Hafta 4 · hocanın slaytları</span><h3>Proje yönetimi</h3><div class="files"><a href="kaynaklar/yazilim-muhendisligi/slaytlar/hafta-4-proje-yonetimi.pdf" target="_blank" rel="noopener"><span class="ic pdf">PDF</span><span>Proje yönetimi</span><span class="sz">316 KB</span></a><a href="kaynaklar/yazilim-muhendisligi/slaytlar/hafta-4-proje-yonetimi-turkce.pdf" target="_blank" rel="noopener"><span class="ic pdf">PDF</span><span>Proje yönetimi (Türkçe)</span><span class="sz">344 KB</span></a><a href="kaynaklar/yazilim-muhendisligi/slaytlar/hafta-4-risk-yonetimi.pdf" target="_blank" rel="noopener"><span class="ic pdf">PDF</span><span>Risk yönetimi</span><span class="sz">301 KB</span></a></div></div>
 <div class="card"><span class="label">Hafta 6 · hocanın slaytları</span><h3>Yazılım gereksinimleri</h3><div class="files"><a href="kaynaklar/yazilim-muhendisligi/slaytlar/hafta-6-yazilim-gereksinimleri.pdf" target="_blank" rel="noopener"><span class="ic pdf">PDF</span><span>Yazılım gereksinimleri</span><span class="sz">726 KB</span></a><a href="kaynaklar/yazilim-muhendisligi/slaytlar/hafta-6-yazilim-gereksinimleri-turkce.pdf" target="_blank" rel="noopener"><span class="ic pdf">PDF</span><span>Yazılım gereksinimleri (Türkçe)</span><span class="sz">749 KB</span></a></div></div>
 <div class="card"><span class="label">Hafta 7 · hocanın slaytları</span><h3>Gereksinim mühendisliği süreçleri</h3><div class="files"><a href="kaynaklar/yazilim-muhendisligi/slaytlar/hafta-7-gereksinim-muhendisligi-surecleri.pdf" target="_blank" rel="noopener"><span class="ic pdf">PDF</span><span>Gereksinim mühendisliği süreçleri</span><span class="sz">580 KB</span></a></div></div>
+<div class="card"><span class="label">Hafta 10 · hocanın slaytları</span><h3>Mimari tasarım</h3><p class="desc">Vizede son konu. Konu anlatımı sitede: <a href="#mimari">Mimari Tasarım</a>.</p><div class="files"><a href="kaynaklar/yazilim-muhendisligi/slaytlar/hafta-10-mimari-tasarim.pdf" target="_blank" rel="noopener"><span class="ic pdf">PDF</span><span>Mimari tasarım</span><span class="sz">587 KB</span></a></div></div>
     </div>
     <p class="muted" style="font-size:.92rem">Ders kitabının kendisi telif hakkı nedeniyle siteye konmadı. Notlarda ve sorularda kitap sayfa numaraları verildi.</p>
   </div>
@@ -505,11 +515,572 @@
   </table></div>
 </section>
 
+<section class="view" data-view="vize" hidden>
+  <a class="back" href="#">← Tüm bölümler</a>
+  <div class="view-head"><span class="label">Hocanın söyledikleri</span><h1>Vizede ne çıkacak?</h1>
+    <p class="muted vlead">Hoca derste vizenin nasıl olacağını anlattı ve örnek sorular verdi. Notun kendisi en üstte. Altında her soru tipinin nasıl cevaplanacağı ve tam örnek cevaplar var; önce kendin yaz, sonra örnek cevapla karşılaştır.</p></div>
+  <div class="read prose vize">
+
+    <div class="grp hoca"><p class="grp-h"><span aria-hidden="true">👨‍🏫</span>Hocanın notu (defterden)</p>
+      <ul class="nl">
+        <li><strong>Vize: 5 soru, klasik. Tanım sorusu yok.</strong></li>
+        <li><strong>Son konudan:</strong> 3–4 tane sistem verip "Bu sistemler için hangi organizasyonel stilleri önerirsiniz?"</li>
+        <li>3–4 tane sistem (gerçek zamanlı, dağıtık, sıralı işlem): "Hangi sistem için hangi kontrol stratejisini önerirsiniz, neden?"</li>
+        <li>"Kullanıcı gereksinimlerini ve sistem gereksinimlerini tanımlayınız. Bir yazılım geliştirme sürecinde neden ikisinin de ayrı ayrı tanımlanması gerektiğini açıklayınız."
+          <ul><li>Ya da: "Sadece biri kullanılarak sistem geliştirilebilir mi?" → Geliştirilemez, ikisinin okuyucuları farklı.</li></ul></li>
+      </ul>
+    </div>
+
+    <div class="box"><h3>Bu ne demek?</h3>
+      <ul>
+        <li><b>5 sorunun hepsi yazılı.</b> Test yok, her soruda 1–2 paragraf yazacaksın.</li>
+        <li><b>"Tanım yok"</b>, "X nedir?" diye tek başına sorulmayacak demek. Ama tanımı bilmeden cevap yazılmıyor: üçüncü soru zaten "tanımlayınız" diye başlıyor. Puan tanımdan sonraki <b>"neden"</b> kısmında.</li>
+        <li>İlk iki soru tipi <b>Mimari Tasarım</b> konusundan geliyor (hocanın 10. hafta klasöründeki ch11 slaytları). Sitedeki 1–7. bölümlerde bu konu yoktu; <a href="#mimari">ayrı sayfa olarak ekledim</a>.</li>
+        <li>Üçüncü tip <b>Bölüm 6</b>'dan (<a href="#b6">Yazılım Gereksinimleri</a>). Bölüm 4'te de alıştırma 4.5 olarak geçiyor.</li>
+        <li>Kalan 2 soru için hoca bir şey söylemedi. Aynı kalıpta (öner, karşılaştır, neden) gelebilecek soruları <a href="#vize" data-jump="vize-diger">sayfanın sonuna</a> koydum.</li>
+      </ul>
+    </div>
+
+    <div class="box"><h3>Klasik soruya cevap kalıbı</h3>
+      <ol class="steps">
+        <li><b>Önerini ilk cümlede söyle:</b> "Bu sistem için istemci-sunucu stilini öneririm."</li>
+        <li><b>Stili bir cümleyle anlat.</b> Tanım sorulmasa da cevabın temeli bu.</li>
+        <li><b>Nedenini sistemin bir özelliğine bağla:</b> "çünkü bu sistemde kullanıcılar farklı yerlerden ağ üzerinden bağlanıyor; istemci-sunucu da veriyi ve işlemi ağdaki bilgisayarlara dağıtmak için var."</li>
+        <li><b>Bir zayıf yanı ya da alternatifi söyle:</b> "Ortak veri modeli olmadığı için veri alışverişi verimsiz olabilir." Bu, ezberlemediğini, anladığını gösterir.</li>
+        <li><b>Kitaptaki örnek sistemi an:</b> CASE araç seti (depo), film ve fotoğraf kütüphanesi (istemci-sunucu), sürüm yönetim sistemi (katmanlı).</li>
+      </ol>
+      <p class="muted">Bazı sistemlerde iki stil de savunulabilir. Hocanın sorusunda "neden?" var; puanın çoğu gerekçeden gelir. Gerekçen sistemin bir özelliğine dayanıyorsa cevabın doğru sayılır.</p>
+    </div>
+
+    <h2 class="vh" id="vize-1"><span class="n">Soru tipi 1</span>Sistemlere organizasyon stili önermek</h2>
+    <div class="box">
+      <p>Organizasyon stili (<span class="en">system organisation</span>), sistemi yapılandırmak için kullanılan temel stratejidir. Slayta göre yaygın <span class="count">3</span>stil var: <b>ortak veri deposu</b> (<span class="en">shared data repository</span>), <b>ortak hizmetler ve sunucular</b>, yani istemci-sunucu (<span class="en">client-server</span>), <b>soyut makine</b>, yani katmanlı model (<span class="en">abstract machine / layered</span>).</p>
+    </div>
+    <div class="sgrid">
+      <div class="box scard"><h3>Ortak veri deposu <span class="en">Repository</span></h3>
+        <p class="lbl-sm">Sistemde şunu görünce seç</p><p>Alt sistemler <b>çok büyük miktarda ortak veriyi</b> paylaşıyor. Veriyi bir alt sistem üretiyor, diğerleri kullanıyor.</p>
+        <p class="lbl-sm">Neden?</p><p>Büyük veriyi paylaşmanın en verimli yolu. Alt sistemler verinin nasıl üretildiğiyle ilgilenmez. Yedekleme, güvenlik gibi yönetim işleri merkezde tek yerden yapılır. Paylaşım modeli depo şeması olarak yayınlanır.</p>
+        <p class="lbl-sm bad">Zayıf yanı</p><p>Herkes tek veri modelinde anlaşmak zorunda; bu kaçınılmaz olarak bir uzlaşmadır. Veri modelini değiştirmek zor ve pahalı. Alt sisteme özel yönetim politikası olamaz. Verimli dağıtmak zor.</p>
+        <p class="lbl-sm">Örnek</p><p>CASE araç seti (kitap). Kitaba göre komuta-kontrol sistemleri, yönetim bilgi sistemleri ve CAD sistemleri de böyle.</p>
+      </div>
+      <div class="box scard"><h3>İstemci-sunucu <span class="en">Client-server</span></h3>
+        <p class="lbl-sm">Sistemde şunu görünce seç</p><p>Veri ve işlem <b>ağdaki farklı bilgisayarlara dağılmış</b>; kullanıcılar farklı yerlerden bağlanıyor; birbirinden bağımsız hizmetler var.</p>
+        <p class="lbl-sm">Neden?</p><p>Dağıtık sistem modelidir: veriyi dağıtmak kolay. Ağı etkin kullanır, daha ucuz donanım yetebilir. Yeni sunucu eklemek ya da var olanı yükseltmek kolay.</p>
+        <p class="lbl-sm bad">Zayıf yanı</p><p>Ortak veri modeli yok, alt sistemler veriyi farklı düzenler, veri alışverişi verimsiz olabilir. Yönetim her sunucuda tekrarlanır. Merkezi isim ve hizmet kaydı yok, hangi sunucunun ne verdiğini bulmak zor.</p>
+        <p class="lbl-sm">Örnek</p><p>Film ve fotoğraf kütüphanesi: katalog, video, resim ve web sunucuları (kitap).</p>
+      </div>
+      <div class="box scard"><h3>Katmanlı <span class="en">Layered</span></h3>
+        <p class="lbl-sm">Sistemde şunu görünce seç</p><p>Sistem <b>seviye seviye</b> kuruluyor, her katman üstündekine hizmet veriyor. Taşınabilirlik, katman değiştirebilme, artımlı geliştirme ya da <b>güvenlik</b> önemli.</p>
+        <p class="lbl-sm">Neden?</p><p>Bir katmanın arayüzü değişince sadece komşu katman etkilenir. Katmanlar artımlı geliştirilebilir. Alttaki katmanı (ör. işletim sistemi) değiştirmek üsttekileri bozmaz. Güvenlik için kritik varlıklar en içteki katmana konur.</p>
+        <p class="lbl-sm bad">Zayıf yanı (kitaptan)</p><p>Sistemi katmanlara ayırmak her zaman kolay değil. Üstten gelen bir istek birçok katmandan geçtiği için performans düşebilir.</p>
+        <p class="lbl-sm">Örnek</p><p>Sürüm yönetim sistemi (kitap). Ağlarda OSI referans modeli.</p>
+      </div>
+    </div>
+
+    <div class="box"><h3>Gerekçeyi güçlendiren slayt: mimari ve sistem özellikleri</h3>
+      <p>Sistemde öne çıkan fonksiyonel olmayan gereksinimi söyleyip mimariyi ona bağlarsan gerekçe çok güçlenir:</p>
+      <ul>
+        <li><b>Performans</b> önemliyse: kritik işlemleri bir yerde topla, iletişimi azalt; küçük parçalar yerine büyük bileşenler kullan.</li>
+        <li><b>Güvenlik</b> (<span class="en">security</span>) önemliyse: katmanlı mimari, kritik varlıklar iç katmanlarda.</li>
+        <li><b>Emniyet</b> (<span class="en">safety</span>) önemliyse: emniyetle ilgili özellikleri az sayıda alt sistemde topla.</li>
+        <li><b>Kullanılabilirlik</b> (<span class="en">availability</span>) önemliyse: yedek bileşenler ve hata toleransı mekanizmaları koy.</li>
+        <li><b>Bakım kolaylığı</b> (<span class="en">maintainability</span>) önemliyse: küçük, değiştirilebilir bileşenler kullan.</li>
+      </ul>
+      <p class="muted">Büyük sistemler çoğu zaman tek stile uymaz (slayt 9). Ör. bir web uygulaması dışarıdan istemci-sunucu, sunucunun içi katmanlı olabilir. Cevabın sonuna bunu bir cümleyle eklemek artı puan getirir.</p>
+    </div>
+
+    <div class="qcard vq"><div class="qtop"><span>Örnek soru · hocanın kalıbında</span><span>Mimari Tasarım</span></div>
+      <p class="q-en">Aşağıdaki sistemler için hangi organizasyon stilini önerirsiniz? Nedenini açıklayınız.</p>
+      <ol class="sys"><li>Tasarım editörü, kod üreteci, tasarım analizcisi ve rapor üretecinden oluşan bir yazılım geliştirme ortamı.</li>
+        <li>Öğrencilerin evden internet üzerinden katalog aradığı, film ve fotoğraf indirdiği bir dijital kütüphane.</li>
+        <li>Farklı işletim sistemlerine taşınabilmesi gereken bir sürüm (versiyon) yönetim sistemi.</li>
+        <li>Poliklinik, laboratuvar, eczane ve faturalama bölümlerinin aynı hasta kayıtlarını kullandığı bir hastane sistemi.</li></ol>
+      <textarea class="ex-ans" data-k="t1" rows="5" placeholder="Önce kendi cevabını yaz. Yazdıkların bu tarayıcıda saklanır."></textarea>
+      <details><summary>Örnek cevabı göster</summary><div class="ans">
+        <p><b>a) Ortak veri deposu.</b> Bütün araçlar aynı büyük proje verisi üzerinde çalışıyor: tasarım editörünün ürettiği modeli analizci kontrol ediyor, kod üreteci koda çeviriyor, rapor üreteci rapora döküyor. Veriyi bir araç üretip diğerleri kullandığı için en verimli paylaşım yolu ortak depodur. Araçlar birbirini tanımak zorunda değildir, sadece depo şemasını bilir; yeni bir araç eklemek kolaydır. Yedekleme ve güvenlik depoda tek yerden yapılır. Zayıf yanı: bütün araçlar tek veri modelinde anlaşmak zorundadır, model değişirse hepsi etkilenir. Bu, kitaptaki CASE araç seti örneğidir.</p>
+        <p><b>b) İstemci-sunucu.</b> Kullanıcılar farklı yerlerden internet üzerinden bağlanıyor ve katalog, video, fotoğraf birbirinden bağımsız hizmetler. Her hizmet ayrı bir sunucuda durur (katalog, video, resim ve web sunucusu), öğrencilerin bilgisayarları istemcidir. Veriyi ağa dağıtmak kolaydır; büyük video dosyaları kendi sunucusunda tutulur. Talep artınca yeni sunucu eklemek ya da birini yükseltmek diğerlerini etkilemez. Zayıf yanı: merkezi bir hizmet kaydı olmadığı için hangi sunucunun ne verdiğini bulmak zordur. Bu, kitaptaki film ve fotoğraf kütüphanesi örneğidir.</p>
+        <p><b>c) Katmanlı (soyut makine) model.</b> En altta işletim sistemi katmanı, üstünde veritabanı katmanı, onun üstünde nesne yönetimi, en üstte yapılandırma (sürüm) yönetimi katmanı olur. Her katman sadece altındaki katmanın hizmetlerini kullanır. Bir katmanın arayüzü değişince sadece komşu katman etkilendiği için, sistemi başka işletim sistemine taşırken en alttaki katmanı değiştirmek yeter. Katmanlar artımlı geliştirilebilir. Zayıf yanı: üstten gelen istek bütün katmanlardan geçtiği için performans düşebilir. Bu, kitaptaki sürüm yönetim sistemi örneğidir.</p>
+        <p><b>d) Ortak veri deposu.</b> Bütün bölümler aynı büyük veriyi, hasta kayıtlarını paylaşıyor: laboratuvarın girdiği sonucu poliklinik görüyor, eczane reçeteyi, faturalama yapılan işlemleri okuyor. Kayıtların tek yerde olması tutarlılığı sağlar. Hasta verisi gizli olduğu için güvenliğin, yetkilendirmenin ve yedeklemenin merkezde tek yerden yönetilmesi büyük avantajdır. Zayıf yanı: bölümler tek veri modelinde anlaşmak zorundadır. Bölümler farklı binalarda kendi verilerini tutuyorsa istemci-sunucu da savunulabilir; o zaman gerekçe "veri ve işlem ağa dağılmış" olur.</p>
+      </div></details>
+    </div>
+
+    <h2 class="vh" id="vize-2"><span class="n">Soru tipi 2</span>Kontrol stratejisi önermek</h2>
+    <div class="box">
+      <p>Kontrol stilleri (<span class="en">control styles</span>) alt sistemler arasındaki <b>kontrol akışıyla</b> ilgilenir; sistemin parçalara nasıl ayrıldığından farklı bir konudur. <span class="count">2</span>ana yaklaşım var, her birinin <span class="count">2</span>modeli:</p>
+      <ul>
+        <li><b>Merkezi kontrol</b> (<span class="en">centralised control</span>): bir alt sistem bütün kontrolden sorumludur, diğerlerini başlatır ve durdurur. Modelleri: <b>çağır-dön</b> (<span class="en">call-return</span>) ve <b>yönetici</b> (<span class="en">manager</span>).</li>
+        <li><b>Olay tabanlı kontrol</b> (<span class="en">event-based control</span>): her alt sistem başka alt sistemlerden ya da sistemin ortamından gelen olaylara cevap verir. Modelleri: <b>yayın</b> (<span class="en">broadcast</span>) ve <b>kesme güdümlü</b> (<span class="en">interrupt-driven</span>).</li>
+      </ul>
+    </div>
+    <div class="sgrid">
+      <div class="box scard"><span class="tag accent">Sıralı işlem</span><h3>Çağır-dön <span class="en">Call-return · merkezi</span></h3>
+        <p class="lbl-sm">Neden?</p><p>Kontrol, alt yordam hiyerarşisinin en üstündeki ana programdan başlar ve yukarıdan aşağıya iner; çağrılan yordam bitince kontrol çağırana döner. Sıralı sistemde işler sırayla yapılır, aynı anda çalışan süreç yoktur. Slayt: "sıralı sistemlere uygulanabilir".</p>
+        <p class="lbl-sm bad">Bedeli</p><p>Dışarıdan gelen beklenmedik olaylara cevap vermek zor. Sıralı sistemde buna ihtiyaç yok.</p>
+      </div>
+      <div class="box scard"><span class="tag accent">Eşzamanlı süreçler</span><h3>Yönetici <span class="en">Manager · merkezi</span></h3>
+        <p class="lbl-sm">Neden?</p><p>Bir bileşen diğer süreçlerin başlatılmasını, durdurulmasını ve koordinasyonunu yönetir. Slayt: "eşzamanlı sistemlere uygulanabilir"; sıralı sistemde bir case ifadesiyle de yazılabilir. Slayttaki gerçek zamanlı sistem kontrolü şekli bu modeldir.</p>
+        <p class="lbl-sm bad">Bedeli</p><p>Bütün kontrol tek denetleyiciden geçer. Olayları kendisi yoklayarak bulur, bu yüzden cevabı kesme kadar hızlı değildir.</p>
+      </div>
+      <div class="box scard"><span class="tag accent">Dağıtık</span><h3>Yayın <span class="en">Broadcast · olay tabanlı</span></h3>
+        <p class="lbl-sm">Neden?</p><p>Olay bütün alt sistemlere yayınlanır, işleyebilen alt sistem işler. Slayt: ağdaki farklı bilgisayarlarda çalışan alt sistemleri birleştirmede etkili. Alt sistemler ilgilendikleri olaylara kaydolur. Kontrol politikası olay ve mesaj işleyicide değildir, her alt sistem kendisi karar verir; yeni alt sistem eklemek kolaydır.</p>
+        <p class="lbl-sm bad">Bedeli</p><p>Alt sistemler bir olayın işlenip işlenmeyeceğini ya da ne zaman işleneceğini bilemez.</p>
+      </div>
+      <div class="box scard"><span class="tag accent">Gerçek zamanlı</span><h3>Kesme güdümlü <span class="en">Interrupt-driven · olay tabanlı</span></h3>
+        <p class="lbl-sm">Neden?</p><p>Olaya hızlı cevap şart. Bilinen kesme türleri vardır, her biri için bir işleyici (<span class="en">handler</span>) tanımlıdır. Her tür bir bellek adresine bağlıdır; donanım anahtarı kontrolü doğrudan o işleyiciye aktarır, olay sıra beklemez.</p>
+        <p class="lbl-sm bad">Bedeli</p><p>Hızlı cevap verir ama programlaması karmaşık, doğrulaması (<span class="en">validation</span>) zordur.</p>
+      </div>
+    </div>
+    <p class="muted">Şemaları (çağır-dön, gerçek zamanlı sistem kontrolü, seçici yayın, kesme vektörü) <a href="#mimari" data-jump="mimari-kontrol">Mimari Tasarım sayfasında</a> görebilirsin.</p>
+
+    <div class="qcard vq"><div class="qtop"><span>Hocanın sorusu</span><span>Mimari Tasarım</span></div>
+      <p class="q-en">Gerçek zamanlı bir sistem, dağıtık bir sistem ve sıralı işlem yapan bir sistem için hangi kontrol stratejisini önerirsiniz? Nedenini açıklayınız.</p>
+      <textarea class="ex-ans" data-k="t2" rows="5" placeholder="Önce kendi cevabını yaz."></textarea>
+      <details><summary>Örnek cevabı göster</summary><div class="ans">
+        <p><b>Sıralı işlem yapan sistem</b> (ör. maaş bordrosu basan toplu iş): <b>merkezi kontrol, çağır-dön modeli</b> öneririm. Bu modelde kontrol, alt yordam hiyerarşisinin en üstündeki ana programdan başlar ve yukarıdan aşağıya alt yordamlara geçer; çağrılan yordam işini bitirince kontrol çağırana geri döner. Sıralı sistemde işler belli bir sırayla, birbiri ardına yapılır ve aynı anda çalışan süreç yoktur. Bu yüzden kontrolün tek noktadan yukarıdan aşağıya akması en doğal çözümdür. Akış öngörülebilir olduğu için sistemi analiz etmek ve test etmek de kolaydır. Zayıf yanı dış olaylara cevap vermenin zor olmasıdır, ama sıralı sistemde böyle bir ihtiyaç yoktur.</p>
+        <p><b>Gerçek zamanlı sistem</b> (ör. arabada ABS ya da hava yastığı): <b>olay tabanlı kontrol, kesme güdümlü model</b> öneririm. Gerçek zamanlı sistemde dış olaylara belirli bir süre içinde, çok hızlı cevap vermek şarttır. Bu modelde bilinen kesme türleri ve her tür için tanımlı bir işleyici vardır; her kesme türü bir bellek adresiyle eşleşir ve donanım anahtarı kontrolü doğrudan o işleyiciye aktarır. Olay, bir sırayı beklemeden, olduğu anda işlenir. Bedeli: programlaması karmaşık ve doğrulaması zordur. Zaman kısıtı o kadar sıkı değilse merkezi <b>yönetici modeli</b> de kullanılabilir: bir sistem denetleyicisi sensör, aktüatör ve hesaplama süreçlerini başlatır, durdurur ve koordine eder.</p>
+        <p><b>Dağıtık sistem</b> (ör. ağdaki farklı bilgisayarlarda çalışan alt sistemler): <b>olay tabanlı kontrol, yayın modeli</b> öneririm. Bu modelde bir olay bütün alt sistemlere yayınlanır ve o olayı işleyebilen alt sistem işler. Alt sistemler ilgilendikleri olaylara önceden kaydolur; olay olunca kontrol onu işleyebilecek alt sisteme geçer. Bu model ağdaki farklı bilgisayarlarda bulunan alt sistemleri birleştirmede etkilidir. Kontrol politikası mesaj işleyiciye gömülü olmadığı için alt sistemlerin birbirini tanıması gerekmez ve ağa yeni bir alt sistem eklemek kolaydır. Zayıf yanı: bir alt sistem, yayınladığı olayın işlenip işlenmeyeceğini ya da ne zaman işleneceğini bilemez.</p>
+      </div></details>
+    </div>
+
+    <h2 class="vh" id="vize-3"><span class="n">Soru tipi 3</span>Kullanıcı ve sistem gereksinimleri</h2>
+    <div class="tblw"><table class="cmp">
+      <thead><tr><th></th><th>Kullanıcı gereksinimleri <span class="en">User requirements</span></th><th>Sistem gereksinimleri <span class="en">System requirements</span></th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Ne anlatır</th><td>Sistemin hangi hizmetleri vereceğini ve hangi kısıtlar altında çalışacağını, üst düzeyde ve soyut olarak.</td><td>Sistemin fonksiyonlarını, hizmetlerini ve çalışma kısıtlarını ayrıntılı ve kesin olarak. Kullanıcı gereksinimlerinin genişletilmiş hâlidir.</td></tr>
+        <tr><th scope="row">Nasıl yazılır</th><td>Doğal dil ve diyagramlarla. Jargon ve tasarım ayrıntısı yok, sadece sistemin dış davranışı.</td><td>Yapılandırılmış doğal dil, tablolar, sequence diagram gibi daha teknik gösterimler. Belgeye <span class="en">functional specification</span> da denir.</td></tr>
+        <tr><th scope="row">Kim okur <span class="en">Şekil 6.2</span></th><td>Müşteri yöneticileri, son kullanıcılar, müşteri mühendisleri, yüklenici yöneticileri, sistem mimarları.</td><td>Son kullanıcılar, müşteri mühendisleri, sistem mimarları, yazılım geliştiriciler.</td></tr>
+        <tr><th scope="row">Ne işe yarar</th><td>Müşteriyle ne istendiği konusunda anlaşmak. İhale için soyut tutulur ki farklı yükleniciler farklı çözüm önerebilsin (Davis).</td><td>Tasarımın başlangıç noktasıdır. Sözleşmenin parçası olabilir, bu yüzden eksiksiz ve tutarlı olmalıdır.</td></tr>
+        <tr><th scope="row">Örnek <span class="en">Şekil 6.1, LIBSYS</span></th><td>"Sistem, telif hakkı lisans kurumlarının istediği bütün verileri takip etmelidir."</td><td>Belge isteyen kişiye bilgilerini kaydeden bir form gösterilir; formlar 5 yıl saklanır; kullanıcıya, materyal adına ve tedarikçiye göre indekslenir; bütün isteklerin kaydı tutulur; yazar ödünç hakkı olan materyallerin bilgisi her ay lisans kurumlarına gönderilir.</td></tr>
+      </tbody></table></div>
+    <div class="box"><h3>Akılda kalsın: restoran örneği</h3>
+      <p><b>Kullanıcı gereksinimi</b> (müşterinin dili): "Vejetaryen yemek seçeneği olsun."<br><b>Sistem gereksinimi</b> (aşçının dili): "Menüde en az 3 etsiz ana yemek olmalı, etle aynı tavada pişirilmemeli, menüde yeşil yaprak simgesiyle işaretlenmeli."<br>Biri patron ve müşteri için, diğeri işi yapacak kişi için. Patron aşçının listesini okumak istemez, aşçı da "vejetaryen seçenek olsun"dan ne pişireceğini çıkaramaz.</p>
+    </div>
+
+    <div class="qcard vq"><div class="qtop"><span>Hocanın sorusu</span><span>Bölüm 6 · s.118–120</span></div>
+      <p class="q-en">Kullanıcı gereksinimlerini ve sistem gereksinimlerini tanımlayınız. Bir yazılım geliştirme sürecinde neden ikisinin de ayrı ayrı tanımlanması gerektiğini açıklayınız.</p>
+      <textarea class="ex-ans" data-k="t3" rows="5" placeholder="Önce kendi cevabını yaz."></textarea>
+      <details><summary>Örnek cevabı göster</summary><div class="ans">
+        <p><b>Kullanıcı gereksinimleri</b>, sistemin kullanıcılarına hangi hizmetleri vereceğini ve hangi kısıtlar altında çalışacağını anlatan, doğal dil ve diyagramlarla yazılmış üst düzey, soyut ifadelerdir. Teknik bilgisi olmayan müşteri ve kullanıcıların anlayabileceği şekilde yazılır; sistemin sadece dış davranışını anlatır, tasarım ayrıntısı içermez.</p>
+        <p><b>Sistem gereksinimleri</b>, sistemin fonksiyonlarını, hizmetlerini ve çalışma kısıtlarını ayrıntılı olarak tanımlar; kullanıcı gereksinimlerinin genişletilmiş hâlidir. Bu belgeye functional specification da denir. Kesin olmalı ve tam olarak neyin gerçekleştirileceğini söylemelidir. Tasarımın başlangıç noktasıdır ve alıcı ile geliştirici arasındaki sözleşmenin parçası olabilir.</p>
+        <p>Örnek (LIBSYS): "Sistem, telif hakkı lisans kurumlarının istediği bütün verileri takip etmelidir" bir kullanıcı gereksinimidir. Bu tek cümle birkaç sistem gereksinimine açılır: isteği kaydeden form, formların 5 yıl saklanması, indeksleme, istek kaydı ve aylık rapor.</p>
+        <p><b>Neden ayrı ayrı tanımlanmalı?</b></p>
+        <p>1) <b>Okuyucuları farklıdır.</b> Kullanıcı gereksinimlerini müşteri yöneticileri, son kullanıcılar, müşteri mühendisleri, yüklenici yöneticileri ve sistem mimarları okur; bunlar sistemin nasıl yapılacağıyla ilgilenmez. Sistem gereksinimlerini son kullanıcılar, müşteri mühendisleri, sistem mimarları ve yazılım geliştiriciler okur; bunların sistemin tam olarak ne yapacağını bilmesi gerekir. Yöneticiler sadece kullanıcı gereksinimlerini, geliştiriciler sadece sistem gereksinimlerini okur.</p>
+        <p>2) <b>Ayrıntı seviyeleri farklıdır.</b> İkisi tek belgede karışırsa teknik olmayan okuyucu, sadece teknisyenleri ilgilendiren ayrıntılarda boğulur. Geliştirici de soyut bir cümleden ne yapacağını çıkaramaz.</p>
+        <p>3) <b>Amaçları farklıdır.</b> Kullanıcı gereksinimleri müşteriyle anlaşmak ve ihaleye çıkmak için kullanılır; farklı yükleniciler farklı çözüm önerebilsin diye soyut yazılır. Sistem gereksinimleri ise sözleşme verildikten sonra yazılır; müşterinin doğrulayabileceği, tasarıma temel olacak kesin tanımdır.</p>
+      </div></details>
+    </div>
+
+    <div class="qcard vq"><div class="qtop"><span>Hocanın sorusu · ikinci hâli</span><span>Bölüm 6</span></div>
+      <p class="q-en">Sadece kullanıcı gereksinimleri ya da sadece sistem gereksinimleri kullanılarak bir sistem geliştirilebilir mi? Açıklayınız.</p>
+      <textarea class="ex-ans" data-k="t4" rows="4" placeholder="Önce kendi cevabını yaz."></textarea>
+      <details><summary>Örnek cevabı göster</summary><div class="ans">
+        <p><b>Hayır, geliştirilemez; çünkü ikisinin okuyucuları ve amaçları farklıdır.</b> Biri diğerinin yerini tutmaz.</p>
+        <p><b>Sadece kullanıcı gereksinimleri olursa:</b> doğal dil belirsizdir ve ayrıntı yoktur. Geliştirici tam olarak neyi yapacağını bilemez, her geliştirici aynı cümleyi farklı yorumlar. Test edilecek ölçülebilir bir şey yoktur ve sözleşmeye konacak kesin bir tanım olmaz. Yanlış anlamalar ancak sürecin sonunda fark edilir ve düzeltmesi çok pahalıya patlar.</p>
+        <p><b>Sadece sistem gereksinimleri olursa:</b> müşteri yöneticileri ve kullanıcılar bu teknik, ayrıntılı belgeyi okuyup anlayamaz, sistemin kendi ihtiyaçlarını karşılayıp karşılamadığını doğrulayamaz. İhaleye çıkarken çözüm baştan kısıtlanır, yüklenicilerin farklı çözüm önermesine yer kalmaz. Tasarım kararları da erkenden belgeye girer.</p>
+        <p>Sonuç: ikisi aynı sistemi iki farklı okuyucu kitlesine, iki farklı ayrıntı seviyesinde anlatır. Gereksinim mühendisliği sürecinde ikisi de gereklidir.</p>
+      </div></details>
+    </div>
+
+    <h2 class="vh" id="vize-diger"><span class="n">Kalan 2 soru için</span>Aynı kalıpta gelebilecek sorular</h2>
+    <p class="muted">Hoca kalan iki soruyu söylemedi. Aşağıdakiler hocanın verdiği soruların kalıbında (sistem ver, öner, neden), tanım sormayan sorular. İlk grup son konudan, ikinci grup önceki bölümlerin alıştırmalarından.</p>
+
+    <p class="lbl-sm">Son konudan: Mimari Tasarım</p>
+    <div class="qcard vq"><div class="qtop"><span>Kitap alıştırması · yapısal model</span><span>Mimari Tasarım</span></div>
+      <p class="q-en">Aşağıdaki sistemler için uygun yapısal (organizasyon) modelini, nedenini vererek önerin.</p>
+      <ol class="sys"><li>Tren istasyonunda yolcuların kullandığı otomatik bilet makinesi.</li>
+        <li>Birçok katılımcının aynı anda görüntü, ses ve bilgisayar verisi paylaştığı video konferans sistemi.</li>
+        <li>Koridor gibi görece boş alanları temizleyen, duvarları ve engelleri algılaması gereken robot süpürge.</li></ol>
+      <textarea class="ex-ans" data-k="d1" rows="4" placeholder="Önce kendi cevabını yaz."></textarea>
+      <details><summary>Örnek cevabı göster</summary><div class="ans">
+        <p><b>a) İstemci-sunucu.</b> Bilet makineleri istemcidir; ücret tarifesi, kredi kartı doğrulama ve satış kayıtları merkezdeki sunuculardadır. Çok sayıda makine aynı hizmetleri kullanır; tarife değişince sadece sunucu güncellenir, yeni makine eklemek kolaydır. Makinenin kendi yazılımı katmanlı da düşünülebilir: kullanıcı arayüzü, bilet ve ücret işlemleri, ödeme, iletişim.</p>
+        <p><b>b) İstemci-sunucu.</b> Sistem dağıtıktır: katılımcıların bilgisayarları istemci, görüntü, ses ve veri için ayrı sunucular vardır. Veri ve işlem ağa dağılmıştır; her medya türünün sunucusu bağımsız olarak eklenip yükseltilebilir. Kontrol tarafında, bir katılımcının verisini ilgili herkese iletmek için yayın modeli uygundur.</p>
+        <p><b>c) Katmanlı (soyut makine).</b> En altta sensör ve motor sürücüleri, üstünde hareket kontrolü, onun üstünde engel algılama ve yol bulma, en üstte temizlik planı olur. Her katman altındakinin hizmetini kullanır; sensör donanımı değişirse sadece en alt katman değişir. Gerçek zamanlı bir sistem olduğu için kontrol kesme güdümlü olmalıdır: çarpma sensörü tetiklenince robot hemen durmalıdır.</p>
+      </div></details>
+    </div>
+
+    <div class="qcard vq"><div class="qtop"><span>Kitap alıştırması · kontrol modeli</span><span>Mimari Tasarım</span></div>
+      <p class="q-en">Aşağıdaki sistemler için uygun kontrol modelini, nedenini vererek önerin.</p>
+      <ol class="sys"><li>Çalışma saatleri ve ücret bilgisinden maaş bordrolarını ve banka transfer bilgilerini basan toplu (batch) işleme sistemi.</li>
+        <li>Farklı firmaların ürettiği ama birlikte çalışması gereken bir yazılım araçları kümesi.</li>
+        <li>Uzaktan kumanda sinyallerine cevap veren bir televizyon denetleyicisi.</li></ol>
+      <textarea class="ex-ans" data-k="d2" rows="4" placeholder="Önce kendi cevabını yaz."></textarea>
+      <details><summary>Örnek cevabı göster</summary><div class="ans">
+        <p><b>a) Çağır-dön (merkezi).</b> Toplu iş sıralıdır: kayıtları oku, maaşı hesapla, bordroyu ve transfer listesini yazdır. Eşzamanlı süreç ve dış olay yoktur; ana program adımları sırayla çağırır. (Ayrıştırma olarak boru hattı modeli de çok uygundur.)</p>
+        <p><b>b) Yayın (olay tabanlı).</b> Araçlar birbirinin iç yapısını bilmez; her biri ilgilendiği olaylara kaydolur ve ortak bir olay ve mesaj işleyici üzerinden haberleşir. Kontrol politikası tek bir araca gömülü olmadığı için başka bir firmanın aracını eklemek kolaydır.</p>
+        <p><b>c) Kesme güdümlü (olay tabanlı).</b> Kumandadan gelen her sinyal bir kesmedir. Kesme türleri bellidir (güç, kanal, ses) ve her birinin işleyicisi vardır. Kullanıcı tuşa bastığında televizyon anında cevap vermelidir.</p>
+      </div></details>
+    </div>
+
+    <div class="qcard vq"><div class="qtop"><span>Kitap alıştırması</span><span>Mimari Tasarım</span></div>
+      <p class="q-en">Gerçek zamanlı sistemler genellikle olay güdümlü kontrol kullanır. Hangi durumlarda gerçek zamanlı bir sistem için çağır-dön modelini önerirsiniz?</p>
+      <textarea class="ex-ans" data-k="d3" rows="3" placeholder="Önce kendi cevabını yaz."></textarea>
+      <details><summary>Örnek cevabı göster</summary><div class="ans">
+        <p>Sistem küçük ve basitse, olaylar düzenli aralıklarla yoklanarak (<span class="en">polling</span>) yakalanabiliyorsa ve zaman kısıtları bunu kaldıracak kadar gevşekse çağır-dön modelini öneririm. Örneğin sensörleri bir döngüde sırayla okuyan basit bir termostat.</p>
+        <p>İkinci durum: sistemin <b>öngörülebilir ve doğrulanabilir</b> olması en önemli şartsa. Kesme güdümlü sistemlerin programlaması karmaşık, doğrulaması zordur; emniyet-kritik bir sistemde her adımın ne zaman çalışacağının önceden bilinmesi istenebilir. Çağır-dön modelinde kontrol akışı sabittir, analiz ve test etmek kolaydır.</p>
+      </div></details>
+    </div>
+
+    <div class="qcard vq"><div class="qtop"><span>Kitap alıştırması</span><span>Mimari Tasarım · Bölüm 3</span></div>
+      <p class="q-en">Kullanılabilirlik (availability) ve güvenlik (security) en önemli iki fonksiyonel olmayan gereksinim olduğunda, mimari tasarımda neden çatışma çıkabilir?</p>
+      <textarea class="ex-ans" data-k="d4" rows="3" placeholder="Önce kendi cevabını yaz."></textarea>
+      <details><summary>Örnek cevabı göster</summary><div class="ans">
+        <p>Kullanılabilirlik için mimaride <b>yedek bileşenler</b> ve hata toleransı mekanizmaları olmalıdır: aynı veri ve hizmet birden çok yerde bulunur, biri çökünce diğeri devam eder. Güvenlik için ise <b>katmanlı</b> bir mimari ve kritik varlıkların az sayıda, iyi korunan iç katmanda tutulması gerekir.</p>
+        <p>İkisi ters yöne çeker: yedeklilik verinin ve hizmetin kopyalarını çoğaltır; her kopya korunması gereken yeni bir saldırı noktasıdır. Güvenlik katmanları ise her isteğe denetim ekler ve bir katman çökerse hizmet duraklayabilir. İkisi birden önemliyse uzlaşmacı bir çözüm bulunmalıdır. Kitaptaki diğer örnek: performans büyük bileşenler, bakım kolaylığı küçük bileşenler ister.</p>
+      </div></details>
+    </div>
+
+    <div class="qcard vq"><div class="qtop"><span>Kitap alıştırması · Bölüm 2'de 2.4</span><span>Mimari Tasarım · Bölüm 2 · Bölüm 6</span></div>
+      <p class="q-en">Sistem mimarisini gereksinim tanımlaması (spesifikasyon) yazılmadan önce ya da onunla birlikte tasarlamak neden gerekebilir?</p>
+      <textarea class="ex-ans" data-k="d5" rows="3" placeholder="Önce kendi cevabını yaz."></textarea>
+      <details><summary>Örnek cevabı göster</summary><div class="ans">
+        <p>1) <b>Tanımlamayı yapılandırmak için:</b> gereksinimler alt sistemlere göre düzenlenir. Alt sistemler farklı yüklenicilere verilecekse her birinin tanımı ayrı yazılır, bunun için önce alt sistemlerin belli olması gerekir.</p>
+        <p>2) <b>Fonksiyonel olmayan gereksinimleri analiz etmek için:</b> performans, güvenlik ya da kullanılabilirlik hedefinin tutturulup tutturulamayacağı ancak bir mimari üzerinde değerlendirilebilir (açık mimarinin "sistem analizi" avantajı).</p>
+        <p>3) <b>Mevcut sistemler ve yeniden kullanım:</b> sistem var olan sistemlerle birlikte çalışacaksa ya da hazır bileşenler kullanılacaksa bunlar mimariyi baştan belirler. Bölüm 6'daki "tasarım bilgisi gereksinimlerden neden tamamen dışlanamaz" sorusunun cevabı da budur; bir düzenleyici kurum onaylı bir mimari isteyebilir.</p>
+        <p>Mimari tasarım, tanımlama ile tasarım arasındaki bağlantıdır ve çoğu zaman bazı tanımlama faaliyetleriyle paralel yürür.</p>
+      </div></details>
+    </div>
+
+    <div class="qcard vq"><div class="qtop"><span>Karşılaştırma</span><span>Mimari Tasarım</span></div>
+      <p class="q-en">Merkezi kontrol ile olay tabanlı kontrolü karşılaştırın. Hangi tür sistemde hangisini tercih edersiniz?</p>
+      <textarea class="ex-ans" data-k="d6" rows="3" placeholder="Önce kendi cevabını yaz."></textarea>
+      <details><summary>Örnek cevabı göster</summary><div class="ans">
+        <p><b>Merkezi kontrolde</b> bir alt sistem bütün kontrolden sorumludur, diğerlerini başlatır ve durdurur. Kontrol akışı öngörülebilir; analiz etmek ve test etmek kolaydır. Ama denetleyici darboğaz olabilir ve dış olaylara cevap yavaştır. Sıralı sistemlerde (çağır-dön) ve koordinasyon gereken eşzamanlı sistemlerde (yönetici) tercih edilir.</p>
+        <p><b>Olay tabanlı kontrolde</b> her alt sistem dışarıdan gelen olaylara cevap verir; olayın zamanlaması onu işleyen alt sistemin kontrolünde değildir. Dış olaylara hızlı cevap verir ve yeni alt sistem eklemek kolaydır. Ama bir olayın ne zaman, hatta işlenip işlenmeyeceği belli değildir; doğrulaması zordur. Dağıtık sistemlerde (yayın) ve gerçek zamanlı sistemlerde (kesme güdümlü) tercih edilir.</p>
+      </div></details>
+    </div>
+
+    <div class="qcard vq"><div class="qtop"><span>Karşılaştırma</span><span>Mimari Tasarım</span></div>
+      <p class="q-en">Nesne yönelimli ayrıştırma ile fonksiyon yönelimli boru hattı (pipeline) modelini karşılaştırın. Bir fatura işleme sistemi için hangisini önerirsiniz?</p>
+      <textarea class="ex-ans" data-k="d7" rows="3" placeholder="Önce kendi cevabını yaz."></textarea>
+      <details><summary>Örnek cevabı göster</summary><div class="ans">
+        <p><b>Nesne modeli:</b> sistem iyi tanımlı arayüzleri olan, gevşek bağlı nesnelere ayrılır. Nesneler gevşek bağlı olduğu için birinin gerçekleştirmesi diğerlerini etkilemeden değiştirilebilir; nesneler gerçek dünyadaki varlıkları yansıtır; nesne yönelimli diller yaygındır. Ama nesne arayüzü değişince sorun çıkar ve karmaşık varlıkları nesne olarak göstermek zor olabilir.</p>
+        <p><b>Boru hattı:</b> fonksiyonel dönüşümler girdiyi işleyip çıktı üretir (UNIX kabuğundaki boru ve filtre gibi). Dönüşümler yeniden kullanılabilir, yapı sezgiseldir, yeni dönüşüm eklemek kolaydır, sıralı ya da eşzamanlı uygulanabilir. Ama boru hattı boyunca ortak bir veri formatı gerekir ve olay tabanlı, etkileşimli sistemlere uygun değildir.</p>
+        <p><b>Fatura sistemi:</b> faturaları her gün toplu olarak okuyup ödemeleri bulan, makbuz ve hatırlatma basan bir sistemse <b>boru hattı</b> (sıralı toplu iş, veri işleme sistemlerinde çok kullanılır). Müşteri ve muhasebecinin ekrandan sürekli etkileşimde olduğu bir sistemse <b>nesne modeli</b> (Müşteri, Fatura, Ödeme, Makbuz nesneleri). Kitapta aynı fatura sistemi iki şekilde de çizilir.</p>
+      </div></details>
+    </div>
+
+    <p class="lbl-sm">Önceki bölümlerden aynı kalıpta</p>
+    <div class="qcard vq"><div class="qtop"><span>Kitap alıştırması 4.1</span><span><a href="#b4">Bölüm 4</a></span></div>
+      <p class="q-en">Geliştirilen sistemin türüne dayanarak, aşağıdaki sistemler için en uygun genel süreç modelini nedenleriyle önerin.</p>
+      <ol class="sys"><li>Arabada kilitlenmeyi önleyen fren (ABS) kontrol sistemi.</li>
+        <li>Yazılım bakımını destekleyen bir sanal gerçeklik sistemi.</li>
+        <li>Mevcut sistemin yerine geçecek bir üniversite muhasebe sistemi.</li>
+        <li>İstasyonlardaki terminallerden yolcuların tren saatlerini bulduğu etkileşimli sistem.</li></ol>
+      <textarea class="ex-ans" data-k="d8" rows="4" placeholder="Önce kendi cevabını yaz."></textarea>
+      <details><summary>Örnek cevabı göster</summary><div class="ans">
+        <p><b>a) Şelale (waterfall), istenirse formal geliştirme.</b> Emniyet-kritik bir sistemdir ve gereksinimleri nettir; donanımla birlikte geliştirilir. Her aşamanın belgelenip onaylanması, ayrıntılı analiz ve doğrulama gerekir; gereksinimler geliştirme sırasında değişmez.</p>
+        <p><b>b) Evrimsel geliştirme (prototipleme).</b> Yeni bir fikirdir, kullanıcıların ne isteyeceği belirsizdir ve arayüz ağırlıklıdır. Gereksinimler ancak kullanıcılar bir prototipi deneyince netleşir.</p>
+        <p><b>c) Şelale ya da bileşen tabanlı (CBSE).</b> Eski sistem olduğu için gereksinimler iyi bilinir ve kararlıdır. Piyasada hazır muhasebe paketleri olduğu için bileşen tabanlı geliştirme maliyeti ve süreyi düşürür.</p>
+        <p><b>d) Evrimsel ya da artımlı.</b> Kullanıcı arayüzü kritiktir ve sistemi teknik bilgisi olmayan yolcular kullanacaktır. Arayüzün kullanıcı tepkisine göre adım adım geliştirilmesi gerekir.</p>
+      </div></details>
+    </div>
+
+    <div class="qcard vq"><div class="qtop"><span>Kitap alıştırması 3.5</span><span><a href="#b3">Bölüm 3</a></span></div>
+      <p class="q-en">Aşağıdaki sistemler için en kritik güvenilebilirlik (dependability) özelliği hangisidir? Nedenini açıklayın.</p>
+      <ol class="sys"><li>Binlerce müşteriye hizmet veren bir internet sağlayıcısının (ISS) sunucusu.</li>
+        <li>Kapalı ameliyatta kullanılan bilgisayar kontrollü neşter.</li>
+        <li>Uydu fırlatma aracının yön kontrol sistemi.</li>
+        <li>İnternet tabanlı kişisel finans yönetim sistemi.</li></ol>
+      <textarea class="ex-ans" data-k="d9" rows="4" placeholder="Önce kendi cevabını yaz."></textarea>
+      <details><summary>Örnek cevabı göster</summary><div class="ans">
+        <p><b>a) Kullanılabilirlik (availability).</b> Binlerce müşteri hizmeti sürekli kullanır; sunucu durduğu her an bütün müşteriler hizmet alamaz.</p>
+        <p><b>b) Emniyet (safety), yanında güvenilirlik.</b> Neşter doğrudan insana dokunur; bir arıza hastaya zarar verebilir ya da ölüme yol açabilir.</p>
+        <p><b>c) Güvenilirlik (reliability), yanında emniyet.</b> Fırlatma tek seferlik bir görevdir; o süre içinde sistem hatasız çalışmalıdır, aksi hâlde görev ve araç kaybedilir.</p>
+        <p><b>d) Güvenlik (security), yanında güvenilirlik.</b> Sistem para ve kişisel veri tutar ve internete açıktır; dış saldırılara karşı korunmalıdır.</p>
+      </div></details>
+    </div>
+
+    <div class="qcard vq"><div class="qtop"><span>Kitap alıştırması 7.1</span><span><a href="#b7">Bölüm 7</a></span></div>
+      <p class="q-en">Bir üniversitenin öğrenci kayıt sisteminin paydaşları kimlerdir? Gereksinimleri neden çatışır?</p>
+      <textarea class="ex-ans" data-k="d10" rows="3" placeholder="Önce kendi cevabını yaz."></textarea>
+      <details><summary>Örnek cevabı göster</summary><div class="ans">
+        <p><b>Paydaşlar:</b> öğrenciler, öğretim üyeleri, öğrenci işleri personeli, bölüm başkanları, rektörlük, finans birimi, bilgi işlem ve YÖK gibi düzenleyici kurumlar.</p>
+        <p><b>Neden çatışır?</b> Her paydaşın önceliği farklıdır. Öğrenci notlarını hemen görmek ister, öğretim üyesi notları ilan etmeden önce düzeltme süresi ister. Bilgi işlem güvenlik için erişimi kısıtlamak ister, kullanıcılar kolay erişim ister. Finans birimi harcı ödenmeyen öğrencinin kaydını engellemek ister, bölüm öğrencinin derse devam etmesini ister. Bu yüzden gereksinim çıkarma sürecinde müzakere ve önceliklendirme gerekir.</p>
+      </div></details>
+    </div>
+
+    <div class="box"><h3>Sitede zaten olan benzer sorular</h3>
+      <ul>
+        <li><a href="#b4">Bölüm 4</a>, sınav sorusu 10: Kullanıcı ve sistem gereksinimlerini ayırmak neden önemli? (alıştırma 4.5)</li>
+        <li><a href="#b6">Bölüm 6</a>, sınav soruları 1, 4 ve 8: kullanıcı ve sistem gereksinimi farkı, fonksiyonel olmayan gereksinimler neden daha kritik, doğal dilin sorunları.</li>
+        <li><a href="#b3">Bölüm 3</a>, sınav soruları 8 ve 11: güvenilir bir sistem neden emniyetsiz olabilir, availability ile security neden yakından ilişkili.</li>
+        <li><a href="#b2">Bölüm 2</a>: emergent özellikler ve legacy sistemler.</li>
+      </ul>
+    </div>
+
+    <div class="pager"><a class="btn" href="#">← Tüm bölümler</a><a class="btn primary" href="#mimari">Mimari Tasarım konu anlatımı →</a></div>
+  </div>
+</section>
+
+<section class="view" data-view="mimari" hidden>
+  <a class="back" href="#">← Tüm bölümler</a>
+  <div class="view-head"><span class="label">Son konu · hafta 10 slaytları</span><h1>Mimari Tasarım</h1><p class="en">Architectural Design</p>
+    <p class="muted vlead">Hocanın 10. hafta klasöründeki ch11 slaytlarının (40 slayt) Türkçe konu anlatımı, slayttaki şemalarla. Elimizdeki kitap taraması s.190'da bittiği için bu konu slaytlardan hazırlandı; kitabın aynı bölümünden eklenen birkaç bilgi "kitaptan" diye işaretli. Vizede bu konudan gelecek soru tipleri ve örnek cevaplar <a href="#vize">Vizede ne çıkacak?</a> sayfasında.</p></div>
+  <div class="konu-nav" role="group" aria-label="Konuya git"><span class="muted">Konuya git:</span>
+    <button type="button" data-jump="mimari-giris">Giriş</button><button type="button" data-jump="mimari-karar">Kararlar</button><button type="button" data-jump="mimari-org">Organizasyon</button><button type="button" data-jump="mimari-ayr">Ayrıştırma</button><button type="button" data-jump="mimari-kontrol">Kontrol</button><button type="button" data-jump="mimari-ref">Referans</button><button type="button" data-jump="mimari-liste">Sayılı liste</button></div>
+  <div class="read prose vize">
+
+    <div class="box" id="mimari-giris"><h3><span class="n">S2–S4</span>Yazılım mimarisi ve mimari tasarım</h3>
+      <ul>
+        <li><b>Mimari tasarım</b>: bir sistemi oluşturan <b>alt sistemleri</b> ve alt sistemler arasındaki <b>kontrol ve iletişim çerçevesini</b> belirleme sürecidir. Bu sürecin çıktısı <b>yazılım mimarisinin tanımıdır</b>.</li>
+        <li>Sistem tasarım sürecinin <b>erken bir aşamasıdır</b>. Tanımlama (spesifikasyon) ile tasarım süreçleri arasındaki <b>bağlantıdır</b>. Çoğu zaman bazı tanımlama faaliyetleriyle <b>paralel</b> yürür. Ana bileşenleri ve aralarındaki iletişimi belirler.</li>
+        <li>Mimariyi açıkça (<span class="en">explicit</span>) tasarlamanın <span class="count">3</span>avantajı:
+          <ul><li><b>Paydaş iletişimi</b>: mimari, paydaşların tartışma odağı olarak kullanılabilir.</li>
+            <li><b>Sistem analizi</b>: sistemin fonksiyonel olmayan gereksinimleri karşılayıp karşılayamayacağı analiz edilebilir.</li>
+            <li><b>Büyük ölçekli yeniden kullanım</b>: mimari, benzer sistemlerde tekrar kullanılabilir.</li></ul></li>
+      </ul>
+    </div>
+
+    <div class="box"><h3><span class="n">S5</span>Mimari ve sistem özellikleri</h3>
+      <p>Mimari, sistemin en önemli fonksiyonel olmayan gereksinimine göre seçilir. "Neden bu mimari?" sorusunda gerekçe olarak doğrudan kullanılır:</p>
+      <div class="tblw"><table>
+        <thead><tr><th>Özellik önemliyse</th><th>Mimaride ne yapılır</th></tr></thead>
+        <tbody>
+          <tr><td><b>Performans</b></td><td>Kritik işlemleri bir yerde topla, iletişimi en aza indir. Küçük parçalı bileşenler yerine büyük bileşenler kullan.</td></tr>
+          <tr><td><b>Güvenlik</b> <span class="en">security</span></td><td>Katmanlı mimari kullan, kritik varlıkları iç katmanlara koy.</td></tr>
+          <tr><td><b>Emniyet</b> <span class="en">safety</span></td><td>Emniyet-kritik özellikleri az sayıda alt sistemde topla.</td></tr>
+          <tr><td><b>Kullanılabilirlik</b> <span class="en">availability</span></td><td>Yedek bileşenler ve hata toleransı mekanizmaları ekle.</td></tr>
+          <tr><td><b>Bakım kolaylığı</b> <span class="en">maintainability</span></td><td>Küçük parçalı, değiştirilebilir bileşenler kullan.</td></tr>
+        </tbody></table></div>
+      <p class="muted">Kitaptan: bu hedefler çatışabilir. Performans büyük bileşen, bakım kolaylığı küçük bileşen ister; ikisi de önemliyse bir uzlaşma bulunur.</p>
+    </div>
+
+    <div class="box"><h3><span class="n">S6–S7</span>Kutu-çizgi diyagramları</h3>
+      <figure class="nfig"><img src="assets/ym-mimari/mimari-6.png" width="640" height="444" alt="Paketleme robotu kontrol sistemi: görüntü sistemi, nesne tanıma sistemi, kol ve kavrayıcı denetleyicileri, paketleme seçimi, paketleme sistemi ve konveyör denetleyicisi kutuları oklarla bağlı" loading="lazy"><figcaption>Slayt 6 · Paketleme robotu kontrol sistemi</figcaption></figure>
+      <ul>
+        <li>Mimari genelde kutu ve çizgilerle çizilir. Bu diyagramlar <b>çok soyuttur</b>: bileşenler arasındaki ilişkinin türünü ve alt sistemlerin dışarıdan görünen özelliklerini göstermez.</li>
+        <li>Yine de <b>paydaşlarla iletişimde</b> ve <b>proje planlamasında</b> faydalıdır.</li>
+      </ul>
+    </div>
+
+    <div class="box" id="mimari-karar"><h3><span class="n">S8</span>Mimari tasarım kararları</h3>
+      <p>Mimar şu <span class="count">8</span>soruyu cevaplar:</p>
+      <ol class="steps">
+        <li>Kullanılabilecek genel (<span class="en">generic</span>) bir uygulama mimarisi var mı?</li>
+        <li>Sistem nasıl dağıtılacak?</li>
+        <li>Hangi mimari stiller uygun? → <a href="#mimari" data-jump="mimari-org">organizasyon stilleri</a></li>
+        <li>Sistemi yapılandırmak için hangi yaklaşım kullanılacak?</li>
+        <li>Sistem modüllere nasıl ayrıştırılacak? → <a href="#mimari" data-jump="mimari-ayr">modüler ayrıştırma</a></li>
+        <li>Hangi kontrol stratejisi kullanılmalı? → <a href="#mimari" data-jump="mimari-kontrol">kontrol stilleri</a></li>
+        <li>Mimari tasarım nasıl değerlendirilecek?</li>
+        <li>Mimari nasıl belgelenecek?</li>
+      </ol>
+    </div>
+
+    <div class="box"><h3><span class="n">S9–S10</span>Mimari stiller ve mimari modeller</h3>
+      <ul>
+        <li>Bir sistemin mimari modeli genel bir mimari modele ya da <b>stile</b> uyabilir. Stilleri bilmek mimariyi tanımlamayı kolaylaştırır.</li>
+        <li>Ama büyük sistemlerin çoğu <b>heterojendir</b>, tek bir stile uymaz.</li>
+        <li>Mimariyi belgelemek için <span class="count">5</span>model:
+          <ul><li><b>Statik yapısal model</b>: ana sistem bileşenlerini gösterir.</li>
+            <li><b>Dinamik süreç modeli</b>: sistemin süreç yapısını gösterir.</li>
+            <li><b>Arayüz modeli</b>: alt sistemlerin arayüzlerini tanımlar.</li>
+            <li><b>İlişki modeli</b>: alt sistemler arası ilişkiler, ör. veri akışı modeli.</li>
+            <li><b>Dağıtım modeli</b>: alt sistemlerin bilgisayarlara nasıl dağıtıldığını gösterir.</li></ul></li>
+      </ul>
+    </div>
+
+    <h2 class="vh" id="mimari-org"><span class="n">S11–S19</span>Sistem organizasyonu</h2>
+    <div class="box">
+      <p>Sistem organizasyonu, sistemi yapılandırmak için kullanılan temel stratejiyi yansıtır. Yaygın <span class="count">3</span>organizasyon stili: <b>ortak veri deposu</b>, <b>ortak hizmetler ve sunucular</b> (istemci-sunucu), <b>soyut makine</b> (katmanlı).</p>
+    </div>
+
+    <div class="box"><h3><span class="n">S12–S14</span>Ortak veri deposu modeli <span class="en">Repository</span></h3>
+      <ul>
+        <li>Alt sistemler veri alışverişi yapmak zorundadır. Bunun <span class="count">2</span>yolu var:
+          <ul><li>Ortak veri merkezi bir veritabanında, yani <b>depoda</b> tutulur ve bütün alt sistemler erişir.</li>
+            <li>Her alt sistem kendi veritabanını tutar ve veriyi diğer alt sistemlere açıkça gönderir.</li></ul></li>
+        <li><b>Büyük miktarda veri paylaşılacaksa</b> en çok depo modeli kullanılır.</li>
+      </ul>
+      <figure class="nfig"><img src="assets/ym-mimari/mimari-13.png" width="640" height="351" alt="CASE araç seti: tasarım editörü, kod üreteci, tasarım çevirici, program editörü, tasarım analizcisi ve rapor üreteci ortadaki proje deposuna bağlı" loading="lazy"><figcaption>Slayt 13 · CASE araç seti mimarisi: bütün araçlar ortadaki proje deposunu kullanır</figcaption></figure>
+      <div class="pc"><div><p class="lbl-sm">Avantajları</p><ul>
+        <li>Büyük miktarda veriyi paylaşmanın verimli yolu.</li>
+        <li>Alt sistemler verinin nasıl üretildiğiyle ilgilenmez.</li>
+        <li>Merkezi yönetim: yedekleme, güvenlik vb.</li>
+        <li>Paylaşım modeli depo şeması olarak yayınlanır.</li></ul></div>
+        <div><p class="lbl-sm bad">Dezavantajları</p><ul>
+        <li>Alt sistemler tek bir depo veri modelinde anlaşmak zorunda; bu kaçınılmaz olarak bir uzlaşmadır.</li>
+        <li>Veri evrimi (modeli değiştirmek) zor ve pahalı.</li>
+        <li>Alt sisteme özel yönetim politikalarına yer yok.</li>
+        <li>Verimli şekilde dağıtmak zor.</li></ul></div></div>
+    </div>
+
+    <div class="box"><h3><span class="n">S15–S17</span>İstemci-sunucu modeli <span class="en">Client-server</span></h3>
+      <ul>
+        <li>Veri ve işlemin birçok bileşene nasıl dağıtıldığını gösteren <b>dağıtık sistem modelidir</b>. <span class="count">3</span>parçası var:
+          <ul><li>Yazdırma, veri yönetimi gibi belirli hizmetleri veren <b>bağımsız sunucular</b>,</li>
+            <li>Bu hizmetleri çağıran <b>istemciler</b>,</li>
+            <li>İstemcilerin sunuculara erişmesini sağlayan <b>ağ</b>.</li></ul></li>
+      </ul>
+      <figure class="nfig"><img src="assets/ym-mimari/mimari-16.png" width="640" height="349" alt="Film ve fotoğraf kütüphanesi: dört istemci internet üzerinden katalog, video, resim ve web sunucularına bağlı" loading="lazy"><figcaption>Slayt 16 · Film ve fotoğraf kütüphanesi: istemciler internet üzerinden katalog, video, resim ve web sunucularına bağlanır</figcaption></figure>
+      <div class="pc"><div><p class="lbl-sm">Avantajları</p><ul>
+        <li>Veriyi dağıtmak kolay.</li>
+        <li>Ağdaki sistemleri etkin kullanır; daha ucuz donanım yetebilir.</li>
+        <li>Yeni sunucu eklemek ya da var olanı yükseltmek kolay.</li></ul></div>
+        <div><p class="lbl-sm bad">Dezavantajları</p><ul>
+        <li>Ortak veri modeli yok; alt sistemler veriyi farklı düzenler, veri alışverişi verimsiz olabilir.</li>
+        <li>Yönetim her sunucuda tekrarlanır.</li>
+        <li>Merkezi isim ve hizmet kaydı yok; hangi sunucu ve hizmetlerin olduğunu bulmak zor olabilir.</li></ul></div></div>
+    </div>
+
+    <div class="box"><h3><span class="n">S18–S19</span>Soyut makine (katmanlı) model <span class="en">Abstract machine / layered</span></h3>
+      <ul>
+        <li>Alt sistemlerin <b>arayüzlerini</b> modellemek için kullanılır.</li>
+        <li>Sistemi, her biri bir hizmet kümesi sunan <b>katmanlara</b> (soyut makinelere) ayırır.</li>
+        <li>Farklı katmanlardaki alt sistemlerin <b>artımlı geliştirilmesini</b> destekler. Bir katmanın arayüzü değişince <b>sadece komşu katman etkilenir</b>.</li>
+        <li>Kitaptan, dezavantajı: sistemi katmanlara ayırmak her zaman kolay değil; üst katmandaki bir istek birçok katmandan geçmek zorunda kalınca performans düşebilir.</li>
+      </ul>
+      <figure class="nfig"><img src="assets/ym-mimari/mimari-19.png" width="640" height="413" alt="Sürüm yönetim sistemi katmanları: yapılandırma yönetimi, nesne yönetimi, veritabanı ve işletim sistemi katmanı" loading="lazy"><figcaption>Slayt 19 · Sürüm yönetim sistemi: yapılandırma yönetimi → nesne yönetimi → veritabanı → işletim sistemi katmanı</figcaption></figure>
+    </div>
+
+    <h2 class="vh" id="mimari-ayr"><span class="n">S20–S28</span>Modüler ayrıştırma stilleri</h2>
+    <div class="box">
+      <ul>
+        <li>Alt sistemleri modüllere ayırma stilleridir. Sistem organizasyonu ile modüler ayrıştırma arasında kesin bir ayrım yoktur.</li>
+        <li><b>Alt sistem</b>: çalışması diğer alt sistemlerin hizmetlerinden bağımsız olan, kendi başına bir sistemdir. <b>Modül</b>: diğer bileşenlere hizmet veren ama normalde ayrı bir sistem sayılmayan bileşendir.</li>
+        <li>Modüler ayrıştırma bir alt yapı seviyesidir: alt sistemler modüllere ayrılır. <span class="count">2</span>model:
+          <ul><li><b>Nesne modeli</b>: sistem etkileşen nesnelere ayrılır.</li>
+            <li><b>Boru hattı (veri akışı) modeli</b>: sistem, girdileri çıktılara dönüştüren fonksiyonel modüllere ayrılır.</li></ul></li>
+        <li>Mümkünse eşzamanlılık (<span class="en">concurrency</span>) kararları modüller gerçekleştirilene kadar ertelenmelidir.</li>
+      </ul>
+    </div>
+
+    <div class="box"><h3><span class="n">S23–S25</span>Nesne modelleri</h3>
+      <ul>
+        <li>Sistem, iyi tanımlı arayüzleri olan <b>gevşek bağlı nesnelere</b> ayrılır.</li>
+        <li>Nesne yönelimli ayrıştırma; nesne sınıflarını, özelliklerini ve işlemlerini belirlemekle ilgilenir.</li>
+        <li>Gerçekleştirmede nesneler bu sınıflardan oluşturulur ve nesnelerin işlemlerini koordine etmek için bir kontrol modeli kullanılır.</li>
+      </ul>
+      <figure class="nfig"><img src="assets/ym-mimari/mimari-24.png" width="640" height="349" alt="Fatura işleme sistemi nesne modeli: Customer, Invoice, Payment ve Receipt sınıfları" loading="lazy"><figcaption>Slayt 24 · Fatura işleme sistemi, nesne modeli: Customer, Invoice (issue, sendReminder, acceptPayment, sendReceipt), Payment, Receipt</figcaption></figure>
+      <div class="pc"><div><p class="lbl-sm">Avantajları</p><ul>
+        <li>Nesneler gevşek bağlı; bir nesnenin gerçekleştirmesi diğerlerini etkilemeden değiştirilebilir.</li>
+        <li>Nesneler gerçek dünyadaki varlıkları yansıtabilir.</li>
+        <li>Nesne yönelimli diller yaygın.</li></ul></div>
+        <div><p class="lbl-sm bad">Dezavantajları</p><ul>
+        <li>Nesne arayüzü değişince sorun çıkabilir.</li>
+        <li>Karmaşık varlıkları nesne olarak göstermek zor olabilir.</li></ul></div></div>
+    </div>
+
+    <div class="box"><h3><span class="n">S26–S28</span>Fonksiyon yönelimli boru hattı <span class="en">Pipeline / pipe and filter</span></h3>
+      <ul>
+        <li>Fonksiyonel dönüşümler girdilerini işleyip çıktı üretir. <b>Boru ve filtre</b> modeli de denir (UNIX kabuğundaki gibi).</li>
+        <li>Bu yaklaşımın türleri çok yaygındır. Dönüşümler sıralıysa buna <b>toplu sıralı (batch sequential) model</b> denir; veri işleme sistemlerinde çok kullanılır.</li>
+        <li><b>Etkileşimli sistemlere pek uygun değildir.</b></li>
+      </ul>
+      <figure class="nfig"><img src="assets/ym-mimari/mimari-27.png" width="640" height="297" alt="Fatura işleme boru hattı: kesilen faturaları oku, ödemeleri bul, makbuz kes; vadesi gelen ödemeleri bul, hatırlatma gönder" loading="lazy"><figcaption>Slayt 27 · Aynı fatura sistemi, boru hattı modeli: faturaları oku → ödemeleri bul → makbuz kes ya da vadesi geçenlere hatırlatma gönder</figcaption></figure>
+      <div class="pc"><div><p class="lbl-sm">Avantajları</p><ul>
+        <li>Dönüşümlerin yeniden kullanımını destekler.</li>
+        <li>Sezgisel yapı, paydaşlarla iletişim kolay.</li>
+        <li>Yeni dönüşüm eklemek kolay.</li>
+        <li>Eşzamanlı ya da sıralı sistem olarak gerçekleştirmek görece basit.</li></ul></div>
+        <div><p class="lbl-sm bad">Dezavantajları</p><ul>
+        <li>Boru hattı boyunca veri aktarımı için ortak bir format gerekir.</li>
+        <li>Olay tabanlı etkileşimi desteklemek zor.</li></ul></div></div>
+    </div>
+
+    <h2 class="vh" id="mimari-kontrol"><span class="n">S29–S37</span>Kontrol stilleri</h2>
+    <div class="box">
+      <ul>
+        <li>Kontrol stilleri, alt sistemler arasındaki <b>kontrol akışıyla</b> ilgilenir. Sistemin ayrıştırma modelinden farklı bir konudur.</li>
+        <li><b>Merkezi kontrol</b>: bir alt sistem bütün kontrolden sorumludur; diğer alt sistemleri başlatır ve durdurur.</li>
+        <li><b>Olay tabanlı kontrol</b>: her alt sistem, diğer alt sistemlerden ya da sistemin ortamından gelen dış olaylara cevap verebilir.</li>
+      </ul>
+    </div>
+
+    <div class="box"><h3><span class="n">S30–S32</span>Merkezi kontrol: çağır-dön ve yönetici modeli</h3>
+      <p>Bir kontrol alt sistemi, diğer alt sistemlerin çalışmasını yönetme sorumluluğunu alır.</p>
+      <ul>
+        <li><b>Çağır-dön modeli</b> (<span class="en">call-return</span>): yukarıdan aşağıya alt yordam modeli. Kontrol alt yordam hiyerarşisinin en üstünden başlar ve aşağı iner. <b>Sıralı sistemlere uygulanabilir.</b></li>
+      </ul>
+      <figure class="nfig"><img src="assets/ym-mimari/mimari-31.png" width="640" height="304" alt="Çağır-dön modeli: ana program Routine 1, 2 ve 3'ü, onlar da alt yordamları çağırır" loading="lazy"><figcaption>Slayt 31 · Çağır-dön modeli: ana program → yordamlar → alt yordamlar</figcaption></figure>
+      <ul>
+        <li><b>Yönetici modeli</b> (<span class="en">manager</span>): <b>eşzamanlı sistemlere uygulanabilir.</b> Bir sistem bileşeni, diğer sistem süreçlerinin başlatılmasını, durdurulmasını ve koordinasyonunu kontrol eder. Sıralı sistemlerde bir case ifadesi olarak da gerçekleştirilebilir.</li>
+      </ul>
+      <figure class="nfig"><img src="assets/ym-mimari/mimari-32.png" width="640" height="388" alt="Gerçek zamanlı sistem kontrolü: ortadaki sistem denetleyicisi sensör, aktüatör ve hesaplama süreçlerine, kullanıcı arayüzüne ve hata işleyiciye bağlı" loading="lazy"><figcaption>Slayt 32 · Gerçek zamanlı sistem kontrolü (yönetici modeli): sistem denetleyicisi sensör, aktüatör ve hesaplama süreçlerini, kullanıcı arayüzünü ve hata işleyiciyi yönetir</figcaption></figure>
+    </div>
+
+    <div class="box"><h3><span class="n">S33–S37</span>Olay güdümlü sistemler: yayın ve kesme güdümlü model</h3>
+      <p>Dışarıdan üretilen olaylarla çalışır; olayın zamanlaması, onu işleyen alt sistemlerin kontrolünde değildir. <span class="count">2</span>temel model var. Tablolama programları (spreadsheet) ve üretim sistemleri (<span class="en">production systems</span>) de olay güdümlü modellerdir.</p>
+      <ul>
+        <li><b>Yayın modeli</b> (<span class="en">broadcast</span>): olay bütün alt sistemlere yayınlanır; olayı işleyebilen herhangi bir alt sistem işler.
+          <ul><li>Ağdaki <b>farklı bilgisayarlarda</b> bulunan alt sistemleri birleştirmede etkili.</li>
+            <li>Alt sistemler belirli olaylara ilgi kaydeder. Bu olaylar olunca kontrol, olayı işleyebilecek alt sisteme geçer.</li>
+            <li>Kontrol politikası olay ve mesaj işleyiciye gömülü değildir; hangi olaylarla ilgileneceğine alt sistemler karar verir.</li>
+            <li>Ama alt sistemler bir olayın işlenip işlenmeyeceğini ya da ne zaman işleneceğini bilmez.</li></ul></li>
+      </ul>
+      <figure class="nfig"><img src="assets/ym-mimari/mimari-35.png" width="640" height="239" alt="Seçici yayın: dört alt sistem ortak bir olay ve mesaj işleyiciye bağlı" loading="lazy"><figcaption>Slayt 35 · Seçici yayın: alt sistemler ortak bir olay ve mesaj işleyiciye bağlı</figcaption></figure>
+      <ul>
+        <li><b>Kesme güdümlü model</b> (<span class="en">interrupt-driven</span>): olaya <b>hızlı cevabın şart olduğu gerçek zamanlı sistemlerde</b> kullanılır.
+          <ul><li>Bilinen kesme türleri vardır ve her tür için bir işleyici (<span class="en">handler</span>) tanımlıdır.</li>
+            <li>Her tür bir bellek adresiyle ilişkilidir; donanım anahtarı kontrolü o türün işleyicisine aktarır.</li>
+            <li>Hızlı cevap sağlar, ama programlaması karmaşık ve doğrulaması zordur.</li></ul></li>
+      </ul>
+      <figure class="nfig"><img src="assets/ym-mimari/mimari-37.png" width="640" height="384" alt="Kesme güdümlü kontrol: kesmeler kesme vektörüne gelir, vektör her kesmeyi kendi işleyicisine, işleyici de kendi sürecine yönlendirir" loading="lazy"><figcaption>Slayt 37 · Kesme güdümlü kontrol: kesme → kesme vektörü → işleyici → süreç</figcaption></figure>
+    </div>
+
+    <div class="box"><h3>Hangi sistem için hangi kontrol?</h3>
+      <div class="tblw"><table>
+        <thead><tr><th>Sistem</th><th>Kontrol modeli</th><th>Tek cümlelik neden</th></tr></thead>
+        <tbody>
+          <tr><td><b>Sıralı işlem</b></td><td>Çağır-dön (merkezi)</td><td>İşler sırayla yapılır, kontrol ana programdan aşağı iner.</td></tr>
+          <tr><td><b>Eşzamanlı süreçler</b></td><td>Yönetici (merkezi)</td><td>Bir denetleyici süreçleri başlatır, durdurur, koordine eder.</td></tr>
+          <tr><td><b>Dağıtık</b></td><td>Yayın (olay tabanlı)</td><td>Ağdaki farklı bilgisayarlardaki alt sistemleri birleştirmede etkili.</td></tr>
+          <tr><td><b>Gerçek zamanlı</b></td><td>Kesme güdümlü (olay tabanlı)</td><td>Olaya hızlı cevap şart; kesme doğrudan işleyiciye gider.</td></tr>
+        </tbody></table></div>
+    </div>
+
+    <div class="box" id="mimari-ref"><h3><span class="n">S38–S40</span>Referans mimariler</h3>
+      <ul>
+        <li>Mimari modeller bir uygulama alanına özgü olabilir. Alana özgü <span class="count">2</span>tür model var:
+          <ul><li><b>Genel (generic) modeller</b>: birçok gerçek sistemden çıkarılmış soyutlamalardır, bu sistemlerin temel özelliklerini taşır. <b>Aşağıdan yukarıya</b> (<span class="en">bottom-up</span>) modellerdir.</li>
+            <li><b>Referans modeller</b>: daha soyut, idealleştirilmiş modellerdir. O sistem sınıfı hakkında bilgi verir ve farklı mimarileri karşılaştırmayı sağlar. <b>Yukarıdan aşağıya</b> (<span class="en">top-down</span>) modellerdir.</li></ul></li>
+        <li>Referans modeller mevcut sistemlerden değil, <b>uygulama alanının incelenmesinden</b> çıkarılır. Gerçekleştirmeye temel olarak ya da sistemleri karşılaştırmak için kullanılabilir; sistemlerin değerlendirildiği bir <b>standart</b> gibidir.</li>
+        <li><b>OSI modeli</b>, iletişim sistemleri için katmanlı bir referans modelidir.</li>
+      </ul>
+      <figure class="nfig"><img src="assets/ym-mimari/mimari-40.png" width="640" height="374" alt="OSI referans modeli: uygulama, sunum, oturum, taşıma, ağ, veri bağı ve fiziksel katmanlar" loading="lazy"><figcaption>Slayt 40 · OSI referans modeli: 7 katman (uygulama, sunum, oturum, taşıma, ağ, veri bağı, fiziksel)</figcaption></figure>
+    </div>
+
+    <div class="box" id="mimari-liste"><h3>Sayılı liste</h3>
+      <div class="tblw"><table>
+        <thead><tr><th>Sayı</th><th>Liste</th><th>Öğeler</th></tr></thead>
+        <tbody>
+          <tr><td class="big">3</td><td><b>Açık mimarinin avantajları</b></td><td>Paydaş iletişimi · sistem analizi · büyük ölçekli yeniden kullanım</td></tr>
+          <tr><td class="big">5</td><td><b>Mimariyi belirleyen sistem özellikleri</b></td><td>Performans · güvenlik · emniyet · kullanılabilirlik · bakım kolaylığı</td></tr>
+          <tr><td class="big">8</td><td><b>Mimari tasarım kararları</b></td><td>Genel mimari · dağıtım · stil · yapılandırma yaklaşımı · modüllere ayrıştırma · kontrol stratejisi · değerlendirme · belgeleme</td></tr>
+          <tr><td class="big">5</td><td><b>Mimari modeller</b></td><td>Statik yapısal · dinamik süreç · arayüz · ilişki (veri akışı) · dağıtım</td></tr>
+          <tr><td class="big">3</td><td><b>Organizasyon stilleri</b></td><td>Ortak veri deposu · istemci-sunucu · soyut makine (katmanlı)</td></tr>
+          <tr><td class="big">3</td><td><b>İstemci-sunucunun parçaları</b></td><td>Sunucular · istemciler · ağ</td></tr>
+          <tr><td class="big">2</td><td><b>Modüler ayrıştırma modelleri</b></td><td>Nesne modeli · boru hattı (veri akışı)</td></tr>
+          <tr><td class="big">2+2</td><td><b>Kontrol stilleri</b></td><td>Merkezi: çağır-dön, yönetici · Olay tabanlı: yayın, kesme güdümlü</td></tr>
+          <tr><td class="big">2</td><td><b>Alana özgü mimari modeller</b></td><td>Genel (aşağıdan yukarı) · referans (yukarıdan aşağı)</td></tr>
+        </tbody></table></div>
+    </div>
+
+    <div class="box"><h3>Slaytların kendisi</h3>
+      <div class="files"><a href="kaynaklar/yazilim-muhendisligi/slaytlar/hafta-10-mimari-tasarim.pdf" target="_blank" rel="noopener"><span class="ic pdf">PDF</span><span>Hafta 10 · Mimari tasarım (ch11, 40 slayt)</span><span class="sz">587 KB</span></a></div>
+    </div>
+
+    <div class="pager"><a class="btn" href="#vize">← Vizede ne çıkacak?</a><a class="btn primary" href="#pratik">Sistemi gör, stili seç →</a></div>
+  </div>
+</section>
+
+<section class="view" data-view="pratik" hidden>
+  <a class="back" href="#">← Tüm bölümler</a>
+  <div class="view-head"><span class="label">Mimari Tasarım · alıştırma</span><h1>Sistemi gör, stili seç</h1>
+    <p class="muted vlead">Her kartta bir sistem tarifi var. Hangi organizasyon stilini ya da hangi kontrol modelini önereceğini seç; nedenini hemen görürsün. Birden çok cevap savunulabiliyorsa hepsi yeşil yanar. Sınavda bunun gerekçesini yazacaksın, açıklamaları da oku.</p></div>
+  <div class="read">
+    <div class="toolbar ex-bar"><button class="btn" type="button" id="pr-again">Karıştır, baştan başla</button><span class="score" id="pr-score"></span></div>
+    <div class="quiz" id="pr-list"></div>
+    <div class="pager"><a class="btn" href="#mimari">← Mimari Tasarım</a><a class="btn primary" href="#vize">Vizede ne çıkacak? →</a></div>
+  </div>
+</section>
+
 </main>
 
-<footer class="site">Kaynak: Ian Sommerville, <i>Software Engineering</i> (8. baskı), Bölüm 1–7, bu bölümlerden hazırlanmış Türkçe vize notları ve hocanın slaytları. Kişisel çalışma notudur.</footer>
+<footer class="site">Kaynak: Ian Sommerville, <i>Software Engineering</i> (8. baskı), Bölüm 1–7, bu bölümlerden hazırlanmış Türkçe vize notları ve hocanın slaytları (Mimari Tasarım: hafta 10, ch11 slaytları). Kişisel çalışma notudur.</footer>
 
 <script src="assets/ym-data.js"></script>
 <script src="assets/ym.js"></script>
+<script src="assets/ym-vize.js"></script>
 </body>
 </html>
