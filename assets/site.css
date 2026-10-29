@@ -636,3 +636,28 @@ table.cmp th .en{display:block;text-transform:none;letter-spacing:0;font-size:.8
 .sl-toc li{break-inside:avoid;padding:2px 0}
 .sl-toc a{text-decoration:none;color:inherit}
 .sl-toc a span{font-family:var(--f-mono);font-size:.8rem;color:var(--muted)}
+/* slayt slayt: görsel kartlar */
+.sl-view .sl{border-top:4px solid var(--wc)}
+.sl-view .sl h3 .n{background:var(--wc);color:#fff;border-radius:6px;padding:1px 7px;font-weight:600}
+.sl-view .sl-slide{background:var(--wc-soft)}
+.sl-view .sl-slide>.lbl-sm{color:var(--wc)}
+.sl-view .view-head .label,.sl-view .sl-band{color:var(--wc)}
+.sl-cards{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));margin:6px 0}
+.sl-card{background:#fff;border-radius:10px;overflow:hidden;border:1px solid var(--line);display:flex;flex-direction:column;min-width:0}
+.sl-ch{background:var(--wc);color:#fff;font-weight:700;font-size:.88rem;padding:6px 10px;display:flex;gap:8px;align-items:center;line-height:1.25}
+.sl-num{background:#fff;color:var(--wc);border-radius:50%;width:22px;height:22px;flex:none;display:grid;place-items:center;font-size:.8rem}
+.sl-cb{padding:8px 10px;font-size:.9rem;min-width:0}
+.sl-cb:empty{display:none}
+.sl-cb ul,.sl-cb ol{margin:4px 0 0;padding-left:1.1em}
+.sl-chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.sl-chips span{background:#fff;border:1px solid var(--line);border-left:3px solid var(--wc);border-radius:999px;padding:3px 11px;font-size:.88rem}
+.sl-fig{display:flex;gap:8px;align-items:flex-start;background:#fff;border:1px dashed var(--wc);border-radius:10px;padding:7px 10px;margin:6px 0;font-size:.86rem;color:var(--ink-2)}
+.sl-fig .ic{color:var(--wc);font-size:1rem;line-height:1.2}
+.sl-view .sl-hoca{border-left:0;padding:12px 14px;background:#fff;border:1px solid var(--line);border-radius:14px;position:relative}
+.sl-who{display:flex;align-items:center;gap:8px;font-size:.74rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.sl-who i{font-style:normal;background:var(--wc);color:#fff;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:.8rem;letter-spacing:0}
+.sl-hoca b{background:linear-gradient(transparent 60%,var(--wc-soft) 60%)}
+.sl-tip{background:#FFF7E0;border-left:3px solid #E0A800;border-radius:8px;padding:6px 10px}
+.sl-tip::before{content:"Sınav ipucu";display:block;font-size:.7rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#9A6B00}
+.sl-chips.num span{display:inline-flex;gap:6px;align-items:center;border-left:0;border-radius:10px;padding:4px 10px 4px 5px}
+.sl-chips .sl-num{background:var(--wc);color:#fff;width:20px;height:20px;font-size:.75rem}

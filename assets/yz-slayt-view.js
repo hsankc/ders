@@ -28,6 +28,50 @@
   var count = function(w){ var n = 0; w.parts.forEach(function(p){ p.items.forEach(function(it){ if(it.n) n++; }); }); return n; };
   var done = function(w){ var n = 0; w.parts.forEach(function(p){ p.items.forEach(function(it){ if(it.n && OK[it.n]) n++; }); }); return n; };
 
+  // haftanın rengi
+  var WC = {'3':'#3557D6', '4':'#0F7A6C', '5':'#B25F00', '6':'#2E7D32', '7':'#6B46C1'};
+  var WS = {'3':'#EAF0FD', '4':'#E5F4F1', '5':'#FBF0E2', '6':'#E8F4E9', '7':'#F0EAFC'};
+  // slayt yazısını görselleştirir: "Etiket: açıklama" maddeleri kart ızgarası, kısa maddeler çip, şekil satırları ikonlu kutu;
+  // anlatımda "Sınavda…" cümleleri ipucu kutusu olur
+  function vis(root){
+    Array.prototype.forEach.call(root.querySelectorAll('.sl-slide > ol, .sl-slide > ul'), function(list){
+      var lis = Array.prototype.filter.call(list.children, function(x){ return x.tagName === 'LI'; });
+      var lab = lis.filter(function(li){ var b = li.firstElementChild; return b && b.tagName === 'B' && li.firstChild === b; });
+      if(lis.length >= 2 && lab.length >= lis.length - 1){
+        var g = document.createElement('div'); g.className = 'sl-cards' + (list.tagName === 'OL' ? ' num' : '');
+        lis.forEach(function(li, i){
+          var c = document.createElement('div'); c.className = 'sl-card';
+          var b = li.firstElementChild, head = document.createElement('div'); head.className = 'sl-ch';
+          if(list.tagName === 'OL') head.innerHTML = '<span class="sl-num">' + (li.getAttribute('value') || i + 1) + '</span>';
+          if(b && b.tagName === 'B' && li.firstChild === b){ head.appendChild(document.createTextNode(b.textContent.replace(/:$/, ''))); b.remove(); }
+          var body = document.createElement('div'); body.className = 'sl-cb';
+          while(li.firstChild) body.appendChild(li.firstChild);
+          c.appendChild(head); c.appendChild(body); g.appendChild(c);
+        });
+        list.replaceWith(g); return;
+      }
+    });
+    // kısa maddeli listeler (iç içe olanlar dahil): çip ya da numaralı adım
+    Array.prototype.forEach.call(root.querySelectorAll('.sl-slide ul, .sl-slide ol'), function(list){
+      var lis = Array.prototype.filter.call(list.children, function(x){ return x.tagName === 'LI'; });
+      if(lis.length < 2 || !lis.every(function(li){ return li.textContent.length <= 60 && !li.querySelector('ul,ol,.sek'); })) return;
+      var ch = document.createElement('div'); ch.className = 'sl-chips' + (list.tagName === 'OL' ? ' num' : '');
+      lis.forEach(function(li, i){ var x = document.createElement('span'); x.innerHTML = (list.tagName === 'OL' ? '<b class="sl-num">' + (li.getAttribute('value') || i + 1) + '</b>' : '') + li.innerHTML; ch.appendChild(x); });
+      list.replaceWith(ch);
+    });
+    Array.prototype.forEach.call(root.querySelectorAll('.sl-slide .sek'), function(e){
+      var li = e.closest('li'), box = document.createElement('div'); box.className = 'sl-fig';
+      box.innerHTML = '<span class="ic">▦</span><span>' + e.innerHTML.replace(/^Şekil[^:]*:\s*/, '') + '</span>';
+      if(li && li.parentNode.children.length === 1) li.parentNode.replaceWith(box);
+      else if(li){ li.parentNode.parentNode.insertBefore(box, li.parentNode.nextSibling); li.remove(); }
+      else e.closest('p') ? e.closest('p').replaceWith(box) : e.replaceWith(box);
+    });
+    Array.prototype.forEach.call(root.querySelectorAll('.sl-slide ul:empty, .sl-slide ol:empty'), function(x){ x.remove(); });
+    Array.prototype.forEach.call(root.querySelectorAll('.sl-hoca p'), function(p){
+      if(/Sınavda|sınavda|sorarsam|sorulursa/.test(p.textContent)) p.className = 'sl-tip';
+    });
+  }
+
   var main = document.querySelector('main.page');
   S.weeks.forEach(function(w, i){
     var sec = document.createElement('section');
@@ -44,7 +88,7 @@
         toc += '<li><a href="#s' + it.n.replace('.', '-') + '"><span>' + it.n + '</span> ' + esc(it.t) + '</a></li>';
         body += '<article class="sl" id="' + id + '"><h3><span class="n">' + it.n + '</span>' + esc(it.t) + '</h3>' +
           '<div class="sl-slide"><span class="lbl-sm">Slaytta</span>' + it.b + '</div>' +
-          '<div class="sl-hoca"><span class="lbl-sm">Hoca anlatıyor</span>' + hoca(S.hoca[it.n]) + '</div>' +
+          '<div class="sl-hoca"><span class="sl-who"><i>H</i>Hoca anlatıyor</span>' + hoca(S.hoca[it.n]) + '</div>' +
           '<label class="ex-ok"><input type="checkbox" data-sl="' + it.n + '"' + (OK[it.n] ? ' checked' : '') + '> Anladım</label></article>';
       });
     });
@@ -55,6 +99,8 @@
       '<div class="read"><details class="sl-toc"><summary>Bu haftanın slaytları · <span data-slc>' + done(w) + ' / ' + count(w) + ' anlaşıldı</span></summary><ol>' + toc + '</ol></details>' +
       body + '<div class="pager">' + (prev ? '<a class="btn" href="#s' + prev.no + '">← Hafta ' + prev.no + '</a>' : '<a class="btn" href="#">← Tüm bölümler</a>') +
       (next ? '<a class="btn primary" href="#s' + next.no + '">Hafta ' + next.no + ' →</a>' : '<a class="btn" href="#">Tüm bölümler →</a>') + '</div></div>';
+    sec.style.setProperty('--wc', WC[w.no] || 'var(--yz)'); sec.style.setProperty('--wc-soft', WS[w.no] || 'var(--yz-soft)');
+    vis(sec);
     main.appendChild(sec);
   });
 

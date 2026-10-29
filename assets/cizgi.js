@@ -1,7 +1,8 @@
 // Altını çiz: seçilen metni işaretler ve ders ders bu tarayıcıda saklar. Her dersin ana sayfasında o dersin çizgileri ayrı bir bölümde listelenir.
 (function(){
   var K = 'vh.cizgi', page = location.pathname.split('/').pop() || 'index.html';
-  var DERS = {'yazilim-muhendisligi.html':'Yazılım Mühendisliği', 'veri-yapilari.html':'Veri Yapıları', 'yapay-zeka.html':'Yapay Zeka', 'diferansiyel-denklemler.html':'Diferansiyel Denklemler'};
+  var DERS = {'yazilim-muhendisligi.html':'Yazılım Mühendisliği', 'veri-yapilari.html':'Veri Yapıları', 'yapay-zeka.html':'Yapay Zeka', 'diferansiyel-denklemler.html':'Diferansiyel Denklemler', 'dogal-dil-isleme.html':'Doğal Dil İşleme'};
+  var RENK = {'yazilim-muhendisligi.html':'ym', 'veri-yapilari.html':'vy', 'yapay-zeka.html':'yz', 'diferansiyel-denklemler.html':'dif', 'dogal-dil-isleme.html':'ddi'};
   function load(){ try{ return JSON.parse(localStorage.getItem(K)) || {}; }catch(e){ return {}; } }
   function save(d){ try{ localStorage.setItem(K, JSON.stringify(d)); }catch(e){} }
   var esc = function(s){ return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
@@ -9,10 +10,14 @@
   var st = document.createElement('style');
   st.textContent = 'mark.cz{background:#FFE58F;color:inherit;box-shadow:inset 0 -2px #E0A800;border-radius:2px}' +
     '#cz-btn{position:absolute;z-index:70;font:600 .85rem inherit;background:#1F2430;color:#fff;border:0;border-radius:8px;padding:6px 10px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.2)}' +
-    '#cz-pan{background:#fff;border:1px solid #D9DCE1;border-radius:14px;padding:14px 18px;font-size:.95rem}' +
-    '#cz-pan h4{margin:12px 0 6px;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:#6B7280}#cz-pan h4:first-child{margin-top:0}' +
-    '#cz-pan .it{display:flex;gap:8px;align-items:flex-start;padding:6px 0;border-top:1px solid #EEF0F2}#cz-pan .it a{flex:1;color:inherit;text-decoration:none}' +
-    '#cz-pan .it button{border:0;background:none;color:#9AA0A8;cursor:pointer;font-size:1rem;line-height:1}#cz-pan .bos{color:#6B7280;margin:0}';
+    '#cz-pan{display:grid;gap:12px;grid-template-columns:repeat(5,minmax(0,1fr))}#cz-pan.tek{grid-template-columns:minmax(0,1fr)}' +
+    '@media (max-width:1000px){#cz-pan{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}}' +
+    '.cz-card{background:var(--c-soft);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;min-width:0;min-height:120px}' +
+    '.cz-card h4{margin:0;font-size:.95rem;color:var(--c);display:flex;justify-content:space-between;gap:6px}.cz-card h4 span{color:#6B7385;font-weight:500;font-size:.8rem}' +
+    '.cz-card .lst{display:grid;gap:6px;max-height:260px;overflow:auto}#cz-pan.tek .lst{max-height:none}' +
+    '.cz-card .it{display:flex;gap:6px;align-items:flex-start;background:#fff;border-radius:8px;padding:6px 8px;font-size:.86rem;line-height:1.35}' +
+    '.cz-card .it a{flex:1;min-width:0;color:inherit;text-decoration:none;overflow-wrap:anywhere;box-shadow:inset 0 -2px #FFE58F}' +
+    '.cz-card .it button{border:0;background:none;color:#9AA0A8;cursor:pointer;font-size:1rem;line-height:1}.cz-card .bos{color:#6B7385;margin:0;font-size:.85rem}';
   document.head.appendChild(st);
 
   var btn = document.createElement('button'); btn.id = 'cz-btn'; btn.type = 'button'; btn.textContent = 'Altını çiz'; btn.hidden = true;
@@ -79,15 +84,17 @@
       });
     });
   }
+  // her ders kendi renginde ayrı bir kart; ana sayfada 5 kart yan yana
   function paint(){
-    var d = load(), all = 0, h = '';
-    (DERS[page] ? [page] : Object.keys(DERS)).forEach(function(pg){
-      var list = d[pg] || []; if(!list.length) return; all += list.length;
-      h += (DERS[page] ? '' : '<h4>' + esc(DERS[pg]) + ' · ' + list.length + '</h4>') + list.map(function(it){
-        return '<div class="it"><a href="' + pg + (it.v ? '#' + esc(it.v) : '') + '">' + esc(it.t.length > 220 ? it.t.slice(0, 220) + '…' : it.t) + '</a><button type="button" data-del="' + pg + '|' + it.id + '" aria-label="Sil">×</button></div>';
-      }).join('');
-    });
-    pan.innerHTML = h || '<p class="bos">Henüz çizgi yok. Bir metni fareyle seç, çıkan "Altını çiz" düğmesine bas. Çizdiklerin bu tarayıcıda ders ders saklanır.</p>';
+    var d = load(), all = 0, pages = DERS[page] ? [page] : Object.keys(DERS);
+    pan.className = pages.length === 1 ? 'tek' : '';
+    pan.innerHTML = pages.map(function(pg){
+      var list = d[pg] || []; all += list.length;
+      return '<div class="cz-card c-' + RENK[pg] + '"><h4>' + esc(DERS[pg]) + '<span>' + list.length + ' çizgi</span></h4><div class="lst">' +
+        (list.length ? list.map(function(it){
+          return '<div class="it"><a href="' + pg + (it.v ? '#' + esc(it.v) : '') + '">' + esc(it.t.length > 160 ? it.t.slice(0, 160) + '…' : it.t) + '</a><button type="button" data-del="' + pg + '|' + it.id + '" aria-label="Sil">×</button></div>';
+        }).join('') : '<p class="bos">Henüz yok. Metni seç, "Altını çiz"e bas.</p>') + '</div></div>';
+    }).join('');
     sec.querySelector('#cz-say').textContent = all ? all + ' çizgi' : '';
   }
   pan.addEventListener('click', function(e){
