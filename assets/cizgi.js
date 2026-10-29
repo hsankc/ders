@@ -15,6 +15,7 @@
     '.cz-card{background:var(--c-soft);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;min-width:0;min-height:120px}' +
     '.cz-card h4{margin:0;font-size:.95rem;color:var(--c);display:flex;justify-content:space-between;gap:6px}.cz-card h4 span{color:#6B7385;font-weight:500;font-size:.8rem}' +
     '.cz-card .lst{display:grid;gap:6px;max-height:260px;overflow:auto}#cz-pan.tek .lst{max-height:none}' +
+    '.cz-k{cursor:pointer;font:inherit;text-align:left;min-height:96px;justify-content:space-between}.cz-k:hover,.cz-k.on{box-shadow:0 0 0 2px var(--c)}.cz-n{color:#6B7385;font-size:.85rem}.cz-acik{grid-column:1/-1}.cz-acik .lst{max-height:none}' +
     '.cz-card .it{display:flex;gap:6px;align-items:flex-start;background:#fff;border-radius:8px;padding:6px 8px;font-size:.86rem;line-height:1.35}' +
     '.cz-card .it a{flex:1;min-width:0;color:inherit;text-decoration:none;overflow-wrap:anywhere;box-shadow:inset 0 -2px #FFE58F}' +
     '.cz-card .it button{border:0;background:none;color:#9AA0A8;cursor:pointer;font-size:1rem;line-height:1}.cz-card .bos{color:#6B7385;margin:0;font-size:.85rem}';
@@ -84,19 +85,31 @@
       });
     });
   }
-  // her ders kendi renginde ayrı bir kart; ana sayfada 5 kart yan yana
+  // ders sayfasında o dersin kartı ve listesi; ana sayfada sadece ders kartları, tıklanan dersin çizgileri altta açılır
+  var acik = null;
+  function liste(pg, list){
+    return '<div class="lst">' + (list.length ? list.map(function(it){
+      return '<div class="it"><a href="' + pg + (it.v ? '#' + esc(it.v) : '') + '">' + esc(it.t.length > 260 ? it.t.slice(0, 260) + '…' : it.t) + '</a><button type="button" data-del="' + pg + '|' + it.id + '" aria-label="Sil">×</button></div>';
+    }).join('') : '<p class="bos">Henüz yok. Metni seç, "Altını çiz"e bas.</p>') + '</div>';
+  }
   function paint(){
-    var d = load(), all = 0, pages = DERS[page] ? [page] : Object.keys(DERS);
-    pan.className = pages.length === 1 ? 'tek' : '';
-    pan.innerHTML = pages.map(function(pg){
-      var list = d[pg] || []; all += list.length;
-      return '<div class="cz-card c-' + RENK[pg] + '"><h4>' + esc(DERS[pg]) + '<span>' + list.length + ' çizgi</span></h4><div class="lst">' +
-        (list.length ? list.map(function(it){
-          return '<div class="it"><a href="' + pg + (it.v ? '#' + esc(it.v) : '') + '">' + esc(it.t.length > 160 ? it.t.slice(0, 160) + '…' : it.t) + '</a><button type="button" data-del="' + pg + '|' + it.id + '" aria-label="Sil">×</button></div>';
-        }).join('') : '<p class="bos">Henüz yok. Metni seç, "Altını çiz"e bas.</p>') + '</div></div>';
-    }).join('');
+    var d = load(), all = 0;
+    if(DERS[page]){
+      var l = d[page] || []; all = l.length; pan.className = 'tek';
+      pan.innerHTML = '<div class="cz-card c-' + RENK[page] + '"><h4>' + esc(DERS[page]) + '<span>' + l.length + ' çizgi</span></h4>' + liste(page, l) + '</div>';
+    } else {
+      pan.className = '';
+      pan.innerHTML = Object.keys(DERS).map(function(pg){
+        var n = (d[pg] || []).length; all += n;
+        return '<button type="button" class="cz-card cz-k c-' + RENK[pg] + (acik === pg ? ' on' : '') + '" data-ac="' + pg + '"><h4>' + esc(DERS[pg]) + '</h4><span class="cz-n">' + n + ' çizgi</span></button>';
+      }).join('') + (acik ? '<div class="cz-card cz-acik c-' + RENK[acik] + '"><h4>' + esc(DERS[acik]) + '<span>' + (d[acik] || []).length + ' çizgi</span></h4>' + liste(acik, d[acik] || []) + '</div>' : '');
+    }
     sec.querySelector('#cz-say').textContent = all ? all + ' çizgi' : '';
   }
+  pan.addEventListener('click', function(e){
+    var k = e.target.closest('[data-ac]'); if(!k) return;
+    acik = acik === k.dataset.ac ? null : k.dataset.ac; paint();
+  });
   pan.addEventListener('click', function(e){
     var k = e.target.dataset && e.target.dataset.del; if(!k) return;
     var p = k.split('|'), d = load();
