@@ -79,7 +79,7 @@
         var w = document.createTreeWalker(main, NodeFilter.SHOW_TEXT), n;
         while((n = w.nextNode())){
           var i = n.nodeValue.indexOf(part);
-          if(i < 0 || n.parentNode.closest('mark.cz,textarea')) continue;
+          if(i < 0 || n.parentNode.closest('mark.cz,textarea,#cizgiler')) continue;
           var r = document.createRange(); r.setStart(n, i); r.setEnd(n, i + part.length); wrap(r, it.id); break;
         }
       });
@@ -119,4 +119,10 @@
   });
   paint();
   remark(); window.addEventListener('load', function(){ remark(); setTimeout(remark, 1200); });
+  // notlar ve görünümler sonradan yüklenebiliyor (fetch, sekme); sayfaya yeni içerik eklendikçe tekrar işaretle
+  var mt, main = document.querySelector('main');
+  if(main && window.MutationObserver) new MutationObserver(function(ms){
+    if(ms.every(function(m){ return m.target.closest && m.target.closest('#cizgiler,mark.cz'); })) return;
+    clearTimeout(mt); mt = setTimeout(remark, 250);
+  }).observe(main, {childList: true, subtree: true});
 })();
