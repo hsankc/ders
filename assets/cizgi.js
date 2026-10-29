@@ -40,7 +40,7 @@
       if(e <= s) return;
       var mid = s ? t.splitText(s) : t; if(e - s < mid.nodeValue.length) mid.splitText(e - s);
       var m = document.createElement('mark'); m.className = 'cz'; m.dataset.cz = id;
-      mid.parentNode.insertBefore(m, mid); m.appendChild(mid); parts.push(mid.nodeValue);
+      mid.parentNode.insertBefore(m, mid); m.appendChild(mid); var sc = kapsam(mid); parts.push({x: mid.nodeValue, k: sira(mid), s: sc.dataset ? sc.dataset.view || '' : ''});
     });
     return parts;
   }
@@ -71,17 +71,26 @@
   });
 
   // kayıtlı çizgileri sayfada yeniden işaretler (metin tek parça hâlinde bulunursa)
+  // aynı metin sayfada birden çok yerde geçebilir: kaçıncı geçiş olduğunu (görünüm içinde) sakla
+  function kapsam(n){ var e = n.parentNode; return (e && e.closest('[data-view]')) || document.querySelector('main'); }
+  function adaylar(scope, x){
+    var w = document.createTreeWalker(scope, NodeFilter.SHOW_TEXT), n, out = [];
+    while((n = w.nextNode())) if(n.nodeValue.indexOf(x) >= 0 && !n.parentNode.closest('textarea,#cizgiler')) out.push(n);
+    return out;
+  }
+  function sira(node){ var a = adaylar(kapsam(node), node.nodeValue); return Math.max(0, a.indexOf(node)); }
   function remark(){
     (load()[page] || []).forEach(function(it){
       if(document.querySelector('mark.cz[data-cz="' + it.id + '"]')) return;
       it.p.forEach(function(part){
-        var main = document.querySelector('main'); if(!main) return;
-        var w = document.createTreeWalker(main, NodeFilter.SHOW_TEXT), n;
-        while((n = w.nextNode())){
-          var i = n.nodeValue.indexOf(part);
-          if(i < 0 || n.parentNode.closest('mark.cz,textarea,#cizgiler')) continue;
-          var r = document.createRange(); r.setStart(n, i); r.setEnd(n, i + part.length); wrap(r, it.id); break;
-        }
+        var x = typeof part === 'string' ? part : part.x, k = typeof part === 'string' ? 0 : part.k;
+        var sv = typeof part === 'string' ? it.v : part.s;
+        var scope = (sv && document.querySelector('[data-view="' + sv + '"]')) || document.querySelector('main'); if(!scope) return;
+        var a = adaylar(scope, x).filter(function(n){ return !n.parentNode.closest('mark.cz[data-cz="' + it.id + '"]'); });
+        if(!a.length) return;
+        var n = a[Math.min(k, a.length - 1)];
+        if(n.parentNode.closest('mark.cz') && n.parentNode.closest('mark.cz').textContent === x) return;
+        var i = n.nodeValue.indexOf(x), r = document.createRange(); r.setStart(n, i); r.setEnd(n, i + x.length); wrap(r, it.id);
       });
     });
   }
