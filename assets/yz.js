@@ -2,7 +2,7 @@
 // Formüller KaTeX auto-render ile basılır; her görünüm ilk açıldığında bir kez işlenir.
 (function(){
   var D = window.YZ;
-  var CH = D.parts.slice().sort(function(a, b){ return a.no - b.no; });
+  var CH = D.parts.slice().sort(function(a, b){ return (a.ord != null ? a.ord : a.no) - (b.ord != null ? b.ord : b.no); });
   var esc = function(s){ return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); };
   // **kalın** ve {{kod}} dışında metin olduğu gibi kalır; $...$ kısımlarını KaTeX sonra işler
   var tx = function(s){ return esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/\{\{(.+?)\}\}/g, '<code>$1</code>'); };
@@ -23,6 +23,9 @@
   var $ = function(sel, el){ return (el || document).querySelector(sel); };
   var $$ = function(sel, el){ return Array.prototype.slice.call((el || document).querySelectorAll(sel)); };
   var byNo = function(n){ return CH.filter(function(c){ return String(c.no) === String(n); })[0]; };
+  var nameOf = function(ch){ return ch.lbl || 'Bölüm ' + ch.no; };
+  // animasyon/şekil yer tutucusu; yz-anim.js bunları doldurur
+  var anim = function(a){ return (Array.isArray(a) ? a : [a]).map(function(c){ return '<div class="yza" data-cfg="' + esc(JSON.stringify(c)) + '"></div>'; }).join(''); };
 
   // ---------- tarayıcıda saklanan ilerleme
   function load(k, d){ try{ var v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; }catch(e){ return d; } }
@@ -47,20 +50,20 @@
       (k.p || []).map(para).join('') + (k.f || []).map(disp).join('') +
       (k.li ? '<ul>' + k.li.map(function(s){ return '<li>' + tx(s) + '</li>'; }).join('') + '</ul>' : '') +
       (k.ol ? '<ol class="dsteps">' + k.ol.map(function(s){ return '<li>' + tx(s) + '</li>'; }).join('') + '</ol>' : '') +
-      (k.tbl ? table(k.tbl) : '') + (k.p2 || []).map(para).join('') + '</div>';
+      (k.tbl ? table(k.tbl) : '') + (k.anim ? anim(k.anim) : '') + (k.p2 || []).map(para).join('') + '</div>';
   }
 
   // ---------- soru kartı
   var keyOf = function(ch, q){ return ch.no + '/' + q.id; };
   function solBlock(q){
-    return '<details class="ex-sol"><summary>Çözümü göster</summary><div class="ex-solb">' +
+    return '<details class="ex-sol"><summary>Çözümü göster</summary><div class="ex-solb">' + (q.anim ? anim(q.anim) : '') +
       (q.st && q.st.length ? '<ol class="dsteps">' + q.st.map(function(s){ return '<li>' + tx(s) + '</li>'; }).join('') + '</ol>' : '') +
       '<p class="ex-at"><b>Cevap:</b> ' + tx(q.ans) + '</p></div></details>';
   }
   function qHTML(ch, q, domId, extra){
     var k = keyOf(ch, q);
     return '<article class="exq" id="' + domId + '"><div class="exq-top"><span class="exq-no">Soru ' + esc(q.id) + '</span></div>' +
-      '<div class="exq-q">' + tx(q.q) + '</div>' + (extra || '') +
+      '<div class="exq-q">' + tx(q.q) + '</div>' + (q.fig ? anim(Object.assign({static: true}, q.fig)) : '') + (extra || '') +
       '<textarea class="ex-ans" rows="2" data-ans="' + esc(k) + '" placeholder="Cevabını buraya yaz (bu tarayıcıda saklanır)">' + esc(ANS[k] || '') + '</textarea>' +
       (q.tip ? '<details class="ex-tip"><summary>İpucu</summary><p>' + tx(q.tip) + '</p></details>' : '') + solBlock(q) +
       '<label class="ex-ok"><input type="checkbox" data-ok="' + esc(k) + '"' + (OK[k] ? ' checked' : '') + '> Doğru yaptım</label></article>';
@@ -85,8 +88,8 @@
       '<p class="muted">Önce kâğıtta ya da kutuda kendin çöz, sonra çözümü aç. Doğru yaptıklarını işaretle; bu tarayıcıda saklanır.</p>' +
       '<div class="ex-list">' + ch.qs.map(function(q, i){ return qHTML(ch, q, 'q-' + ch.no + '-' + i); }).join('') + '</div>';
     sec.innerHTML = '<a class="back" href="#">← Tüm bölümler</a>' +
-      '<div class="view-head"><span class="label">Bölüm ' + ch.no + ' · ' + esc(ch.hafta) + '</span><h1>' + esc(ch.title) + '</h1><p class="muted vlead">' + tx(ch.ozet) + '</p></div>' +
-      '<div class="tabs" role="tablist" aria-label="Bölüm ' + ch.no + ' bölümleri">' +
+      '<div class="view-head"><span class="label">' + esc(nameOf(ch)) + ' · ' + esc(ch.hafta) + '</span><h1>' + esc(ch.title) + '</h1><p class="muted vlead">' + tx(ch.ozet) + '</p></div>' +
+      '<div class="tabs" role="tablist" aria-label="' + esc(nameOf(ch)) + ' sekmeleri">' +
         '<button type="button" role="tab" data-tab="konu" aria-selected="true">Konu anlatımı</button>' +
         '<button type="button" role="tab" data-tab="ezber" aria-selected="false">Mutlaka bil</button>' +
         '<button type="button" role="tab" data-tab="soru" aria-selected="false">Çözümlü sorular · ' + ch.qs.length + '</button></div>' +
@@ -106,9 +109,9 @@
     });
     var prev = CH[idx - 1], next = CH[idx + 1], pager = $('.pager', sec);
     function paintPager(){
-      pager.innerHTML = (prev ? '<a class="btn" href="#b' + prev.no + '">← Bölüm ' + prev.no + '</a>' : '<a class="btn" href="#">← Tüm bölümler</a>') +
+      pager.innerHTML = (prev ? '<a class="btn" href="#b' + prev.no + '">← ' + esc(nameOf(prev)) + '</a>' : '<a class="btn" href="#">← Tüm bölümler</a>') +
         '<button class="btn' + (DONE[ch.no] ? '' : ' primary') + '" type="button" data-done>' + (DONE[ch.no] ? '✓ Bitti olarak işaretli' : 'Bu bölümü bitirdim') + '</button>' +
-        (next ? '<a class="btn" href="#b' + next.no + '">Bölüm ' + next.no + ' →</a>' : '<a class="btn" href="#">Tüm bölümler →</a>');
+        (next ? '<a class="btn" href="#b' + next.no + '">' + esc(nameOf(next)) + ' →</a>' : '<a class="btn" href="#">Tüm bölümler →</a>');
       $('[data-done]', pager).addEventListener('click', function(){ DONE[ch.no] = !DONE[ch.no]; save('yz.done', DONE); paintPager(); paintHome(); });
     }
     paintPager();
@@ -140,10 +143,10 @@
     var groups = [];
     CH.forEach(function(ch){ var g = groups.filter(function(x){ return x.name === ch.grp; })[0]; if(!g){ g = {name:ch.grp, list:[]}; groups.push(g); } g.list.push(ch); });
     $('#yz-parts').innerHTML = groups.map(function(g){
-      return '<div class="section"><div class="section-title"><h2>' + esc(g.name) + '</h2><p>Bölüm ' + g.list[0].no + '–' + g.list[g.list.length - 1].no + '</p></div><div class="grid">' +
+      return '<div class="section"><div class="section-title"><h2>' + esc(g.name) + '</h2><p>' + g.list.length + ' bölüm</p></div><div class="grid">' +
         g.list.map(function(ch){
           var n = ch.qs.filter(function(q){ return OK[keyOf(ch, q)]; }).length;
-          return '<a class="card" href="#b' + ch.no + '"><span class="label">Bölüm ' + ch.no + ' · ' + esc(ch.hafta) + '</span><h3>' + esc(ch.title) + '</h3><p class="desc">' + esc(ch.ozet.replace(/\$/g, '')) + '</p>' +
+          return '<a class="card" href="#b' + ch.no + '"><span class="label">' + esc(nameOf(ch)) + ' · ' + esc(ch.hafta) + '</span><h3>' + esc(ch.title) + '</h3><p class="desc">' + esc(ch.ozet.replace(/\$/g, '')) + '</p>' +
             '<div class="foot"><span class="meta">' + ch.qs.length + ' soru' + (n ? ' · ' + n + ' doğru' : '') + '</span>' + (DONE[ch.no] ? '<span class="tag ok">Bitti</span>' : '<span class="go">Aç →</span>') + '</div></a>';
         }).join('') + '</div></div>';
     }).join('');
@@ -152,7 +155,7 @@
 
   // ---------- formül kâğıdı
   $('#formul-all').innerHTML = CH.filter(function(ch){ return ch.formul.length; }).map(function(ch){
-    return '<div class="fsec"><h2><span class="n">' + ch.no + '</span>' + esc(ch.title) + '</h2>' + fcards(ch.formul) + '</div>';
+    return '<div class="fsec"><h2><span class="n">' + (ch.lbl ? '' : ch.no) + '</span>' + esc(ch.title) + '</h2>' + fcards(ch.formul) + '</div>';
   }).join('');
   $('#print-f').addEventListener('click', function(){ window.print(); });
 
@@ -163,7 +166,7 @@
     return i < 0 ? '#b' + ch.no : '#b' + ch.no + '-q' + i;
   }
   $('#dikkat-all').innerHTML = D.dikkat.map(function(d){
-    return '<div class="box"><h3>' + tx(d.w) + '</h3><p>' + tx(d.t) + '</p>' + (d.go ? '<a class="go-link" href="' + qLink(d.go) + '">' + (String(d.go).indexOf('/') > 0 ? 'Soruya git →' : 'Bölüm ' + d.go + ' →') + '</a>' : '') + '</div>';
+    return '<div class="box"><h3>' + tx(d.w) + '</h3><p>' + tx(d.t) + '</p>' + (d.go ? '<a class="go-link" href="' + qLink(d.go) + '">' + (String(d.go).indexOf('/') > 0 ? 'Soruya git →' : esc(nameOf(byNo(d.go))) + ' →') + '</a>' : '') + '</div>';
   }).join('');
 
   // ---------- son 10 dakika
@@ -195,7 +198,7 @@
           $$('button.opt', box).forEach(function(x){ x.disabled = true; if(+x.dataset.k === t.a) x.classList.add('right'); });
           if(!good) b.classList.add('wrong');
           var ex = $('.qexp', box);
-          ex.innerHTML = (good ? '<b class="okc">Doğru.</b> ' : '<b class="badc">Yanlış.</b> ') + tx(t.w) + ' <a href="#b' + t.go + '">Bölüm ' + t.go + ' →</a>';
+          ex.innerHTML = (good ? '<b class="okc">Doğru.</b> ' : '<b class="badc">Yanlış.</b> ') + tx(t.w) + ' <a href="#b' + t.go + '">' + esc(nameOf(byNo(t.go))) + ' →</a>';
           ex.hidden = false; delete ex.dataset.km; math(ex);
           done++; if(good) right++;
           scoreLine(testScore, right, done, list.length);
@@ -225,7 +228,7 @@
           $$('button.opt', box).forEach(function(x){ x.disabled = true; if(it.a.indexOf(x.dataset.m) >= 0) x.classList.add('right'); });
           if(!good) b.classList.add('wrong');
           var ex = $('.qexp', box);
-          ex.innerHTML = (good ? '<b class="okc">Doğru.</b> ' : '<b class="badc">Olmadı.</b> ') + tx(it.w) + ' <a href="#b' + it.go + '">Bölüm ' + it.go + ' →</a>';
+          ex.innerHTML = (good ? '<b class="okc">Doğru.</b> ' : '<b class="badc">Olmadı.</b> ') + tx(it.w) + ' <a href="#b' + it.go + '">' + esc(nameOf(byNo(it.go))) + ' →</a>';
           ex.hidden = false; delete ex.dataset.km; math(ex);
           done++; if(good) right++;
           scoreLine(hScore, right, done, items.length);

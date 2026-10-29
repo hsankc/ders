@@ -485,6 +485,100 @@ ol.son{margin:0;display:grid;gap:10px;background:var(--card);border:1px solid va
 .yz .qz p{margin:0}
 .yz td .katex{font-size:1em}
 .yz .hero .note{max-width:72ch}
+/* YZ animasyonları */
+.yza{background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:10px;min-width:0;margin:4px 0}
+.yza.static{background:#fff;padding:8px 10px;gap:4px}
+.yza-title{font-weight:700;font-size:.95rem}
+.yza-draw{overflow-x:auto;display:grid;place-items:center}
+.yza-svg{display:block;width:100%;max-width:640px;height:auto}
+.yza-two{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
+@media (max-width:560px){.yza{padding:10px 8px}.yza-two{grid-template-columns:1fr}.yza-ctl .btn{padding:6px 9px}}
+.yza-cap{font-size:.85rem;color:var(--muted);margin:0;text-align:center}
+.yza-side{display:grid;gap:8px}
+.yza-ds{display:grid;gap:4px}
+.yza-lbl{font-size:.74rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.yza-chips{display:flex;flex-wrap:wrap;gap:5px}
+.yza-chip{font-family:var(--f-mono);font-size:.8rem;background:#FFF6D6;border:1px solid #EBCB6B;border-radius:8px;padding:2px 8px}
+.yza-chip i{font-style:normal;color:var(--ink-2)}
+.yza-chip.ex{background:var(--accent-soft);border-color:#C5D2F5}
+.yza-chip.bad{background:var(--bad-soft);border-color:#F2C2BC}
+.yza-note{font-size:.95rem}
+.yza-ctl{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.yza-ctl .btn{padding:6px 11px;font-size:.88rem}
+.yza-ctl .btn:disabled{opacity:.45;cursor:default}
+.yza-algs{display:flex;flex-wrap:wrap;gap:6px}
+.yza-algs button{font:inherit;font-size:.85rem;border:1px solid var(--line);background:#fff;color:var(--ink-2);border-radius:999px;padding:4px 12px;cursor:pointer}
+.yza-algs button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.yza-sl{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.yza-sl label{display:grid;gap:4px;font-size:.9rem;color:var(--ink-2)}
+.yza-sl input{accent-color:var(--accent)}
+.yza-bar{height:14px;background:#fff;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.yza-bar span{display:block;height:100%;background:var(--accent);border-radius:999px;transition:width .2s}
+.yza-svg text{font-family:var(--f-body);font-size:13px;fill:var(--ink);text-anchor:middle}
+.yza-svg .ah{fill:#7A8395}.yza-svg .ahg{fill:var(--ok)}
+.yza-svg .ed{stroke:#B7BECC;stroke-width:1.6;fill:none}
+.yza-svg .ed.tr{stroke:#5B6475;stroke-width:2}
+.yza-svg .ed.pa{stroke:var(--ok);stroke-width:3.6}
+.yza-svg .ed.dash{stroke-dasharray:5 4}
+.yza-svg .wt rect{fill:#fff;stroke:var(--line)}
+.yza-svg .wt text{font-size:12px;font-weight:600;fill:var(--ink-2)}
+.yza-svg .nd circle{fill:#fff;stroke:#9AA3B5;stroke-width:1.6;transition:fill .25s,stroke .25s}
+.yza-svg .nd .nl{font-weight:700;font-size:14px}
+.yza-svg .nd .nl.sm{font-size:11.5px}
+.yza-svg .nd.goal circle{stroke:var(--ok);stroke-dasharray:4 3}
+.yza-svg .nd.fr circle{fill:#FFF6D6;stroke:#E0A800;stroke-width:2}
+.yza-svg .nd.ex circle{fill:#E9EEFC;stroke:var(--accent);stroke-width:2}
+.yza-svg .nd.cur circle{fill:#FFE2C2;stroke:#D9730D;stroke-width:3}
+.yza-svg .nd.path circle{fill:#E7F5EE;stroke:var(--ok);stroke-width:3}
+.yza-svg .hv{font-size:11.5px;fill:#6B46C1;font-weight:600}
+.yza-svg .ord circle{fill:var(--accent);stroke:none}
+.yza-svg .ord text{fill:#fff;font-size:10.5px;font-weight:700}
+.yza-svg .cap{font-size:12px;fill:var(--muted)}
+.yza-svg .axis{stroke:#9AA3B5;stroke-width:1.3}
+.yza-svg .grid{stroke:#EEF0F4;stroke-width:1}
+.yza-svg .tk{font-size:11px;fill:var(--muted)}
+.yza-svg .land{fill:none;stroke:var(--accent);stroke-width:3}
+.yza-svg .lp{fill:#fff;stroke:var(--accent);stroke-width:2}
+.yza-svg .lp.tabu{fill:var(--bad-soft);stroke:var(--bad)}
+.yza-svg .lv{font-size:12px;font-weight:700;fill:var(--ink-2)}
+.yza-svg .ls{font-size:10.5px;fill:var(--muted);font-family:var(--f-mono)}
+.yza-svg .ls.dim,.yza-svg .fold.dim{opacity:.35}
+.yza-svg .ball{fill:#D9730D;stroke:#fff;stroke-width:2}
+.yza-svg .look{fill:none;stroke:#E0A800;stroke-width:2.5;stroke-dasharray:3 3}
+.yza-svg .pt{stroke:#fff;stroke-width:1.5}
+.yza-svg .pt.c1{fill:var(--ok)}.yza-svg .pt.c0{fill:var(--bad)}.yza-svg .pt.cn{fill:#9AA3B5}
+.yza-svg .pt.q{fill:#6B46C1}
+.yza-svg .pt.q.c1{fill:var(--ok);stroke:#1F2430;stroke-width:2}.yza-svg .pt.q.c0{fill:var(--bad);stroke:#1F2430;stroke-width:2}
+.yza-svg .pt.wrong{stroke:#1F2430;stroke-width:2.5}
+.yza-svg .pt.k0{fill:#3557D6}.yza-svg .pt.k1{fill:#D9730D}.yza-svg .pt.k2{fill:#1E8455}
+.yza-svg .cen path{stroke-width:4;stroke-linecap:round}
+.yza-svg .cen.k0 path{stroke:#3557D6}.yza-svg .cen.k1 path{stroke:#D9730D}.yza-svg .cen.k2 path{stroke:#1E8455}
+.yza-svg .mv{stroke:#5B6475;stroke-dasharray:4 3;stroke-width:1.3}
+.yza-svg .pl{font-size:11.5px;fill:var(--ink-2)}
+.yza-svg .pl.q{fill:#6B46C1;font-weight:700}
+.yza-svg .dl{font-size:11px;fill:#6B46C1;text-anchor:start}
+.yza-svg .knnl{stroke:#C9B6F0;stroke-width:1.2;stroke-dasharray:3 3}
+.yza-svg .knnl.in{stroke:#6B46C1;stroke-width:2;stroke-dasharray:none}
+.yza-svg .knnr{fill:rgba(107,70,193,.06);stroke:#6B46C1;stroke-dasharray:5 4}
+.yza-svg .dline{stroke:#1F2430;stroke-width:2.2;stroke-dasharray:7 4}
+.yza-svg .zone{fill:rgba(53,87,214,.09)}
+.yza-svg .gene rect{fill:#fff;stroke:#9AA3B5;stroke-width:1.5}
+.yza-svg .gene.on rect{fill:#E9EEFC;stroke:var(--accent)}
+.yza-svg .gene.a rect{fill:#FFE2C2;stroke:#D9730D}
+.yza-svg .gene.b rect{fill:#E7F5EE;stroke:var(--ok)}
+.yza-svg .gene.flip rect{fill:#FFF3C4;stroke:#E0A800;stroke-width:3}
+.yza-svg .gb{font-family:var(--f-mono);font-size:15px;font-weight:700}
+.yza-svg .gname{font-size:13px;font-weight:700}
+.yza-svg .ghead{font-size:12px;font-weight:600;fill:var(--ink-2)}
+.yza-svg .ghead.sm{font-size:10.5px;font-weight:400;fill:var(--muted)}
+.yza-svg .gfit{font-size:12.5px;font-weight:600;fill:var(--ink-2)}
+.yza-svg .gfit.bad{fill:var(--bad)}.yza-svg .gfit.best{fill:var(--ok)}
+.yza-svg .cut{stroke:var(--bad);stroke-width:2.5;stroke-dasharray:4 3}
+.yza-svg .fold rect{stroke:#fff;stroke-width:2}
+.yza-svg .fold.t rect{fill:#C5D2F5}.yza-svg .fold.v rect{fill:#F5B971}.yza-svg .fold.test rect{fill:#E3E6EC}
+.yza-svg .fold text{font-size:11px;font-weight:600}
+.yza-svg .tt{font-size:13px;font-weight:700}.yza-svg .tt.sm{font-size:11px;font-weight:400}
+.yza-svg .fx{fill:none;stroke-width:3}.yza-svg .fx.a{stroke:var(--bad)}.yza-svg .fx.b{stroke:var(--accent)}.yza-svg .fx.c{stroke:var(--ok)}
 
 /* Yazılım Mühendisliği: vize, Mimari Tasarım ve alıştırma sayfaları */
 .vlead{max-width:72ch}
