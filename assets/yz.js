@@ -242,7 +242,7 @@
 
   // ---------- yönlendirme
   function route(){
-    var h = location.hash.slice(1), m = /^b(\d+)-q(\d+)$/.exec(h), id = m ? 'b' + m[1] : h;
+    var h = location.hash.slice(1), m = /^b(\d+)-q(\d+)$/.exec(h), sl = /^s(\d)-(\d+)$/.exec(h), id = m ? 'b' + m[1] : sl ? 's' + sl[1] : h;
     if(!/^[\w-]+$/.test(id) || !$('[data-view="' + id + '"]')) id = 'home';
     $$('.view').forEach(function(el){ el.hidden = el.dataset.view !== id; });
     var v = $('[data-view="' + id + '"]');
@@ -256,6 +256,7 @@
         return;
       }
     }
+    if(sl){ var se = document.getElementById('sl-' + sl[1] + '-' + sl[2]); if(se){ se.scrollIntoView({block:'start'}); return; } }
     window.scrollTo(0, 0);
   }
   window.addEventListener('hashchange', route);

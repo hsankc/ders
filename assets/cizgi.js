@@ -1,4 +1,4 @@
-// Altını çiz: seçilen metni işaretler ve ders ders bu tarayıcıda saklar. Sağ alttaki düğme bütün derslerin listesini açar.
+// Altını çiz: seçilen metni işaretler ve ders ders bu tarayıcıda saklar. Her dersin ana sayfasında o dersin çizgileri ayrı bir bölümde listelenir.
 (function(){
   var K = 'vh.cizgi', page = location.pathname.split('/').pop() || 'index.html';
   var DERS = {'yazilim-muhendisligi.html':'Yazılım Mühendisliği', 'veri-yapilari.html':'Veri Yapıları', 'yapay-zeka.html':'Yapay Zeka', 'diferansiyel-denklemler.html':'Diferansiyel Denklemler'};
@@ -9,17 +9,20 @@
   var st = document.createElement('style');
   st.textContent = 'mark.cz{background:#FFE58F;color:inherit;box-shadow:inset 0 -2px #E0A800;border-radius:2px}' +
     '#cz-btn{position:absolute;z-index:70;font:600 .85rem inherit;background:#1F2430;color:#fff;border:0;border-radius:8px;padding:6px 10px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.2)}' +
-    '#cz-open{position:fixed;right:14px;bottom:14px;z-index:70;font:600 .88rem inherit;background:#fff;color:#1F2430;border:1px solid #D9DCE1;border-radius:999px;padding:8px 14px;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.12)}' +
-    '#cz-pan{position:fixed;right:14px;bottom:62px;z-index:70;width:min(380px,calc(100vw - 28px));max-height:65vh;overflow:auto;background:#fff;border:1px solid #D9DCE1;border-radius:14px;padding:14px 16px;box-shadow:0 10px 30px rgba(0,0,0,.15);font-size:.92rem}' +
+    '#cz-pan{background:#fff;border:1px solid #D9DCE1;border-radius:14px;padding:14px 18px;font-size:.95rem}' +
     '#cz-pan h4{margin:12px 0 6px;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:#6B7280}#cz-pan h4:first-child{margin-top:0}' +
     '#cz-pan .it{display:flex;gap:8px;align-items:flex-start;padding:6px 0;border-top:1px solid #EEF0F2}#cz-pan .it a{flex:1;color:inherit;text-decoration:none}' +
     '#cz-pan .it button{border:0;background:none;color:#9AA0A8;cursor:pointer;font-size:1rem;line-height:1}#cz-pan .bos{color:#6B7280;margin:0}';
   document.head.appendChild(st);
 
   var btn = document.createElement('button'); btn.id = 'cz-btn'; btn.type = 'button'; btn.textContent = 'Altını çiz'; btn.hidden = true;
-  var open = document.createElement('button'); open.id = 'cz-open'; open.type = 'button';
-  var pan = document.createElement('div'); pan.id = 'cz-pan'; pan.hidden = true;
-  document.body.appendChild(btn); document.body.appendChild(open); document.body.appendChild(pan);
+  document.body.appendChild(btn);
+  // listenin yeri: dersin ana görünümünün sonunda ayrı bir bölüm (ana sayfada bütün dersler)
+  var host = document.querySelector('[data-view="home"]') || document.querySelector('main');
+  var sec = document.createElement('div'); sec.className = 'section'; sec.id = 'cizgiler';
+  sec.innerHTML = '<div class="section-title"><h2>' + esc(DERS[page] ? DERS[page] + ' · Altını çizdiklerim' : 'Altını çizdiklerim') + '</h2><p id="cz-say"></p></div><div id="cz-pan"></div>';
+  if(host) host.appendChild(sec);
+  var pan = sec.querySelector('#cz-pan');
 
   // aralıktaki her metin parçasını <mark> içine alır; işaretlenen parçaların metnini döndürür
   function wrap(r, id){
@@ -78,16 +81,15 @@
   }
   function paint(){
     var d = load(), all = 0, h = '';
-    Object.keys(DERS).concat(Object.keys(d).filter(function(k){ return !DERS[k]; })).forEach(function(pg){
+    (DERS[page] ? [page] : Object.keys(DERS)).forEach(function(pg){
       var list = d[pg] || []; if(!list.length) return; all += list.length;
-      h += '<h4>' + esc(DERS[pg] || pg) + ' · ' + list.length + '</h4>' + list.map(function(it){
+      h += (DERS[page] ? '' : '<h4>' + esc(DERS[pg]) + ' · ' + list.length + '</h4>') + list.map(function(it){
         return '<div class="it"><a href="' + pg + (it.v ? '#' + esc(it.v) : '') + '">' + esc(it.t.length > 220 ? it.t.slice(0, 220) + '…' : it.t) + '</a><button type="button" data-del="' + pg + '|' + it.id + '" aria-label="Sil">×</button></div>';
       }).join('');
     });
     pan.innerHTML = h || '<p class="bos">Henüz çizgi yok. Bir metni fareyle seç, çıkan "Altını çiz" düğmesine bas. Çizdiklerin bu tarayıcıda ders ders saklanır.</p>';
-    open.textContent = '✎ Çizdiklerim' + (all ? ' (' + all + ')' : '');
+    sec.querySelector('#cz-say').textContent = all ? all + ' çizgi' : '';
   }
-  open.addEventListener('click', function(){ pan.hidden = !pan.hidden; });
   pan.addEventListener('click', function(e){
     var k = e.target.dataset && e.target.dataset.del; if(!k) return;
     var p = k.split('|'), d = load();
