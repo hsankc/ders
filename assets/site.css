@@ -471,6 +471,21 @@ ol.son{margin:0;display:grid;gap:10px;background:var(--card);border:1px solid va
   .fcard,.box{box-shadow:none;break-inside:avoid}
 }
 
+/* Yapay Zeka */
+.yz .box p{margin:0}
+.yz .box.ek{border-left:4px solid var(--accent)}
+.yz .box h3 .n{font-family:var(--f-mono);font-size:.82rem;color:var(--muted);font-weight:400;margin-right:8px}
+.yz .katex{font-size:1.05em}
+.yz .katex-display{overflow:visible;padding:2px 0}
+.yz .dmath>.dp{padding-right:4px} /* KaTeX bazı formüllerde 2px taşıyor; boş kaydırma çubuğu çıkmasın */
+.yz .exq{scroll-margin-top:72px}
+.yz .fcard{grid-template-columns:minmax(0,1fr)} /* uzun formül kartı telefonda ekrandan taşmasın, kendi içinde kaysın */
+.yz .ex-solb .ex-at{margin:0}
+.yz h2.vh{margin-top:10px}
+.yz .qz p{margin:0}
+.yz td .katex{font-size:1em}
+.yz .hero .note{max-width:72ch}
+
 /* Yazılım Mühendisliği: vize, Mimari Tasarım ve alıştırma sayfaları */
 .vlead{max-width:72ch}
 .vize .box p,.vize .ans p{margin:0}

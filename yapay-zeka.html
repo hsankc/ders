@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Yapay Zeka · Vize Haftası</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+<link rel="stylesheet" href="assets/site.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header class="topbar"><div class="in">
+  <a class="brand" href="./"><i></i>Vize Haftası</a>
+  <nav aria-label="Dersler">
+    <a href="yazilim-muhendisligi.html">Yazılım Müh.</a>
+    <a href="veri-yapilari.html">Veri Yapıları</a>
+    <a href="yapay-zeka.html" class="on">Yapay Zeka</a>
+    <a href="diferansiyel-denklemler.html">Diferansiyel</a>
+  </nav>
+</div></header>
+
+<main class="page yz">
+
+<section class="view" data-view="home">
+  <div class="hero">
+    <div class="hero-row"><span class="badge lg c-yz">YZ</span>
+      <div><h1>Yapay Zeka</h1><p class="muted">Vize: Çarşamba, 4 Kasım · 15:00 · A201, A203, Lab1</p></div></div>
+    <p class="sub">Hoca slayt paylaşmıyor; bu notlar derste çekilen slayt fotoğraflarından (3–7. hafta, 167 fotoğraf) çıkarıldı. Konular 9 bölüme ayrıldı. Her bölümde temiz konu anlatımı, "mutlaka bil" listesi, formüller ve slayttaki örnek soruların adım adım çözümü var. Örneklerin cevaplarını bilgisayarda hesaplayarak kontrol ettim.</p>
+    <div class="note"><b class="t">Eksik kalanlar</b><p>1. ve 2. haftanın fotoğrafı yok (2. haftada PEAS ve ajanlar işlenmişti; 3. haftanın başında kısa tekrarı var). Fotoğraflarda bazı slaytlar eksik: 3. haftanın 56 slaytının yaklaşık yarısı, 5. haftanın son 8 slaytı. Slaytların kendisi siteye konmadı.</p></div>
+  </div>
+
+  <div id="yz-parts"></div>
+
+  <div class="section">
+    <div class="section-title"><h2>Sınav için</h2></div>
+    <div class="grid">
+      <a class="card" href="#test"><span class="label">41 soru</span><h3>Kavram testi</h3><p class="desc">Bütün bölümlerden çoktan seçmeli sorular; her cevabın altında kısa açıklama ve ilgili bölüm.</p><span class="go">Başla →</span></a>
+      <a class="card" href="#hangi"><span class="label">28 senaryo</span><h3>Hangi algoritma, hangi öğrenme?</h3><p class="desc">Bir durum tarifi gelir; hangi arama/optimizasyon algoritmasının ya da hangi öğrenme türünün kullanılacağını seçersin. Slayttaki iki senaryo da içinde.</p><span class="go">Başla →</span></a>
+      <a class="card" href="#formul"><h3>Formül kâğıdı</h3><p class="desc">Arama, tavlama, regresyon, metrikler ve YSA formülleri tek sayfada. Yazdırılabilir.</p><span class="go">Aç →</span></a>
+      <a class="card" href="#dikkat"><span class="label">10 madde</span><h3>Slaytlarda dikkat</h3><p class="desc">Slaytlarda yanlış ya da çelişkili olan yerler ve doğru halleri: sırt çantasının gerçek optimumu, A*'ın Çanakkale–İzmir'de yanılması, DBI tanımı…</p><span class="go">Aç →</span></a>
+      <a class="card" href="#son"><h3>Son 10 dakika</h3><p class="desc">Sınav kapısında bakılacak 14 satır.</p><span class="go">Aç →</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="view" data-view="test" hidden>
+  <a class="back" href="#">← Tüm bölümler</a>
+  <div class="view-head"><span class="label">Sınav için</span><h1>Kavram testi</h1><p class="muted vlead">Sorular her seferinde karışık sırayla gelir. Yanlış yaptığında açıklamadaki bölüm bağlantısından konuya dön.</p></div>
+  <div class="read">
+    <div class="toolbar ex-bar"><button class="btn" type="button" id="test-again">Karıştır, baştan başla</button><span class="score" id="test-score"></span></div>
+    <div class="quiz" id="test-list"></div>
+  </div>
+</section>
+
+<section class="view" data-view="hangi" hidden>
+  <a class="back" href="#">← Tüm bölümler</a>
+  <div class="view-head"><span class="label">Sınav için</span><h1>Hangi algoritma, hangi öğrenme?</h1><p class="muted vlead">Her kartta bir durum var; uygun algoritmayı ya da öğrenme türünü seç. Birden çok cevap savunulabiliyorsa hepsi yeşil yanar.</p></div>
+  <div class="read">
+    <div class="toolbar ex-bar">
+      <select id="hangi-set" aria-label="Soru grubu" style="width:auto"><option value="all">Hepsi</option><option value="alg">Sadece algoritmalar</option><option value="ml">Sadece öğrenme türleri</option></select>
+      <button class="btn" type="button" id="hangi-again">Karıştır, baştan başla</button><span class="score" id="hangi-score"></span></div>
+    <div class="quiz" id="hangi-list"></div>
+  </div>
+</section>
+
+<section class="view" data-view="formul" hidden>
+  <a class="back" href="#">← Tüm bölümler</a>
+  <div class="view-head"><span class="label">Sınav için</span><h1>Formül kâğıdı</h1><p class="muted vlead">Bölüm bölüm bütün formüller.</p></div>
+  <div class="read">
+    <div class="toolbar ex-bar"><button class="btn" type="button" id="print-f">Yazdır</button></div>
+    <div id="formul-all"></div>
+  </div>
+</section>
+
+<section class="view" data-view="dikkat" hidden>
+  <a class="back" href="#">← Tüm bölümler</a>
+  <div class="view-head"><span class="label">Sınav için</span><h1>Slaytlarda dikkat</h1><p class="muted vlead">Slaytlarda yanlış, eksik ya da birbiriyle çelişen yerler. Hepsini hesaplayarak kontrol ettim; sitedeki çözümler doğru hâlleriyle yapıldı.</p></div>
+  <div class="read"><div class="prose" id="dikkat-all"></div></div>
+</section>
+
+<section class="view" data-view="son" hidden>
+  <a class="back" href="#">← Tüm bölümler</a>
+  <div class="view-head"><span class="label">Sınav için</span><h1>Son 10 dakika</h1><p class="muted vlead">Her konunun tek satırlık özeti.</p></div>
+  <div class="read"><div id="son-all"></div>
+    <div class="pager"><a class="btn" href="#formul">Formül kâğıdının tamamı →</a></div></div>
+</section>
+
+</main>
+
+<footer class="site">Kaynak: Yapay Zeka dersi slaytları (2026-2027 Güz, 3–7. hafta), derste çekilen fotoğraflardan yazıya geçirildi. Kişisel çalışma notudur.</footer>
+
+<script defer src="assets/yz-data-1.js"></script>
+<script defer src="assets/yz-data-2.js"></script>
+<script defer src="assets/yz.js"></script>
+</body>
+</html>
