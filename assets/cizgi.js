@@ -16,6 +16,7 @@
     '.cz-card h4{margin:0;font-size:.95rem;color:var(--c);display:flex;justify-content:space-between;gap:6px}.cz-card h4 span{color:#6B7385;font-weight:500;font-size:.8rem}' +
     '.cz-card .lst{display:grid;gap:6px;max-height:260px;overflow:auto}#cz-pan.tek .lst{max-height:none}' +
     '.cz-k{cursor:pointer;font:inherit;text-align:left;min-height:96px;justify-content:space-between}.cz-k:hover,.cz-k.on{box-shadow:0 0 0 2px var(--c)}.cz-n{color:#6B7385;font-size:.85rem}.cz-acik{grid-column:1/-1}.cz-acik .lst{max-height:none}' +
+    '.cz-yer{display:block;font-size:.72rem;font-weight:600;color:var(--c);margin-bottom:2px;box-shadow:none}' +
     '.cz-card .it{display:flex;gap:6px;align-items:flex-start;background:#fff;border-radius:8px;padding:6px 8px;font-size:.86rem;line-height:1.35}' +
     '.cz-card .it a{flex:1;min-width:0;color:inherit;text-decoration:none;overflow-wrap:anywhere;box-shadow:inset 0 -2px #FFE58F}' +
     '.cz-card .it button{border:0;background:none;color:#9AA0A8;cursor:pointer;font-size:1rem;line-height:1}.cz-card .bos{color:#6B7385;margin:0;font-size:.85rem}';
@@ -67,7 +68,8 @@
     var id = Date.now().toString(36), txt = getSelection().toString().trim();
     var parts = wrap(r, id); getSelection().removeAllRanges();
     if(!parts.length) return;
-    var d = load(); (d[page] = d[page] || []).push({id: id, t: txt, p: parts, v: location.hash.slice(1)}); save(d); paint();
+    var mm = document.querySelector('mark.cz[data-cz="' + id + '"]'), me = mm ? meta(mm) : {};
+    var d = load(); (d[page] = d[page] || []).push({id: id, t: txt, p: parts, v: location.hash.slice(1), o: me.o, yer: me.yer}); save(d); paint();
   });
 
   // kayıtlı çizgileri sayfada yeniden işaretler (metin tek parça hâlinde bulunursa)
@@ -79,9 +81,25 @@
     return out;
   }
   function sira(node){ var a = adaylar(kapsam(node), node.nodeValue); return Math.max(0, a.indexOf(node)); }
+  // çizginin metindeki yeri: görünümün sırası + görünüm içindeki öğe sırası; etiket: görünüm başlığı › en yakın ara başlık
+  function meta(m){
+    var views = Array.prototype.slice.call(document.querySelectorAll('[data-view]'));
+    var v = m.closest('[data-view]'), scope = v || document.querySelector('main');
+    var all = scope.getElementsByTagName('*'), el = m, pos = -1, head = '';
+    for(var i = 0; i < all.length; i++){
+      if(all[i] === el){ pos = i; break; }
+      if(/^H[2-4]$/.test(all[i].tagName) && !all[i].closest('#cizgiler')) head = all[i].textContent;
+    }
+    var h1 = v && v.querySelector('h1'), t = h1 ? h1.textContent : '';
+    var kis = function(x){ x = (x || '').replace(/\s+/g, ' ').trim(); return x.length > 48 ? x.slice(0, 46) + '…' : x; };
+    return {o: [v ? views.indexOf(v) : 0, pos], yer: [kis(t), kis(head)].filter(Boolean).filter(function(x, i, a){ return a.indexOf(x) === i; }).join(' › ')};
+  }
+  function sirala(list){ return list.slice().sort(function(a, b){ var x = a.o || [1e9, 0], y = b.o || [1e9, 0]; return x[0] - y[0] || x[1] - y[1]; }); }
   function remark(){
-    (load()[page] || []).forEach(function(it){
-      if(document.querySelector('mark.cz[data-cz="' + it.id + '"]')) return;
+    var d = load(), degisti = false;
+    (d[page] || []).forEach(function(it){
+      var var0 = document.querySelector('mark.cz[data-cz="' + it.id + '"]');
+      if(var0){ if(!it.o){ var me = meta(var0); it.o = me.o; it.yer = me.yer; degisti = true; } return; }
       it.p.forEach(function(part){
         var x = typeof part === 'string' ? part : part.x, k = typeof part === 'string' ? 0 : part.k;
         var sv = typeof part === 'string' ? it.v : part.s;
@@ -93,12 +111,14 @@
         var i = n.nodeValue.indexOf(x), r = document.createRange(); r.setStart(n, i); r.setEnd(n, i + x.length); wrap(r, it.id);
       });
     });
+    if(degisti){ save(d); paint(); }
   }
   // ders sayfasında o dersin kartı ve listesi; ana sayfada sadece ders kartları, tıklanan dersin çizgileri altta açılır
   var acik = null;
   function liste(pg, list){
+    list = sirala(list);
     return '<div class="lst">' + (list.length ? list.map(function(it){
-      return '<div class="it"><a href="' + pg + (it.v ? '#' + esc(it.v) : '') + '">' + esc(it.t.length > 260 ? it.t.slice(0, 260) + '…' : it.t) + '</a><button type="button" data-del="' + pg + '|' + it.id + '" aria-label="Sil">×</button></div>';
+      return '<div class="it"><a href="' + pg + (it.v ? '#' + esc(it.v) : '') + '">' + (it.yer ? '<span class="cz-yer">' + esc(it.yer) + '</span>' : '') + esc(it.t.length > 260 ? it.t.slice(0, 260) + '…' : it.t) + '</a><button type="button" data-del="' + pg + '|' + it.id + '" aria-label="Sil">×</button></div>';
     }).join('') : '<p class="bos">Henüz yok. Metni seç, "Altını çiz"e bas.</p>') + '</div>';
   }
   function paint(){
