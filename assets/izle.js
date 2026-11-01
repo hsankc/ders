@@ -2,12 +2,43 @@
 // ve tarayıcının Türkçe sesiyle okur. Alttaki çubukla durdur, geri/ileri, hız. Çalarken bir paragrafa tıklamak oradan başlatır.
 (function(){
   if(!('speechSynthesis' in window)) return;
-  var SY = window.speechSynthesis, voice = null;
+  var SY = window.speechSynthesis, voice = null, enVoice = null, SECIM = '';
+  try{ SECIM = localStorage.getItem('vh.izle.ses') || ''; }catch(e){}
+  // en doğal ses önce: Edge'in "Natural/Online" sesleri, sonra Google, sonra diğerleri
+  var puan = function(v){ return /natural/i.test(v.name) ? 3 : /online|neural/i.test(v.name) ? 2 : /google/i.test(v.name) ? 1 : 0; };
+  function best(re){ return SY.getVoices().filter(function(v){ return re.test(v.lang); }).sort(function(a, b){ return puan(b) - puan(a); }); }
   function pickVoice(){
-    var vs = SY.getVoices();
-    voice = vs.filter(function(v){ return /^tr/i.test(v.lang) && /online|natural|google/i.test(v.name); })[0] || vs.filter(function(v){ return /^tr/i.test(v.lang); })[0] || null;
+    var tr = best(/^tr/i);
+    voice = tr.filter(function(v){ return v.name === SECIM; })[0] || tr[0] || null;
+    enVoice = best(/^en-(US|GB)/i)[0] || null;
+    if(window.__izleSesler) window.__izleSesler(tr);
   }
   pickVoice(); SY.onvoiceschanged = pickVoice;
+  // İngilizce terimler İngilizce sesle: parantez/tırnak içindeki Türkçe harfsiz ifadeler ve İngilizce kalıplı kelimeler
+  var EN = /\b(software|system|systems|engineering|requirements?|process|design|testing|user|users|stakeholders?|product|products|generic|customi[sz]ed|bespoke|maintenance|maintainability|dependability|efficiency|usability|acceptability|reliability|availability|safety|security|waterfall|incremental|prototyping|spiral|agile|legacy|architecture|architectural|client|server|repository|layered|framework|feedback|validation|verification|evolution|specification|feasibility|elicitation|analysis|management|planning|scheduling|milestones?|deliverables?|functional|non-functional|domain|interface|component|components|reuse|activity|activities|cost|effective|crisis|the|of|and|or|for|to|in|is|are|with|by|on|search|first|best|cost|hill|climbing|simulated|annealing|tabu|genetic|algorithm|swarm|particle|colony|learning|machine|supervised|unsupervised|clustering|regression|classification|neural|network|deep|training|overfitting|underfitting|precision|recall|accuracy|score|matrix|confusion|epoch|batch|size|layer|hidden|output|input|activation|function|backpropagation|gradient|descent|feature|label|stack|queue|heap|tree|binary|linked|list|node|pointer|array|hash)\b/i;
+  var TRH = /[çğıöşüÇĞİÖŞÜ]/;
+  function enMi(t){
+    t = t.trim(); if(!t || TRH.test(t) || !/[a-z]/i.test(t)) return false;
+    if(/^[a-z]{3,}-[a-z]{3,}$/i.test(t)) return true;
+    var w = t.split(/[\s,/-]+/).filter(Boolean);
+    return w.some(function(x){ return EN.test(x) || /^[a-z]{3,}-[a-z]{3,}$/i.test(x) || /(tion|sion|ing|ity|ment|ware|ness|ance|ence|ship|ability)$/i.test(x); });
+  }
+  function bolumle(t){
+    // parantez ve tırnak içi ayrı parça; sonra kelime kelime İngilizce dizileri ayır
+    var out = [];
+    t.split(/(\([^()]*\)|"[^"]*")/).forEach(function(seg){
+      if(!seg) return;
+      var ic = seg.slice(1, -1);
+      if(/^[("]/.test(seg) && (enMi(ic) || (!TRH.test(ic) && /[a-z]{3}/i.test(ic) && !/\d/.test(ic)))){ out.push({t: seg.slice(1, -1), en: true}); return; }
+      var cur = null;
+      seg.split(/(\s+)/).forEach(function(w){
+        var e = /\S/.test(w) ? enMi(w.replace(/[.,:;!?()"]/g, '')) : (cur ? cur.en : false);
+        if(!cur || cur.en !== e){ cur = {t: '', en: e}; out.push(cur); }
+        cur.t += w;
+      });
+    });
+    return out.filter(function(p){ return /\w/.test(p.t); });
+  }
   var RATE = 1; try{ RATE = +localStorage.getItem('vh.izle.hiz') || 1; }catch(e){}
 
   var st = document.createElement('style');
@@ -21,9 +52,19 @@
   var bar = document.createElement('div'); bar.id = 'izle-bar'; bar.hidden = true;
   bar.innerHTML = '<button type="button" data-a="geri" title="Önceki">⏮</button><button type="button" data-a="oynat" title="Durdur / devam">⏸</button><button type="button" data-a="ileri" title="Sonraki">⏭</button>' +
     '<span class="say"></span><select aria-label="Hız">' + [0.8, 0.9, 1, 1.15, 1.3, 1.5, 1.75].map(function(r){ return '<option value="' + r + '"' + (r === RATE ? ' selected' : '') + '>' + r + 'x</option>'; }).join('') + '</select>' +
-    '<button type="button" data-a="kapat" title="Kapat">✕</button>';
+    '<select class="ses" aria-label="Ses"></select><button type="button" data-a="kapat" title="Kapat">✕</button>';
   document.body.appendChild(bar);
-  var say = bar.querySelector('.say'), playBtn = bar.querySelector('[data-a="oynat"]');
+  var say = bar.querySelector('.say'), playBtn = bar.querySelector('[data-a="oynat"]'), sesSel = bar.querySelector('.ses');
+  window.__izleSesler = function(tr){
+    sesSel.innerHTML = tr.map(function(v){ return '<option' + (voice && v.name === voice.name ? ' selected' : '') + '>' + v.name.replace(/^Microsoft\s+/, '').replace(/\s*-\s*Turkish.*$/, '').replace(/\s*\(Turkey\)/, '') + '</option>'; }).join('');
+    sesSel.hidden = tr.length < 2;
+  };
+  window.__izleSesler(best(/^tr/i));
+  sesSel.addEventListener('change', function(){
+    var v = best(/^tr/i)[this.selectedIndex]; if(!v) return;
+    voice = v; SECIM = v.name; try{ localStorage.setItem('vh.izle.ses', SECIM); }catch(e){}
+    if(playing) speak();
+  });
 
   var blocks = [], i = 0, playing = false, token = 0;
   var SEL = 'h1,h2,h3,h4,p,li,td,figcaption,.exq-q,.sl-ch,.sl-cb,.sl-chips span,.lbl';
@@ -38,7 +79,7 @@
       k.replaceWith(document.createTextNode(' ' + t + ' '));
     });
     Array.prototype.forEach.call(c.querySelectorAll('ul,ol,.katex-mathml'), function(x){ x.remove(); });
-    return c.textContent.replace(/→/g, ', ').replace(/×/g, ' çarpı ').replace(/≈/g, ' yaklaşık ').replace(/≤/g, ' küçük eşit ').replace(/≥/g, ' büyük eşit ').replace(/\s+/g, ' ').trim();
+    return c.textContent.replace(/→/g, ', ').replace(/×/g, ' çarpı ').replace(/≈/g, ' yaklaşık ').replace(/≤/g, ' küçük eşit ').replace(/≥/g, ' büyük eşit ').replace(/[^\p{L}\p{N}\s.,;:!?'"()%+\-=\/<>]/gu, ' ').replace(/\s+/g, ' ').trim();
   }
   function collect(root, from){
     var list = Array.prototype.filter.call(root.querySelectorAll(SEL), function(el){
@@ -62,11 +103,14 @@
     var my = ++token; SY.cancel();
     if(i >= blocks.length){ stop(); return; }
     mark();
-    var parts = textOf(blocks[i]).match(/[^.!?;:]+[.!?;:]*\s*/g) || [textOf(blocks[i])], k = 0;
+    var parts = [], k = 0;
+    (textOf(blocks[i]).match(/[^.!?;:]+[.!?;:]*\s*/g) || [textOf(blocks[i])]).forEach(function(c){ parts = parts.concat(bolumle(c)); });
     (function next(){
       if(my !== token || !playing) return;
       if(k >= parts.length){ i++; setTimeout(function(){ if(my === token && playing) speak(); }, 250); return; }
-      var u = new SpeechSynthesisUtterance(parts[k++]); u.lang = 'tr-TR'; if(voice) u.voice = voice; u.rate = RATE;
+      var p = parts[k++], u = new SpeechSynthesisUtterance(p.t);
+      if(p.en && enVoice){ u.lang = enVoice.lang; u.voice = enVoice; } else { u.lang = 'tr-TR'; if(voice) u.voice = voice; }
+      u.rate = RATE;
       u.onend = next; u.onerror = function(e){ if(e.error !== 'interrupted' && e.error !== 'canceled') next(); };
       SY.speak(u);
     })();
