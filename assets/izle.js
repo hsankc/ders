@@ -42,7 +42,7 @@
   var RATE = 1; try{ RATE = +localStorage.getItem('vh.izle.hiz') || 1; }catch(e){}
 
   var st = document.createElement('style');
-  st.textContent = '.izle-btn{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font:600 .9rem inherit;background:#1F2430;color:#fff;border:0;border-radius:999px;padding:7px 14px;cursor:pointer}' +
+  st.textContent = '.izle-btn{display:inline-flex;width:fit-content;align-self:flex-start;align-items:center;gap:6px;margin-top:10px;font:600 .9rem inherit;background:#1F2430;color:#fff;border:0;border-radius:999px;padding:7px 14px;cursor:pointer}' +
     '.izle-on{background:#FFF3C4!important;box-shadow:0 0 0 4px #FFF3C4;border-radius:6px;transition:background .2s}' +
     '#izle-bar{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:80;display:flex;gap:6px;align-items:center;background:#1F2430;color:#fff;border-radius:999px;padding:6px 10px;box-shadow:0 8px 24px rgba(0,0,0,.25);font-size:.85rem;max-width:calc(100vw - 20px)}' +
     '#izle-bar button{background:none;border:0;color:#fff;font-size:1.05rem;cursor:pointer;padding:4px 8px;border-radius:999px}#izle-bar button:hover{background:rgba(255,255,255,.12)}' +

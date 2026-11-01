@@ -134,7 +134,48 @@
       }).join('') + (acik ? '<div class="cz-card cz-acik c-' + RENK[acik] + '"><h4>' + esc(DERS[acik]) + '<span>' + (d[acik] || []).length + ' çizgi</span></h4>' + liste(acik, d[acik] || []) + '</div>' : '');
     }
     sec.querySelector('#cz-say').textContent = all ? all + ' çizgi' : '';
+    sekmeleriBoya();
   }
+
+  // her bölümün sekme çubuğuna "Altını çizdiklerim" sekmesi: o bölümde çizilenler, metindeki sırasıyla
+  function gorunumOf(it){ var s = (it.p || []).map(function(x){ return x && x.s; }).filter(Boolean)[0]; return s || it.v || ''; }
+  function sekmeleriBoya(){
+    var d = load()[page] || [];
+    document.querySelectorAll('.cz-tabpan').forEach(function(p){
+      var v = p.dataset.czv, l = d.filter(function(it){ return gorunumOf(it) === v; });
+      p.innerHTML = '<div class="cz-card tek c-' + (RENK[page] || 'ym') + '"><h4>Bu bölümde altını çizdiklerim<span>' + l.length + ' çizgi</span></h4>' + liste(page, l) + '</div>';
+      var b = p.closest('[data-view]').querySelector('.cz-tabbtn'); if(b) b.textContent = 'Altını çizdiklerim' + (l.length ? ' · ' + l.length : '');
+    });
+  }
+  function sekmeEkle(){
+    document.querySelectorAll('[data-view] .tabs').forEach(function(tabs){
+      var view = tabs.closest('[data-view]');
+      if(tabs.querySelector('.cz-tabbtn') || view.dataset.view === 'home') return;
+      var host = view.querySelector('.panel') && view.querySelector('.panel').parentNode; if(!host) return;
+      var b = document.createElement('button'); b.type = 'button'; b.setAttribute('role', 'tab'); b.className = 'cz-tabbtn'; b.setAttribute('aria-selected', 'false');
+      var p = document.createElement('div'); p.className = 'panel cz-tabpan'; p.dataset.czv = view.dataset.view; p.hidden = true;
+      tabs.appendChild(b); host.appendChild(p);
+      b.addEventListener('click', function(){
+        tabs.querySelectorAll('button').forEach(function(x){ x.setAttribute('aria-selected', x === b ? 'true' : 'false'); });
+        host.querySelectorAll(':scope > .panel').forEach(function(x){ x.hidden = x !== p; });
+      });
+      tabs.addEventListener('click', function(e){
+        var t = e.target.closest('button'); if(!t || t === b) return;
+        p.hidden = true; b.setAttribute('aria-selected', 'false');
+      });
+      p.addEventListener('click', silTik);
+    });
+    sekmeleriBoya();
+  }
+  function silTik(e){
+    var k = e.target.dataset && e.target.dataset.del; if(!k) return;
+    var q = k.split('|'), d = load();
+    d[q[0]] = (d[q[0]] || []).filter(function(it){ return it.id !== q[1]; }); if(!d[q[0]].length) delete d[q[0]]; save(d);
+    document.querySelectorAll('mark.cz[data-cz="' + q[1] + '"]').forEach(function(m){ m.replaceWith(document.createTextNode(m.textContent)); });
+    paint();
+  }
+  sekmeEkle(); window.addEventListener('load', function(){ sekmeEkle(); setTimeout(sekmeEkle, 1500); });
+
   pan.addEventListener('click', function(e){
     var k = e.target.closest('[data-ac]'); if(!k) return;
     acik = acik === k.dataset.ac ? null : k.dataset.ac; paint();
