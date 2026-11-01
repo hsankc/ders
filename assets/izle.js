@@ -79,7 +79,8 @@
       k.replaceWith(document.createTextNode(' ' + t + ' '));
     });
     Array.prototype.forEach.call(c.querySelectorAll('ul,ol,.katex-mathml'), function(x){ x.remove(); });
-    return c.textContent.replace(/→/g, ', ').replace(/×/g, ' çarpı ').replace(/≈/g, ' yaklaşık ').replace(/≤/g, ' küçük eşit ').replace(/≥/g, ' büyük eşit ').replace(/[^\p{L}\p{N}\s.,;:!?'"()%+\-=\/<>]/gu, ' ').replace(/\s+/g, ' ').trim();
+    // bölüm numaraları (1.1.1, 11.2) ve emojiler okunmaz
+    return c.textContent.replace(/(^|[^\d,.])[1-9]\d?(?:\.\d+)+(?![\d%])/g, '$1 ').replace(/\p{Extended_Pictographic}/gu, ' ').replace(/→/g, ', ').replace(/×/g, ' çarpı ').replace(/≈/g, ' yaklaşık ').replace(/≤/g, ' küçük eşit ').replace(/≥/g, ' büyük eşit ').replace(/[^\p{L}\p{N}\s.,;:!?'"()%+\-=\/<>]/gu, ' ').replace(/\s+/g, ' ').trim();
   }
   function collect(root, from){
     var list = Array.prototype.filter.call(root.querySelectorAll(SEL), function(el){
