@@ -661,3 +661,5 @@ table.cmp th .en{display:block;text-transform:none;letter-spacing:0;font-size:.8
 .sl-tip::before{content:"Sınav ipucu";display:block;font-size:.7rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#9A6B00}
 .sl-chips.num span{display:inline-flex;gap:6px;align-items:center;border-left:0;border-radius:10px;padding:4px 10px 4px 5px}
 .sl-chips .sl-num{background:var(--wc);color:#fff;width:20px;height:20px;font-size:.75rem}
+.card.yok{opacity:.55;filter:grayscale(.6)}
+.card.yok:hover{opacity:.85}

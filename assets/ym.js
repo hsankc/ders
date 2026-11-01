@@ -1,5 +1,6 @@
 // Yazılım Mühendisliği sayfası: kart ızgarası, bölüm görünümleri, testler ve sözlük
 (function(){
+  var YOK = {2: 1, 5: 1};
   var D = window.YM, ESS = window.YM_ESS, LISTS = window.YM_LISTS;
   var store = {
     get: function(k, d){ try { var v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch(e){ return d; } },
@@ -12,14 +13,17 @@
   // --- bölüm kartları
   function paintCards(){
     var done = 0;
-    document.getElementById('ch-cards').innerHTML = D.map(function(ch){
-      var p = prog(ch.no); if(p.done) done++;
+    // vize kapsamı: Bölüm 2 ve 5 yok, 11 (Mimari Tasarım) var
+    var sirali = D.filter(function(ch){ return !YOK[ch.no]; }).concat(D.filter(function(ch){ return YOK[ch.no]; }));
+    document.getElementById('ch-cards').innerHTML = sirali.map(function(ch){
+      var p = prog(ch.no); if(p.done && !YOK[ch.no]) done++;
       var st = p.done ? '<span class="tag ok">✓ Bitti</span>' : p.best ? '<span class="tag accent">Test ' + p.best + '/18</span>' : '<span class="meta">' + esc(ch.pages) + '</span>';
-      return '<a class="card" href="#b' + ch.no + '"><span class="label">Bölüm ' + ch.no + '</span>' +
+      if(YOK[ch.no]) st = '<span class="tag red">Vizede yok</span>';
+      return '<a class="card' + (YOK[ch.no] ? ' yok' : '') + '" href="#b' + ch.no + '"><span class="label">Bölüm ' + ch.no + '</span>' +
         '<h3>' + esc(ch.tr) + '</h3><p class="desc">' + esc(ESS[ch.no]) + '</p>' +
         '<div class="foot"><span class="meta">Konu anlatımı · ' + ch.qa.length + ' soru · ' + ch.quiz.length + ' test</span>' + st + '</div></a>';
-    }).join('');
-    document.getElementById('ch-progress').textContent = done + ' / 7 bölüm bitti';
+    }).join('').replace(/(<a class="card yok)/, '<a class="card" href="#mimari"><span class="label">Bölüm 11 · vizede var</span><h3>Mimari Tasarım</h3><p class="desc">Organizasyon stilleri, modüler ayrıştırma, kontrol stilleri, referans mimariler.</p><div class="foot"><span class="meta">Konu anlatımı · pratik</span><span class="go">Aç →</span></div></a>$1');
+    document.getElementById('ch-progress').textContent = done + ' / 5 bölüm bitti · vizede 1, 3, 4, 6, 7 ve 11';
   }
 
   // --- test
@@ -145,7 +149,7 @@
 
   // --- karışık test
   var ALL = [];
-  D.forEach(function(ch){ ch.quiz.forEach(function(q){ ALL.push({ch:ch.no, q:q}); }); });
+  D.forEach(function(ch){ if(!YOK[ch.no]) ch.quiz.forEach(function(q){ ALL.push({ch:ch.no, q:q}); }); });
   document.getElementById('mixgo').addEventListener('click', function(){
     var pool = ALL.slice();
     for(var i = pool.length - 1; i > 0; i--){ var j = Math.floor(Math.random() * (i + 1)); var t = pool[i]; pool[i] = pool[j]; pool[j] = t; }
