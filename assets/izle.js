@@ -51,7 +51,7 @@
 
   var bar = document.createElement('div'); bar.id = 'izle-bar'; bar.hidden = true;
   bar.innerHTML = '<button type="button" data-a="geri" title="Önceki">⏮</button><button type="button" data-a="oynat" title="Durdur / devam">⏸</button><button type="button" data-a="ileri" title="Sonraki">⏭</button>' +
-    '<span class="say"></span><select aria-label="Hız">' + [0.8, 0.9, 1, 1.15, 1.3, 1.5, 1.75].map(function(r){ return '<option value="' + r + '"' + (r === RATE ? ' selected' : '') + '>' + r + 'x</option>'; }).join('') + '</select>' +
+    '<span class="say"></span><select aria-label="Hız">' + [0.8, 1, 1.25, 1.5, 1.75, 2, 2.5, 3, 4, 5].map(function(r){ return '<option value="' + r + '"' + (r === RATE ? ' selected' : '') + '>' + r + 'x</option>'; }).join('') + '</select>' +
     '<select class="ses" aria-label="Ses"></select><button type="button" data-a="kapat" title="Kapat">✕</button>';
   document.body.appendChild(bar);
   var say = bar.querySelector('.say'), playBtn = bar.querySelector('[data-a="oynat"]'), sesSel = bar.querySelector('.ses');
