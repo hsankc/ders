@@ -22,8 +22,8 @@
       return '<a class="card' + (YOK[ch.no] ? ' yok' : '') + '" href="#b' + ch.no + '"><span class="label">Bölüm ' + ch.no + '</span>' +
         '<h3>' + esc(ch.tr) + '</h3><p class="desc">' + esc(ESS[ch.no]) + '</p>' +
         '<div class="foot"><span class="meta">Konu anlatımı · ' + ch.qa.length + ' soru · ' + ch.quiz.length + ' test</span>' + st + '</div></a>';
-    }).join('').replace(/(<a class="card yok)/, '<a class="card" href="#mimari"><span class="label">Bölüm 11 · vizede var</span><h3>Mimari Tasarım</h3><p class="desc">Organizasyon stilleri, modüler ayrıştırma, kontrol stilleri, referans mimariler.</p><div class="foot"><span class="meta">Konu anlatımı · pratik</span><span class="go">Aç →</span></div></a>$1');
-    document.getElementById('ch-progress').textContent = done + ' / 5 bölüm bitti · vizede 1, 3, 4, 6, 7 ve 11';
+    }).join('');
+    document.getElementById('ch-progress').textContent = done + ' / ' + D.filter(function(ch){ return !YOK[ch.no]; }).length + ' bölüm bitti · vizede 1, 3, 4, 6, 7 ve 11';
   }
 
   // --- test
@@ -235,7 +235,7 @@
     h += d.pages.map(function(pg, i){
       return '<article class="pg" id="b' + n + '-pg' + i + '"><div class="pg-head"><span class="pg-no">Kitap s.' + esc(pg.p) + '</span><h3>' + esc(pg.title || ('Sayfa ' + pg.p)) + '</h3></div>' + renderGroups(pg.blocks) + '</article>';
     }).join('');
-    h += '<p class="muted" style="font-size:.9rem">Bu metin, kitabın bu bölümünden sayfa sayfa hazırlanmış Türkçe vize notlarının kendisidir. <a href="kaynaklar/yazilim-muhendisligi/vize-notlari.pdf" target="_blank" rel="noopener">PDF hâlini aç</a>.</p>';
+    h += '<p class="muted" style="font-size:.9rem">Bu metin, kitabın bu bölümünden sayfa sayfa hazırlanmış Türkçe vize notlarının kendisidir. <a href="kaynaklar/yazilim-muhendisligi/' + (n === 11 ? 'bolum11-notlar.pdf' : 'vize-notlari.pdf') + '" target="_blank" rel="noopener">PDF hâlini aç</a>.</p>';
     return h;
   }
   function loadNotes(n){
@@ -273,7 +273,7 @@
     var has = document.querySelector('[data-view="' + id + '"]');
     var v = has ? id : 'home';
     views.forEach(function(el){ el.hidden = el.dataset.view !== v; });
-    var m = /^b(\d)$/.exec(v); if(m) loadNotes(+m[1]);
+    var m = /^b(\d+)$/.exec(v); if(m) loadNotes(+m[1]);
     if(location.hash === '#kaynaklar'){ document.getElementById('kaynaklar').scrollIntoView(); }
     else if(!first || has){ window.scrollTo(0, 0); }
     first = false;

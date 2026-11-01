@@ -134,7 +134,26 @@
     ['Kurumun temel faaliyetinden türeyen kararlı gereksinimler hangileridir?', ['Değişken (volatile)', 'Kalıcı (enduring)', 'Değişebilir (mutable)', 'Sonuçsal (consequential)']],
     ['Bilgisayar sistemi devreye girdiği için ortaya çıkan gereksinimler hangileridir?', ['Mutable', 'Emergent', 'Consequential (sonuçsal)', 'Compatibility (uyumluluk)']],
     ['Gereksinimleri onları gerçekleştiren tasarım modüllerine bağlamaya ne denir?', ['Kaynak izlenebilirliği', 'Gereksinim izlenebilirliği', 'Tasarım izlenebilirliği (design traceability)', 'Değişiklik maliyetlendirme']],
-    ['İzlenebilirlik matrisinde "D" ne anlama gelir?', ['Silindi', 'Satırdaki gereksinim sütundaki gereksinime bağımlı', 'Tasarım', 'Alan']]]
+    ['İzlenebilirlik matrisinde "D" ne anlama gelir?', ['Silindi', 'Satırdaki gereksinim sütundaki gereksinime bağımlı', 'Tasarım', 'Alan']]],
+  11: [
+    ['Mimari tasarım sürecinin çıktısı neyin tanımıdır?', ['Test planı', 'Yazılım mimarisi (software architecture)', 'Kullanıcı arayüzü', 'Proje takvimi']],
+    ['Performans kritikse mimaride ne kullanılmalı?', ['Çok sayıda ince taneli (fine-grain) bileşen', 'Az sayıda büyük taneli (large-grain) bileşen', 'Sadece paylaşılan veri yapıları', 'Çok sayıda katman']],
+    ['Güvenlik (security) kritikse mimaride ne kullanılmalı?', ['Kritik varlıkların en iç katmanlarda olduğu katmanlı yapı', 'Yayın modeli (broadcast)', 'Sadece yedekli (redundant) bileşenler', 'Katmansız yapı']],
+    ['Bakım kolaylığı (maintainability) kritikse ne kullanmalısın?', ['Büyük taneli bileşenler', 'Paylaşılan veri yapıları', 'İnce taneli, kendi kendine yeten (self-contained) bileşenler', 'Tek büyük modül']],
+    ['İstemci-sunucu (client-server) gibi bir sistem organizasyonu kalıbı nedir?', ['Mimari stil (architectural style)', 'ADL', 'Kesme (interrupt)', 'Referans model']],
+    ["ADL'lerin temel öğeleri nelerdir?", ['Sınıflar ve nesneler', 'Bileşenler ve bağlayıcılar (components and connectors)', 'Katmanlar ve borular', 'Olaylar ve işleyiciler']],
+    ['Bütün paylaşılan verinin merkezi bir veritabanında tutulduğu model hangisi?', ['İstemci-sunucu modeli', 'Depo modeli (repository)', 'Katmanlı model', 'Boru hattı modeli (pipeline)']],
+    ['Veri hazır olunca alt sistemleri tetikleyen depoya ne denir?', ['Kara tahta modeli (blackboard)', 'Çağır-dön modeli (call-return)', 'OSI modeli', 'Toplu işlem modeli (batch)']],
+    ['İstemci-sunucu modelinde sunucular:', ['Bütün istemcileri bilmek zorundadır', 'İstemcilerin kimliğini ve sayısını bilmek zorunda değildir', 'İstemcileri çağırır', 'Dağıtılamaz']],
+    ['Komşu katmanları "delip geçmek" (punch through) hangi modelin dezavantajıdır?', ['Depo modeli', 'Katmanlı model', 'Yayın modeli', 'Nesne modeli']],
+    ['Unix pipe ve filtreleri neyin örneğidir?', ['Nesne yönelimli ayrıştırma', 'Fonksiyon odaklı boru hattı (function-oriented pipelining)', 'Kesme güdümlü kontrol', 'Depo modeli']],
+    ['Boru hattı (pipeline) modelinin ana sorunu nedir?', ['Nesneler birbirinin adını bilmeli', 'Ortak bir veri formatı gerekir', 'Yanıtlar çok hızlıdır', 'Yeniden kullanım yoktur']],
+    ['Çağır-dön (call-return) modeli sadece hangi sistemlere uygulanabilir?', ['Sıralı (sequential) sistemler', 'Eşzamanlı (concurrent) sistemler', 'Dağıtık sistemler', 'Gerçek zamanlı sistemler']],
+    ['Sensörleri bir döngüde yoklayan merkezi denetleyici hangi modeli kullanır?', ['Yayın modeli (broadcast)', 'Yönetici (manager, event-loop) modeli', 'Boru hattı modeli', 'Depo modeli']],
+    ['Yayın (broadcast) modelinde olayı üreten alt sistem:', ['Olayı kimin işleyeceğini tam bilir', 'Olayın işlenip işlenmeyeceğini ve ne zaman işleneceğini bilmez', 'Olayı kendisi işlemek zorundadır', 'Bütün alt sistemleri durdurur']],
+    ['Hava yastığı kontrol sistemi hangi kontrolü kullanmalı?', ['Çağır-dön (call-return) kontrolü', 'Kesme güdümlü (interrupt-driven) kontrol', 'Toplu sıralı işlem (batch sequential)', 'Depo modeli']],
+    ['Mimarileri karşılaştırmak ve değerlendirmek için kullanılan modeller hangileri?', ['Genel modeller (generic models)', 'Referans modeller (reference models)', 'Dinamik modeller', 'Dağıtım modelleri']],
+    ['OSI referans modelinde kaç katman vardır?', ['4', '5', '7', '9']]]
   };
   (window.YM || []).forEach(function(ch){
     var t = T[ch.no]; if(!t) return;
