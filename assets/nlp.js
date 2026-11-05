@@ -101,7 +101,8 @@
   function chk(j){
     var b = cur, s = S(b.id), inp = document.getElementById('nlp-in' + j), f = document.getElementById('nlp-f' + j), v = inp.value.trim();
     if(!v){ f.innerHTML = '<span class="no">Önce bir cevap yaz.</span>'; return; }
-    s.s[j] = {v:v, ok:b.S[j].acc.some(function(x){ return nm(x) === nm(v); })}; save(); f.innerHTML = sf(b, j);
+    var q = b.S[j], raw = function(t){ return String(t).replace(/\s+/g, ''); };
+    s.s[j] = {v:v, ok:q.acc.some(function(x){ return q.raw ? raw(x) === raw(v) : (nm(x) !== '' && nm(x) === nm(v)); })}; save(); f.innerHTML = sf(b, j);
   }
 
   document.addEventListener('click', function(e){
