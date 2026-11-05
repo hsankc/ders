@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Doğal Dil İşleme · Vize Haftası</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="assets/site.css?v=ym2">
+<style>
+.nlp-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:6px 0 12px;font-size:.92rem}
+.nlp-dots{display:flex;gap:6px;flex-wrap:wrap}
+.nlp-dots span{width:10px;height:10px;border-radius:50%;background:var(--line);border:1px solid #D5DAE4}
+.nlp-dots span.sq{border-radius:3px}
+.nlp-dots span.on{background:var(--accent);border-color:var(--accent)}
+.nlp-dots span.ok{background:var(--ok);border-color:var(--ok)}
+.nlp-dots span.no{background:var(--bad);border-color:var(--bad)}
+.nlp-card{gap:12px}
+.nlp-k{display:inline-block;font-weight:700;font-size:.95rem;padding:3px 12px;border-radius:999px;background:var(--ddi-soft);color:var(--ddi)}
+.nlp-tag{font-size:.85rem;color:var(--muted);margin-left:10px}
+.nlp-ex{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:.95rem;white-space:pre-wrap;overflow-wrap:anywhere}
+.nlp-ex.mono{font-family:var(--f-mono);font-size:.84rem;line-height:1.6}
+.nlp-q{font-weight:600;margin-top:4px}
+.nlp-fb{border-radius:10px;padding:10px 14px;font-size:.96rem}
+.nlp-fb.ok{background:var(--ok-soft);color:#155C3B}
+.nlp-fb.no{background:var(--bad-soft);color:#8E2A1F}
+.nlp-err{color:var(--bad);font-size:.9rem;min-height:1.4em;margin-top:6px}
+.nlp-nav{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:6px}
+.nlp-nav .btn:disabled{opacity:.45;cursor:default}
+.nlp-sa{display:grid;gap:6px;padding-top:10px;border-top:1px solid var(--line)}
+.nlp-row{display:flex;gap:8px}
+.nlp-row input{flex:1}
+.nlp-sf{font-size:.9rem;min-height:1.3em}
+.nlp-sf .ok{color:var(--ok);font-weight:600} .nlp-sf .no{color:var(--bad);font-weight:600}
+.nlp-met{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:12px}
+.nlp-met div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;display:grid}
+.nlp-met span{font-size:.85rem;color:var(--muted)} .nlp-met b{font-size:1.6rem}
+.nlp-z{display:grid;grid-template-columns:minmax(0,200px) minmax(0,1fr);gap:12px;padding:8px 0;border-top:1px solid var(--line);font-size:.95rem}
+.nlp-z span{color:var(--ink-2)}
+@media (max-width:560px){.nlp-z{grid-template-columns:1fr;gap:2px}}
+.nlp-hoca{background:var(--note);border:1px solid var(--note-line);border-radius:14px;padding:16px 20px;display:grid;gap:8px;font-size:.97rem}
+.nlp-hoca ul{margin:0;padding-left:1.2em;display:grid;gap:4px}
+#nlp-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:12px;font-size:.92rem;z-index:50;max-width:min(92vw,560px);text-align:center}
+</style>
+</head>
+<body>
+
+<header class="topbar"><div class="in">
+  <a class="brand" href="./"><i></i>Vize Haftası</a>
+  <nav aria-label="Dersler">
+    <a href="yazilim-muhendisligi.html">Yazılım Müh.</a>
+    <a href="veri-yapilari.html">Veri Yapıları</a>
+    <a href="yapay-zeka.html">Yapay Zeka</a>
+    <a href="diferansiyel-denklemler.html">Diferansiyel</a>
+    <a href="dogal-dil-isleme.html" class="on">Doğal Dil</a>
+  </nav>
+</div></header>
+
+<main class="page">
+
+<section class="view" data-view="home">
+  <div class="hero">
+    <div class="hero-row"><span class="badge lg c-ddi">DDİ</span>
+      <div><h1>Doğal Dil İşlemeye Giriş</h1><p class="muted">Vize: Cuma, 6 Kasım · 14:00 · A201, A203, Lab1</p></div></div>
+    <p class="sub">Her bölümde kısa anlatım kartları var. Her kartın sonunda çıkmıştaki gibi çoktan seçmeli bir soru, bölüm sonunda da 1–2 kelimelik kısa cevap turu ve ezber kartı. İlerlemen bu tarayıcıda kalır.</p>
+  </div>
+
+  <div class="nlp-hoca">
+    <b>Hocanın vize notu (26 Ekim)</b>
+    <ul>
+      <li>Sorular çoktan seçmeli veya bir-iki kelimelik kısa cevap olacak.</li>
+      <li>Kaynak: hocanın paylaştığı ders notunun (NLTK kitabı ve Jurafsky karışımı) sol menüdeki ilk 6 sekmesi. Bazı konulara genel kültür olarak bakmak yeterli.</li>
+      <li>Son konu MNIST ile OCR (rakam tanıma) da sınavda, derste konuşulduğu kadar.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><h2>Bölümler</h2><p>Sırayla git, takıldığın kartta "anlamadım"a bas</p></div>
+    <div class="grid" id="nlp-bolumler"></div>
+  </div>
+</section>
+
+<section class="view" data-view="bolum" hidden>
+  <a class="back" href="#">← Tüm bölümler</a>
+  <div class="view-head"><span class="label" id="nlp-bl"></span><h1 id="nlp-bt"></h1><p class="muted lead" id="nlp-bs"></p></div>
+  <div class="read" id="nlp-run"></div>
+</section>
+
+</main>
+
+<div id="nlp-toast" role="status" hidden></div>
+
+<footer class="site">Kaynak: hocanın Teams'teki vize çalışma soruları, çalışma soru cevapları ve geçen yılın vize soruları. Kişisel çalışma notudur.</footer>
+
+<script defer src="assets/nlp-data-1.js?v=1"></script>
+<script defer src="assets/nlp.js?v=1"></script>
+<script defer src="assets/cizgi.js?v=sl9"></script>
+</body>
+</html>
