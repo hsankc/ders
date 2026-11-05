@@ -1,8 +1,8 @@
 // Altını çiz: seçilen metni işaretler ve ders ders bu tarayıcıda saklar. Her dersin ana sayfasında o dersin çizgileri ayrı bir bölümde listelenir.
 (function(){
   var K = 'vh.cizgi', page = location.pathname.split('/').pop() || 'index.html';
-  var DERS = {'yazilim-muhendisligi.html':'Yazılım Mühendisliği', 'veri-yapilari.html':'Veri Yapıları', 'yapay-zeka.html':'Yapay Zeka', 'diferansiyel-denklemler.html':'Diferansiyel Denklemler', 'dogal-dil-isleme.html':'Doğal Dil İşleme'};
-  var RENK = {'yazilim-muhendisligi.html':'ym', 'veri-yapilari.html':'vy', 'yapay-zeka.html':'yz', 'diferansiyel-denklemler.html':'dif', 'dogal-dil-isleme.html':'ddi'};
+  var DERS = {'yazilim-muhendisligi.html':'Yazılım Mühendisliği', 'veri-yapilari.html':'Veri Yapıları', 'yapay-zeka.html':'Yapay Zeka', 'diferansiyel-denklemler.html':'Diferansiyel Denklemler', 'kutle-enerji-denklikleri.html':'Kütle ve Enerji Denklikleri', 'dogal-dil-isleme.html':'Doğal Dil İşleme'};
+  var RENK = {'yazilim-muhendisligi.html':'ym', 'veri-yapilari.html':'vy', 'yapay-zeka.html':'yz', 'diferansiyel-denklemler.html':'dif', 'kutle-enerji-denklikleri.html':'ked', 'dogal-dil-isleme.html':'ddi'};
   function load(){ try{ return JSON.parse(localStorage.getItem(K)) || {}; }catch(e){ return {}; } }
   function save(d){ try{ localStorage.setItem(K, JSON.stringify(d)); }catch(e){} }
   var esc = function(s){ return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
@@ -10,7 +10,7 @@
   var st = document.createElement('style');
   st.textContent = 'mark.cz{background:#FFE58F;color:inherit;box-shadow:inset 0 -2px #E0A800;border-radius:2px}' +
     '#cz-btn{position:absolute;z-index:70;font:600 .85rem inherit;background:#1F2430;color:#fff;border:0;border-radius:8px;padding:6px 10px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.2)}' +
-    '#cz-pan{display:grid;gap:12px;grid-template-columns:repeat(5,minmax(0,1fr))}#cz-pan.tek{grid-template-columns:minmax(0,1fr)}' +
+    '#cz-pan{display:grid;gap:12px;grid-template-columns:repeat(6,minmax(0,1fr))}#cz-pan.tek{grid-template-columns:minmax(0,1fr)}' +
     '@media (max-width:1000px){#cz-pan{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}}' +
     '.cz-card{background:var(--c-soft);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;min-width:0;min-height:120px}' +
     '.cz-card h4{margin:0;font-size:.95rem;color:var(--c);display:flex;justify-content:space-between;gap:6px}.cz-card h4 span{color:#6B7385;font-weight:500;font-size:.8rem}' +

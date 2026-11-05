@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kütle ve Enerji Denklikleri · Vize Haftası</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+<link rel="stylesheet" href="assets/site.css?v=ym2">
+<link rel="stylesheet" href="assets/ked.css?v=1">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header class="topbar"><div class="in">
+  <a class="brand" href="./"><i></i>Vize Haftası</a>
+  <nav aria-label="Dersler">
+    <a href="yazilim-muhendisligi.html">Yazılım Müh.</a>
+    <a href="veri-yapilari.html">Veri Yapıları</a>
+    <a href="yapay-zeka.html">Yapay Zeka</a>
+    <a href="diferansiyel-denklemler.html">Diferansiyel</a>
+    <a href="kutle-enerji-denklikleri.html" class="on">Kütle Enerji</a>
+    <a href="dogal-dil-isleme.html">Doğal Dil</a>
+  </nav>
+</div></header>
+
+<main class="page ked">
+
+<section class="view" data-view="home">
+  <div class="hero">
+    <div class="hero-row"><span class="badge lg c-ked">KED</span>
+      <div><h1>Kütle ve Enerji Denklikleri</h1><p class="muted">Vize: Cuma, 6 Kasım · 10:00</p></div></div>
+    <p class="sub">Prof. Dr. Ayşegül Kırca Toklucu'nun 1–9. hafta slaytları. Her haftada konu anlatımı, animasyonlar, formüller, slayttaki bütün örneklerin adım adım çözümü ve tuzaklar var. Bütün sayıları bilgisayarda tek tek kontrol ettim. Enerji denkliği henüz işlenmediği için burada yok.</p>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><h2>Önce buradan</h2><p>Sınavın büyük kısmı hesap sorusu</p></div>
+    <div class="grid">
+      <a class="card" href="#recete"><span class="label">7 adım + 7 animasyon</span><h3>Kütle denkliği nasıl çözülür?</h3><p class="desc">Diyagram, baz, toplam ve bileşen denklikleri. Evaporatör, karıştırma, kristalizasyon, separatör, salça ve nektar soruları animasyonla adım adım.</p><span class="go">Aç →</span></a>
+      <a class="card" href="#cikmis"><span class="label">Çıkmış + derste + ödev</span><h3>Çıkmış ve derste çözülen sorular</h3><p class="desc">Defterdeki geçmiş sınav sorusu (şeker kristali), krema separatörü, nitrat ve pestisit, hafta ödevleri. Defterdeki iki hata düzeltildi.</p><span class="go">Aç →</span></a>
+      <a class="card" href="#pdf"><span class="label">7 PDF</span><h3>İndirilebilir notlar</h3><p class="desc">Detaylı konu anlatımı, orta detaylı özet, 15 dakikada tekrar, kısa notlar, hap bilgiler, formül kâğıdı ve bütün çözümlü sorular.</p><span class="go">İndir →</span></a>
+    </div>
+  </div>
+
+  <div id="ked-parts"></div>
+
+  <div class="section">
+    <div class="section-title"><h2>Sınav için</h2></div>
+    <div class="grid">
+      <a class="card" href="#pratik"><span class="label">Rastgele sayılar</span><h3>Sınırsız pratik</h3><p class="desc">Kurutma, evaporatör, seyreltme, karıştırma, kristalizasyon, separatör, ppm, ΔT, tank, Q = m·cp·ΔT, molarite, birim çevirme. Her seferinde yeni sayılar, çözümüyle.</p><span class="go">Başla →</span></a>
+      <a class="card" href="#test"><span class="label">35 soru</span><h3>Kavram testi</h3><p class="desc">Sistem türleri, yoğunluk türleri, molarite–molalite, mutlak–efektif basınç, nektar… Yanlışta nedeni yazıyor.</p><span class="go">Başla →</span></a>
+      <a class="card" href="#anim"><span class="label">19 tane</span><h3>Bütün animasyonlar</h3><p class="desc">Kurutma, birim zinciri, termometreler, basınç, tank, yoğunluk türleri, akış diyagramları.</p><span class="go">Aç →</span></a>
+      <a class="card" href="#formul"><h3>Formül kâğıdı</h3><p class="desc">Dokuz haftanın bütün formülleri tek sayfada. Yazdırılabilir.</p><span class="go">Aç →</span></a>
+      <a class="card" href="#hap"><h3>Hap bilgiler</h3><p class="desc">Akılda kalması gereken kısa cümleler ve sayılar.</p><span class="go">Aç →</span></a>
+      <a class="card" href="#tuzak"><h3>Tuzaklar ve sık hatalar</h3><p class="desc">En çok puan kaybettiren hatalar, hafta hafta.</p><span class="go">Aç →</span></a>
+    </div>
+  </div>
+
+  <div class="section" id="pdf-sec">
+    <div class="section-title"><h2>İndirilebilir PDF'ler</h2><p>Hepsi aynı içerikten, farklı uzunlukta</p></div>
+    <div class="grid pdfgrid" id="ked-pdf"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><h2>Orijinal kaynaklar</h2><p>Hocanın slaytları</p></div>
+    <div class="grid wide"><div class="card"><span class="label">PDF</span><h3>Haftalık slaytlar (1–9)</h3><div id="ked-slayt"></div></div></div>
+  </div>
+</section>
+
+<section class="view" data-view="pdf" hidden>
+  <a class="back" href="#">← Bütün haftalar</a>
+  <div class="view-head"><span class="label">İndir</span><h1>İndirilebilir PDF'ler</h1><p class="muted lead">Telefonda "Aç" PDF'i tarayıcıda açar, "İndir" cihaza kaydeder. Kısa olanlar sabah sınavdan önce bakmak için.</p></div>
+  <div class="read"><div class="grid pdfgrid" id="ked-pdf2"></div></div>
+</section>
+
+<section class="view" data-view="recete" hidden>
+  <a class="back" href="#">← Bütün haftalar</a>
+  <div class="view-head"><span class="label">Önce buradan</span><h1>Kütle denkliği nasıl çözülür?</h1><p class="muted lead">Bütün kütle denkliği soruları aynı yedi adımla çözülür. Aşağıdaki animasyonlarda her adımda diyagramda neyin değiştiği ve hangi denklemin yazıldığı görünüyor.</p></div>
+  <div class="read prose" id="recete-all"></div>
+</section>
+
+<section class="view" data-view="cikmis" hidden>
+  <a class="back" href="#">← Bütün haftalar</a>
+  <div class="view-head"><span class="label">Sınav için</span><h1>Çıkmış ve derste çözülen sorular</h1><p class="muted lead">Defterdeki geçmiş sınav sorusu, derste tahtada çözülenler ve slaytlardaki ödevler. Önce kendin çöz, sonra aç.</p></div>
+  <div class="read"><div class="ex-list" id="cikmis-all"></div></div>
+</section>
+
+<section class="view" data-view="pratik" hidden>
+  <a class="back" href="#">← Bütün haftalar</a>
+  <div class="view-head"><span class="label">Sınav için</span><h1>Sınırsız pratik</h1><p class="muted lead">Bir soru tipi seç; her "Yeni soru"da sayılar değişir. Cevabı yaz (virgül ya da nokta olur), %1,5 tolerans var.</p></div>
+  <div class="read"><div class="pr-types" id="pr-types"></div><div class="pr-box" id="pr-box" style="margin-top:14px"></div></div>
+</section>
+
+<section class="view" data-view="test" hidden>
+  <a class="back" href="#">← Bütün haftalar</a>
+  <div class="view-head"><span class="label">Sınav için</span><h1>Kavram testi</h1><p class="muted lead">Kısa tanım ve kavram soruları. Her yanlışta neden yanlış olduğu ve ilgili hafta yazıyor.</p></div>
+  <div class="read">
+    <div class="toolbar ex-bar"><button class="btn" type="button" id="test-again">Karıştır, baştan başla</button><span class="score" id="test-score"></span></div>
+    <div class="quiz" id="test-list"></div>
+  </div>
+</section>
+
+<section class="view" data-view="anim" hidden>
+  <a class="back" href="#">← Bütün haftalar</a>
+  <div class="view-head"><span class="label">Görerek öğren</span><h1>Bütün animasyonlar</h1><p class="muted lead">Adımlı olanlarda ▶ Oynat ya da İleri; kaydırıcılı olanlarda değerleri değiştir ve ne olduğuna bak.</p></div>
+  <div class="read prose" id="anim-all"></div>
+</section>
+
+<section class="view" data-view="formul" hidden>
+  <a class="back" href="#">← Bütün haftalar</a>
+  <div class="view-head"><span class="label">Sınav için</span><h1>Formül kâğıdı</h1></div>
+  <div class="read"><div class="toolbar ex-bar"><button class="btn" type="button" id="print-f">Yazdır</button></div><div id="formul-all"></div></div>
+</section>
+
+<section class="view" data-view="hap" hidden>
+  <a class="back" href="#">← Bütün haftalar</a>
+  <div class="view-head"><span class="label">Sınav için</span><h1>Hap bilgiler</h1></div>
+  <div class="read prose" id="hap-all"></div>
+</section>
+
+<section class="view" data-view="tuzak" hidden>
+  <a class="back" href="#">← Bütün haftalar</a>
+  <div class="view-head"><span class="label">Sınav için</span><h1>Tuzaklar ve sık hatalar</h1></div>
+  <div class="read prose" id="tuzak-all"></div>
+</section>
+
+</main>
+
+<footer class="site">Kaynak: Prof. Dr. Ayşegül Kırca Toklucu, Kütle ve Enerji Denklikleri ders slaytları (2026, hafta 1–9) ve sınıf notları. Kişisel çalışma notudur.</footer>
+
+<script defer src="assets/ked-data.js?v=1"></script>
+<script defer src="assets/ked-anim.js?v=1"></script>
+<script defer src="assets/ked.js?v=1"></script>
+<script defer src="assets/cizgi.js?v=sl10"></script>
+<script defer src="assets/izle.js?v=7"></script>
+</body>
+</html>
